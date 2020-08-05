@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
             child: Icon(Icons.people),
             mini: true,
             backgroundColor: Colors.green),
-        body: InfoPage(),
+        body: HomePage(),
       ),
     );
   }
@@ -114,12 +114,12 @@ final List<String> eName = [
   'sports'
 ];
 
-class InfoPage extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  _InfoPageState createState() => _InfoPageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _InfoPageState extends State<InfoPage> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Container(
