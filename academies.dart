@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-final Color grey1 = Colors.grey.shade400;
+final Color grey1 = Colors.grey.shade300;
 
 void main() {
   runApp(MyApp());
