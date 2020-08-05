@@ -135,7 +135,7 @@ class _AcademiesPageState extends State<AcademiesPage> {
             height: 40,
             color: grey1,
             child: Center(
-              child: Text('Dance Academies',
+              child: Text('DANCE ACADEMIES',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
             ),
           ),
