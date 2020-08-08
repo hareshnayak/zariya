@@ -458,7 +458,10 @@ class _AcademyPageState extends State<AcademyPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     for (int f = 0; f < 5; f++)
-                      Icon(Icons.star, color: Colors.black, size: 20)
+                      if (f < academyRate)
+                        Icon(Icons.star, color: Colors.black, size: 15)
+                      else
+                        Icon(Icons.star, color: Colors.grey, size: 15)
                   ],
                 ),
               ),
@@ -489,8 +492,10 @@ class _AcademyPageState extends State<AcademyPage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     for (int f = 0; f < 5; f++)
-                                      Icon(Icons.star,
-                                          color: Colors.black, size: 15)
+                      if (f < academyRate)
+                        Icon(Icons.star, color: Colors.black, size: 15)
+                      else
+                        Icon(Icons.star, color: Colors.grey, size: 15))
                                   ],
                                 ),
                                 Padding(
