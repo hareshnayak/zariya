@@ -459,9 +459,9 @@ class _AcademyPageState extends State<AcademyPage> {
                   children: <Widget>[
                     for (int f = 0; f < 5; f++)
                       if (f < academyRate)
-                        Icon(Icons.star, color: Colors.black, size: 15)
+                        Icon(Icons.star, color: Colors.black, size: 18)
                       else
-                        Icon(Icons.star, color: Colors.grey, size: 15)
+                        Icon(Icons.star_border, color: Colors.grey, size: 18)
                   ],
                 ),
               ),
@@ -495,7 +495,7 @@ class _AcademyPageState extends State<AcademyPage> {
                       if (f < academyRate)
                         Icon(Icons.star, color: Colors.black, size: 15)
                       else
-                        Icon(Icons.star, color: Colors.grey, size: 15))
+                        Icon(Icons.star_border, color: Colors.grey, size: 15))
                                   ],
                                 ),
                                 Padding(
