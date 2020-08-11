@@ -495,7 +495,7 @@ class _AcademyPageState extends State<AcademyPage> {
                       if (f < academyRate)
                         Icon(Icons.star, color: Colors.black, size: 15)
                       else
-                        Icon(Icons.star_border, color: Colors.grey, size: 15))
+                        Icon(Icons.star_border, color: Colors.grey, size: 15)
                                   ],
                                 ),
                                 Padding(
