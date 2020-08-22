@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
                     'Login',
                     style: TextStyle(fontSize: 20, fontFamily: 'Inter', color: Colors.black),
                   ),
-                  SizedBox(height: 170),
+                  SizedBox(height: 155),
                   Container(
                     height: 200,
 //                   decoration:BoxDecoration(
