@@ -63,18 +63,15 @@ class _PostState extends State<Post> {
                       height: 30,
                       width: 70,
                        margin: EdgeInsets.symmetric(horizontal:5),
+                     padding: EdgeInsets.symmetric(horizontal:10,vertical: 5 ),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.blue),
                         borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      child: FlatButton(
-                        padding: EdgeInsets.symmetric(horizontal:5),
-                        onPressed: () {},
+                      ),                     
                         child: 
                             Text(
                             '${cat[0]}',
-                            style: TextStyle(color: Colors.blue),),                         
-                        ),
+                            style: TextStyle(color: Colors.blue),),                                               
                     ),
                    ]),                       
                     Padding(
