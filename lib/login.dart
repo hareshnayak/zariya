@@ -78,9 +78,6 @@ class _LoginPageState extends State<LoginPage> {
 //                       ),
 //                     ),
 //                   ),
-                Text(
-                    'Zariyaa',
-                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
                   ),
                 ],
               ),
