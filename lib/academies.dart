@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/academy.dart';
 import 'package:zariya/community.dart';
@@ -5,6 +6,11 @@ import 'package:zariya/community.dart';
 final Color grey1 = Colors.grey.shade300;
 
 class Academies extends StatelessWidget {
+
+  Academies({this.category,});
+
+  final String category;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +84,7 @@ class Academies extends StatelessWidget {
           },
           child: Icon(Icons.people),
           backgroundColor: Colors.green),
-      body: AcademiesPage(),
+      body: AcademiesPage(category: category),
     );
   }
 }
@@ -109,11 +115,26 @@ final List<String> eName = [
 ];
 
 class AcademiesPage extends StatefulWidget {
+
+  AcademiesPage({this.category});
+
+  final String category;
+
   @override
   _AcademiesPageState createState() => _AcademiesPageState();
 }
 
 class _AcademiesPageState extends State<AcademiesPage> {
+
+  List<dynamic> academies;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(widget.category);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -129,89 +150,123 @@ class _AcademiesPageState extends State<AcademiesPage> {
             height: 40,
             color: grey1,
             child: Center(
-              child: Text('DANCE ACADEMIES',
+              child: Text('${widget.category} ACADEMIES',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
             ),
           ),
-          for (int k = 0; k < 5; k++)
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 5),
-              height: 70,
-              color: Colors.white,
-              child: FlatButton(
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>Academy()));
-                },
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          height: 70,
-                          width: 70,
-                          child:
-                              Image.network('${postImg[k]}', fit: BoxFit.cover),
-                        ),
-                        Container(
-                          height: 70,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(bottom: 2),
-                                child: Text(
-                                  'Star Academy',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 18),
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  for (int j = 0; j < 3; j++)
-                                    Row(
-                                      children: <Widget>[
-                                        Text(
-                                          '${subCat[j]}',
-                                          style: TextStyle(fontSize: 12),
-                                        ),
-                                        if (j != 2)
-                                          Container(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 2),
-                                            height: 3,
-                                            width: 3,
-                                            decoration: new BoxDecoration(
-                                                color: Colors.black,
-                                                shape: BoxShape.circle),
-                                          ),
-                                        SizedBox(width: 5),
-                                      ],
-                                    ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  for (int s = 0; s < 5; s++)
-                                    Icon(Icons.star,
-                                        color: Colors.black, size: 15),
-                                ],
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
+          Container(
+            child:StreamBuilder(
+            stream: (widget.category == null)
+              ? Firestore.instance.collection('academies').snapshots()
+              : Firestore.instance.collection('academies')
+                .where('keywords', arrayContainsAny: [widget.category])
+                .snapshots(),
+            builder: (context, snapshot){
+              if(!snapshot.hasData)
+                return Center(child:CircularProgressIndicator());
+              return _buildAcademyList(context, snapshot.data.documents);
+            },
+          ),
+          ),
         ],
       ),
     );
   }
+
+  Widget _buildAcademyList(BuildContext context, List<dynamic> dataList)
+  {
+    return ListView.builder(
+        itemCount: dataList.length,
+        physics: ScrollPhysics(),
+        shrinkWrap: true,
+        itemBuilder: (context, item){
+          return _buildAcademyItem(context, dataList[item]);
+        }
+    );
+  }
+
+  Widget _buildAcademyItem(BuildContext context, dynamic data)
+  {
+    List<String> subCategories = [];
+    data['subCategories'].forEach((key, value){
+      subCategories.add(key);
+    });
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 5),
+      height: 70,
+      color: Colors.white,
+      child: FlatButton(
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>Academy(data:data)));
+        },
+        child: Column(
+          children: <Widget>[
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  height: 70,
+                  width: 70,
+                  child:
+                  Image.network(data['logo'] ?? 'https://image.com/image.jpg', fit: BoxFit.cover),
+                ),
+                Container(
+                  height: 70,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 2),
+                        child: Text(
+                          data['name'],
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          for (int j = 0; j < subCategories.length; j++)
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  subCategories[j],
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                if (j != 2)
+                                  Container(
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: 2),
+                                    height: 3,
+                                    width: 3,
+                                    decoration: new BoxDecoration(
+                                        color: Colors.black,
+                                        shape: BoxShape.circle),
+                                  ),
+                                SizedBox(width: 5),
+                              ],
+                            ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          for (int s = 0; s < data['rating']; s++)
+                            Icon(Icons.star,
+                                color: Colors.black, size: 15),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
 }

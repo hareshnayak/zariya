@@ -17,15 +17,15 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
 
   int _selectedIndex = 1;
-  bool isLoaded = false;
+  bool isLoaded = true;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Firebase.initializeApp().whenComplete(() => setState((){
-      isLoaded = true;
-    }));
+//    Firebase.initializeApp().whenComplete(() => setState((){
+//      isLoaded = true;
+//    }));
   }
 
   @override

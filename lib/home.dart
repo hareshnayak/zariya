@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
 //       margin: EdgeInsets.all(5),
       child: FutureBuilder<DocumentSnapshot>(
-        future: FirebaseFirestore.instance.collection('community').doc('home').get(),
+        future: Firestore.instance.collection('community').document('home').get(),
         builder:(context, snapshot){
           if(!snapshot.hasData)
             return Center(child: CircularProgressIndicator());
@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height - 270,
+                    height: MediaQuery.of(context).size.height - 365,
                     child: ListView.builder(
                       itemCount: snapshot.data['genres'].length,
                       itemBuilder: (context, item){
@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                                       child: FlatButton(
                                         padding: EdgeInsets.all(0),
                                         onPressed: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>Academies()));
+                                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>Academies(category: snapshot.data['genres'][item]['categories'][index]['name'])));
                                         },
                                         child: Column(
                                           children: <Widget>[

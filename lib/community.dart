@@ -119,11 +119,13 @@ class _CompanyPageState extends State<CompanyPage> {
     return Container(
 //       margin: EdgeInsets.all(5),
       child: FutureBuilder<DocumentSnapshot>(
-        future: FirebaseFirestore.instance
+        future: Firestore.instance
             .collection('community')
-            .doc('community')
+            .document('community')
             .get(),
         builder: (context, snapshot) {
+          if(!snapshot.hasData)
+            return Center(child: CircularProgressIndicator());
           return ListView(
             children: <Widget>[
               Center(
@@ -221,16 +223,18 @@ class _CompanyPageState extends State<CompanyPage> {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                   ),
                 ),
-                for (int k = 0; k < 3; k++)
+                for (int k = 0, imageIndex = 0; k < 3 && imageIndex < snapshot.data['allPosts'].length; k++)
                   Padding(
                       padding: EdgeInsets.symmetric(vertical: 10),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            for (int k = 0; k < 3; k++)
+                            for (int k = 0; k < 3 && imageIndex < snapshot.data['allPosts'].length; k++, imageIndex++)
                               FlatButton(
                                 padding: EdgeInsets.symmetric(horizontal: 10),
-                                onPressed: () {},
+                                onPressed: () {
+//                                  launch(snapshot.data['allPosts'][imageIndex]['link']);
+                                },
                                 child: Column(
                                   children: <Widget>[
                                     Container(
@@ -239,7 +243,7 @@ class _CompanyPageState extends State<CompanyPage> {
                                       decoration: BoxDecoration(
                                         image: new DecorationImage(
                                             image:
-                                                NetworkImage('${postImg[4]}'),
+                                                NetworkImage(snapshot.data['allPosts'][imageIndex]['image']),
                                             fit: BoxFit.cover),
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(15),

@@ -1,9 +1,15 @@
+import 'package:carousel_pro/carousel_pro.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/navDrawer.dart';
 import 'package:zariya/community.dart';
 final Color grey1 = Colors.grey.shade300;
 
 class Academy extends StatelessWidget {
+
+  Academy({this.data});
+  final dynamic data;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +88,7 @@ class Academy extends StatelessWidget {
         body: Container(
           child: new Builder(
             builder: (context) {
-              return AcademyPage();
+              return AcademyPage(data: data);
             },
           ),
         ),
@@ -116,14 +122,34 @@ final List<String> eName = [
 ];
 
 int noReviews = 0;
-int academyRate = 4;
 
 class AcademyPage extends StatefulWidget {
+
+  AcademyPage({this.data});
+
+  final dynamic data;
+
   @override
   _AcademyPageState createState() => _AcademyPageState();
 }
 
 class _AcademyPageState extends State<AcademyPage> {
+
+  List<String> subCategories = [];
+  List<dynamic> course = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    widget.data['subCategories'].forEach((key, value){
+      subCategories.add(key);
+      for (int i = 0; i < value.length; i++){
+        course.add(value[i]);
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Container(
@@ -141,7 +167,7 @@ class _AcademyPageState extends State<AcademyPage> {
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(right: 20),
-                      child: Text('STAR ACADEMY',
+                      child: Text(widget.data['name'],
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 25)),
                     ),
@@ -168,27 +194,27 @@ class _AcademyPageState extends State<AcademyPage> {
                   ],
                 ),
               ),
-              Container(
-                height: 210,
-                child: Column(
-                  children: <Widget>[
-                    Image.network('${postImg[0]}', fit: BoxFit.cover),
-                    SizedBox(height: 2),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        for (int f = 0; f < 3; f++)
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 2),
-                            height: 7,
-                            width: 7,
-                            decoration: new BoxDecoration(
-                                color: Colors.grey.shade400,
-                                shape: BoxShape.circle),
-                          ),
-                      ],
-                    )
-                  ],
+              Center(
+                child: SizedBox(
+                  height: 300.0,
+                  width: MediaQuery.of(context).size.width - 20,
+                  child: Carousel(
+                    boxFit: BoxFit.cover,
+                    autoplay: true,
+                    animationCurve: Curves.fastOutSlowIn,
+                    animationDuration: Duration(milliseconds: 1000),
+                    dotSize: 6.0,
+                    dotIncreasedColor: Color(0xFFFF335C),
+                    dotBgColor: Colors.transparent,
+                    dotPosition: DotPosition.topRight,
+                    dotVerticalPadding: 10.0,
+                    showIndicator: true,
+                    indicatorBgPadding: 7.0,
+                    images: [
+                      for (var image in widget.data['images'])
+                        NetworkImage(image),
+                    ],
+                  ),
                 ),
               ),
               Container(
@@ -213,7 +239,7 @@ class _AcademyPageState extends State<AcademyPage> {
                           child: FlatButton(
                             padding: EdgeInsets.all(0),
                             onPressed: () => rating(context),
-                            child: Text('$academyRate/5',
+                            child: Text('${widget.data['rating']}/5',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 30)),
                           ),
@@ -233,14 +259,14 @@ class _AcademyPageState extends State<AcademyPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  for (int j = 0; j < 3; j++)
+                  for (int j = 0; j < subCategories.length; j++)
                     Row(
                       children: <Widget>[
                         Text(
-                          '${subCat[j]}',
+                          '${subCategories[j]}',
                           style: TextStyle(fontSize: 15),
                         ),
-                        if (j != 2)
+                        if (j != subCategories.length - 1)
                           Container(
                             margin: EdgeInsets.symmetric(horizontal: 3),
                             height: 5,
@@ -263,131 +289,118 @@ class _AcademyPageState extends State<AcademyPage> {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
                 ),
               ),
-              for (int k = 0; k < 3; k++)
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 5),
-                  child: Card(
-                    color: grey1,
-                    child: Column(
-                      children: <Widget>[
-                        Container(color: grey1, height: 5),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                SizedBox(width: 10),
-                                Text(
-                                  'Bhangra',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 17),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 2),
-                                  height: 5,
-                                  width: 5,
-                                  decoration: new BoxDecoration(
-                                      color: Colors.black,
-                                      shape: BoxShape.circle),
-                                ),
-                                SizedBox(width: 5),
-                                Text(
-                                  '3 months',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 17),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Container(color: grey1, height: 3),
-                        Row(
-                          children: <Widget>[
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-//                       mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.only(left: 10),
-                                  child: Text('Instructor : ',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                      textAlign: TextAlign.left),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 10),
-                                  child: Text('Time Slot :',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                      textAlign: TextAlign.left),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 10),
-                                  child: Text('Fees/month : ',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      textAlign: TextAlign.left),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-//                       mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.only(left: 10),
-                                  child: Text('Rakesh Jha',
-                                      style: TextStyle(
-                                        color: Colors.grey.shade500,
-                                      ),
-                                      textAlign: TextAlign.left),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 10),
-                                  child: Text('16:00-17:00  M W F',
-                                      style: TextStyle(
-                                        color: Colors.grey.shade500,
-                                      ),
-                                      textAlign: TextAlign.left),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 10),
-                                  child: Text('Rs.3000/-',
-                                      style: TextStyle(
-                                        color: Colors.grey.shade500,
-                                      ),
-                                      textAlign: TextAlign.left),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Container(
-//                           margin: EdgeInsets.all(15),
-                          margin: EdgeInsets.only(top: 15),
-                          height: 30,
-                          width: MediaQuery.of(context).size.width,
-                          color: Colors.black,
-                          child: FlatButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Book',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+              for (int k = 0; k < course.length; k++)
+                _buildCourse(course[k])
             ],
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildCourse(dynamic course){
+    print(course);
+    List<String> keys = [], values = [];
+    course.forEach((key, value){
+      if (key != 'category' && key != 'duration')
+      {
+        keys.add(key);
+        if (value.runtimeType == Timestamp)
+          values.add(value.toDate().toString());
+        else
+          values.add(value.toString());
+      }
+    });
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 5),
+      child: Card(
+        color: grey1,
+        child: Column(
+          children: <Widget>[
+            Container(color: grey1, height: 5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    SizedBox(width: 10),
+                    Text(
+                      course['category'],
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17),
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 2),
+                      height: 5,
+                      width: 5,
+                      decoration: new BoxDecoration(
+                          color: Colors.black,
+                          shape: BoxShape.circle),
+                    ),
+                    SizedBox(width: 5),
+                    Text(
+                      course['duration'],
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Container(color: grey1, height: 3),
+            Row(
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+//                       mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    for(int i = 0; i < keys.length; i++)
+                    Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Text('${keys[i]} : ',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.left),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+//                       mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    for(int i = 0; i < values.length; i++)
+                    Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Text(values[i],
+                          style: TextStyle(
+                            color: Colors.grey.shade500,
+                          ),
+                          textAlign: TextAlign.left),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Container(
+//                           margin: EdgeInsets.all(15),
+              margin: EdgeInsets.only(top: 15),
+              height: 30,
+              width: MediaQuery.of(context).size.width,
+              color: Colors.black,
+              child: FlatButton(
+                onPressed: () {},
+                child: Text(
+                  'Book',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -418,8 +431,7 @@ class _AcademyPageState extends State<AcademyPage> {
                       return Container(
                           child: Padding(
                               padding: EdgeInsets.all(10),
-                              child: Text(
-                                  'It\’s LOCKDOWNCE Time At Delhi Dance Academy: Has the ongoing lockdown started to take a toll on you? True that, losing on your body strength and agility while a whole good day oozes in a standstill is a definite no-no […]',
+                              child: Text(widget.data['about'],
                                   textAlign: TextAlign.center)));
                     }),
               )
@@ -451,7 +463,7 @@ class _AcademyPageState extends State<AcademyPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     for (int f = 0; f < 5; f++)
-                      if (f < academyRate)
+                      if (f < widget.data['rating'])
                         Icon(Icons.star, color: Colors.black, size: 18)
                       else
                         Icon(Icons.star_border, color: Colors.grey, size: 18)
@@ -461,7 +473,7 @@ class _AcademyPageState extends State<AcademyPage> {
               Text('$noReviews students reviewed', textAlign: TextAlign.center),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 5),
-                child: Text('$academyRate/5',
+                child: Text('${widget.data['rating']}/5',
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
               ),
@@ -485,7 +497,7 @@ class _AcademyPageState extends State<AcademyPage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     for (int f = 0; f < 5; f++)
-                      if (f < academyRate)
+                      if (f < widget.data['rating'])
                         Icon(Icons.star, color: Colors.black, size: 15)
                       else
                         Icon(Icons.star_border, color: Colors.grey, size: 15)
@@ -493,7 +505,7 @@ class _AcademyPageState extends State<AcademyPage> {
                                 ),
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 10),
-                                  child: Text('$academyRate/5',
+                                  child: Text('${widget.data['rating']}/5',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15)),
