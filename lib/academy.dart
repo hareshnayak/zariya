@@ -212,7 +212,7 @@ class _AcademyPageState extends State<AcademyPage> {
                     indicatorBgPadding: 7.0,
                     images: [
                       for (var image in widget.data['images'])
-                        NetworkImage(image),
+                        NetworkImage(image['url']),
                     ],
                   ),
                 ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:zariya/chat.dart';
+import 'package:zariya/community.dart';
 import 'package:zariya/home.dart';
 import 'package:zariya/navDrawer.dart';
 import 'package:zariya/profile.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,16 +23,12 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
-//    Firebase.initializeApp().whenComplete(() => setState((){
-//      isLoaded = true;
-//    }));
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-//        primarySwatch: Colors.white,
         hoverColor: Colors.transparent,
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
@@ -49,21 +45,6 @@ class _MyAppState extends State<MyApp> {
           child: AppBar(
             backgroundColor: Colors.transparent,
             iconTheme: new IconThemeData(color: Colors.black),
-//            leading: SizedBox(
-//                width: 60,
-//                height: 30,
-//                child: FlatButton(
-//                    padding: EdgeInsets.all(0),
-//                    onPressed: () {
-//                      Scaffold.of(context).openDrawer();
-//                    },
-//                    child: Icon(Icons.menu, color: Colors.black))),
-//             SizedBox(
-//                   width: 60,
-//                 height: 30,
-//                   child: FlatButton(
-//                 padding: EdgeInsets.all(0),
-//                       onPressed: () {},: Colors.black))),
             title: Center(
               child: Text(
                 'zariyā',
@@ -92,14 +73,22 @@ class _MyAppState extends State<MyApp> {
               BottomNavigationBarItem(
                 icon: Icon(Icons.person, color: Colors.grey),
                 title: Padding(padding: EdgeInsets.all(0)),
+                activeIcon: Icon(Icons.person, color: Colors.black)
               ),              
               BottomNavigationBarItem(
                 icon: Icon(Icons.home, color: Colors.grey),
                 title: Padding(padding: EdgeInsets.all(0)),
+                activeIcon: Icon(Icons.home, color: Colors.black)
               ),              
               BottomNavigationBarItem(
                 icon: Icon(Icons.chat, color: Colors.grey),
                 title: Padding(padding: EdgeInsets.all(0)),
+                activeIcon: Icon(Icons.chat, color: Colors.black)
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.people, color: Colors.grey),
+                title: Padding(padding: EdgeInsets.all(0)),
+                activeIcon: Icon(Icons.people, color: Colors.black)
               ),
             ],
          currentIndex: _selectedIndex,
@@ -111,20 +100,13 @@ class _MyAppState extends State<MyApp> {
          },
           ),
         ),
-//        floatingActionButton: FloatingActionButton(
-//            onPressed: () {
-//              Navigator.push(
-//                  context,
-//                  MaterialPageRoute(builder:
-//                      (BuildContext context) => Community()));
-//            },
-//            child: Icon(Icons.people),
-//            backgroundColor: Colors.green),
         body: (_selectedIndex == 0)
-          ? ProfilePage()
+          ? ProfilePage(email: 'hareshnayak018@gmail.com')
           : (_selectedIndex == 1)
             ? HomePage()
-            : ChatPage()
+            : (_selectedIndex == 2)
+              ? ChatPage(email: 'hareshnayak018@gmail.com', name: 'Haresh Nayak')
+              : Community()
       ),
     );
   }

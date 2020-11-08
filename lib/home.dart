@@ -1,34 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/academies.dart';
-import 'package:zariya/community.dart';
 import 'package:zariya/resources/colors.dart' as appColors;
 import 'package:carousel_pro/carousel_pro.dart';
-
-final List<String> postImg = [
-  'https://cdn.pixabay.com/photo/2016/07/08/23/17/girl-1505407__340.jpg',
-  'https://cdn.pixabay.com/photo/2018/02/06/14/07/dance-3134828__340.jpg',
-  'https://cdn.pixabay.com/photo/2013/05/01/21/46/tango-108483__340.jpg',
-  'https://cdn.pixabay.com/photo/2016/05/06/17/06/ballet-1376250__340.jpg',
-  'https://cdn.pixabay.com/photo/2014/02/27/16/10/medieval-276019__340.jpg'
-];
-final List<String> arrived = [
-  'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__340.jpg',
-  'https://cdn.pixabay.com/photo/2016/10/21/14/50/plouzane-1758197__340.jpg',
-  'https://cdn.pixabay.com/photo/2013/08/20/15/47/sunset-174276__340.jpg',
-  'https://cdn.pixabay.com/photo/2013/07/18/10/56/railroad-tracks-163518__340.jpg',
-  'https://cdn.pixabay.com/photo/2013/11/28/10/36/road-220058__340.jpg'
-];
-
-final List<String> aCat = ['Dance', 'Music', 'theatre'];
-final List<String> sdCat = ['Dance', 'Music', 'theatre'];
-final List<String> sName = ['kalā', 'paritrāṇa', 'aarogya', 'Krīḍā'];
-final List<String> eName = [
-  'performing arts',
-  'self defense',
-  'fitness',
-  'sports'
-];
 
 class HomePage extends StatefulWidget {
   @override
@@ -46,9 +20,7 @@ class _HomePageState extends State<HomePage> {
         builder:(context, snapshot){
           if(!snapshot.hasData)
             return Center(child: CircularProgressIndicator());
-          return Stack(
-            children: [
-              Column(
+          return Column(
                 children: <Widget>[
                   Center(
                     child: SizedBox(
@@ -167,22 +139,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ],
-              ),
-              Positioned(
-                bottom: 10,
-                right:10,
-                child: FloatingActionButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(builder:
-                              (BuildContext context) => Community()));
-                    },
-                    child: Icon(Icons.people),
-                    backgroundColor: Colors.green),
-              ),
-            ],
-          );
+              );
         },
       ),
     );
