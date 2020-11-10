@@ -46,7 +46,7 @@ class Community extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (BuildContext context) => Dance()));
+                                      builder: (BuildContext context) => Dance(category: snapshot.data['cards'][index]['tag'],)));
                             },
                             child: Container(
                               height: 350,
@@ -62,10 +62,7 @@ class Community extends StatelessWidget {
                           ),
                           Positioned(
                             bottom: 50,
-                            child: FlatButton(
-                              padding: EdgeInsets.all(0),
-                              onPressed: () {},
-                              child: Container(
+                            child: Container(
                                 width: 150,
                                 height: 30,
                                 padding: EdgeInsets.symmetric(horizontal: 5),
@@ -75,7 +72,6 @@ class Community extends StatelessWidget {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 30,
                                         color: Colors.white)),
-                              ),
                             ),
                           ),
 //                          Positioned(

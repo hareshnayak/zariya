@@ -2,7 +2,6 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/navDrawer.dart';
-import 'package:zariya/community.dart';
 final Color grey1 = Colors.grey.shade300;
 
 class Academy extends StatelessWidget {
@@ -56,35 +55,6 @@ class Academy extends StatelessWidget {
             ],
           ),
         ),
-//        bottomNavigationBar: Container(
-//          height: 40,
-//          child: BottomNavigationBar(
-//            items: const <BottomNavigationBarItem>[
-//              BottomNavigationBarItem(
-//                icon: Icon(Icons.person, color: Colors.grey),
-//                title: Padding(padding: EdgeInsets.all(0)),
-//              ),
-//              BottomNavigationBarItem(
-//                icon: Icon(Icons.home, color: Colors.grey),
-//                title: Padding(padding: EdgeInsets.all(0)),
-//              ),
-//              BottomNavigationBarItem(
-//                icon: Icon(Icons.chat, color: Colors.grey),
-//                title: Padding(padding: EdgeInsets.all(0)),
-//              );
-//            ],
-
-//         currentIndex: _selectedIndex,
-//         selectedItemColor: Colors.amber[800],
-//         onTap: _onItemTapped,
-//          ),
-//        ),
-        floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>Community()));
-            },
-            child: Icon(Icons.people),
-            backgroundColor: Colors.green),
         body: Container(
           child: new Builder(
             builder: (context) {
@@ -95,31 +65,6 @@ class Academy extends StatelessWidget {
       );
   }
 }
-
-final List<String> postImg = [
-  'https://cdn.pixabay.com/photo/2016/07/08/23/17/girl-1505407__340.jpg',
-  'https://cdn.pixabay.com/photo/2018/02/06/14/07/dance-3134828__340.jpg',
-  'https://cdn.pixabay.com/photo/2013/05/01/21/46/tango-108483__340.jpg',
-  'https://cdn.pixabay.com/photo/2016/05/06/17/06/ballet-1376250__340.jpg',
-  'https://cdn.pixabay.com/photo/2014/02/27/16/10/medieval-276019__340.jpg'
-];
-final List<String> arrived = [
-  'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__340.jpg',
-  'https://cdn.pixabay.com/photo/2016/07/08/23/17/girl-1505407__340.jpg',
-  'https://cdn.pixabay.com/photo/2016/10/21/14/50/plouzane-1758197__340.jpg',
-  'https://cdn.pixabay.com/photo/2013/08/20/15/47/sunset-174276__340.jpg',
-  'https://cdn.pixabay.com/photo/2014/02/27/16/10/medieval-276019__340.jpg',
-];
-
-final List<String> aCat = ['Dance', 'Music', 'theatre'];
-final List<String> subCat = ['Bhangra', 'Kathak', 'Western',];
-final List<String> sName = ['kalā', 'paritrāṇa', 'aarogya', 'Krīḍā'];
-final List<String> eName = [
-  'performing arts',
-  'self defense',
-  'fitness',
-  'sports'
-];
 
 int noReviews = 0;
 
@@ -176,19 +121,6 @@ class _AcademyPageState extends State<AcademyPage> {
                       child: FlatButton(
                         onPressed: () => about(context),
                         child: Icon(Icons.info_outline, color: Colors.blue),
-//                        child: Column(
-//                            mainAxisAlignment: MainAxisAlignment.center,
-//                            children: <Widget>[
-//                              for (int f = 0; f < 3; f++)
-//                                Container(
-//                                  margin: EdgeInsets.symmetric(vertical: 1),
-//                                  height: 5,
-//                                  width: 5,
-//                                  decoration: new BoxDecoration(
-//                                      color: Colors.black,
-//                                      shape: BoxShape.circle),
-//                                ),
-//                            ]),
                       ),
                     ),
                   ],
@@ -482,7 +414,7 @@ class _AcademyPageState extends State<AcademyPage> {
               SizedBox(height: 10),
               Expanded(
                 child: ListView.builder(
-                    itemCount: subCat.length,
+                    itemCount: subCategories.length,
                     physics: ScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
@@ -491,7 +423,7 @@ class _AcademyPageState extends State<AcademyPage> {
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 5),
                               child: Row(children: <Widget>[
-                                Text('${subCat[index]}'),
+                                Text('${subCategories[index]}'),
                                 Spacer(),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -518,61 +450,3 @@ class _AcademyPageState extends State<AcademyPage> {
         });
   }
 }
-
-//           for (int k = 0; k < 5; k++)
-//             Container(
-//               margin: EdgeInsets.symmetric(vertical:5),
-//               height:70,
-//               color:Colors.white,
-//               child: Column(
-//                 children: <Widget>[
-//                   Row(
-//                     crossAxisAlignment:CrossAxisAlignment.center,
-//                     children: <Widget>[
-//                        Container(
-//                          margin: EdgeInsets.symmetric(horizontal:10),
-//                          height:70,
-//                          width:70,
-//                          child:Image.network('${postImg[k]}', fit:BoxFit.cover),),
-//                     Container(
-//                       height:70,
-//                       child:Column(
-//                       mainAxisAlignment: MainAxisAlignment.center,
-//                       crossAxisAlignment:CrossAxisAlignment.start,
-//                       children:<Widget>[
-//                     Padding (
-//                       padding: EdgeInsets.only(bottom:2),
-//                       child:Text('Star Academy',
-//                   style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),),
-//                   Row(
-//                     mainAxisAlignment: MainAxisAlignment.start,
-//                     children:<Widget>[
-//                     for(int j = 0; j < 3; j++)
-//                   Row(
-//                   children: <Widget>[
-//                     Text(
-//                       '${subCat[j]}',
-//                       style:
-//                           TextStyle(fontSize: 12),
-//                     ),
-//                     if(j!=2)
-//                     Container(
-//                       margin: EdgeInsets.symmetric(horizontal: 2),
-//                       height: 3,
-//                       width: 3,
-//                       decoration: new BoxDecoration(
-//                           color: Colors.black, shape: BoxShape.circle),
-//                     ),
-//                     SizedBox(width:5),
-//                   ],
-//                 ),],),
-//                       Row(
-//                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                       children: <Widget>[
-//                         for (int s = 0; s < 5; s++)
-//                           Icon(Icons.star, color: Colors.black, size:15),
-//                       ],),],),)
-//                 ],
-//               ),
-//                   ],),
-//             ),

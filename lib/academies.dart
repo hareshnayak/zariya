@@ -52,67 +52,10 @@ class Academies extends StatelessWidget {
           ],
         ),
       ),
-//      bottomNavigationBar: Container(
-//        height: 40,
-//        child: BottomNavigationBar(
-//          items: const <BottomNavigationBarItem>[
-//            BottomNavigationBarItem(
-//              icon: Icon(Icons.person, color: Colors.grey),
-//              title: Padding(padding: EdgeInsets.all(0)),
-//            ),
-//            BottomNavigationBarItem(
-//              icon: Icon(Icons.home, color: Colors.grey),
-//              title: Padding(padding: EdgeInsets.all(0)),
-//            ),
-//            BottomNavigationBarItem(
-//              icon: Icon(Icons.chat, color: Colors.grey),
-//              title: Padding(padding: EdgeInsets.all(0)),
-//            ),
-//          ],
-//
-////         currentIndex: _selectedIndex,
-////         selectedItemColor: Colors.amber[800],
-////         onTap: _onItemTapped,
-//        ),
-//      ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => Community()));
-          },
-          child: Icon(Icons.people),
-          backgroundColor: Colors.green),
       body: AcademiesPage(category: category),
     );
   }
 }
-
-final List<String> postImg = [
-  'https://cdn.pixabay.com/photo/2016/07/08/23/17/girl-1505407__340.jpg',
-  'https://cdn.pixabay.com/photo/2018/02/06/14/07/dance-3134828__340.jpg',
-  'https://cdn.pixabay.com/photo/2013/05/01/21/46/tango-108483__340.jpg',
-  'https://cdn.pixabay.com/photo/2016/05/06/17/06/ballet-1376250__340.jpg',
-  'https://cdn.pixabay.com/photo/2014/02/27/16/10/medieval-276019__340.jpg'
-];
-final List<String> arrived = [
-  'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__340.jpg',
-  'https://cdn.pixabay.com/photo/2016/07/08/23/17/girl-1505407__340.jpg',
-  'https://cdn.pixabay.com/photo/2016/10/21/14/50/plouzane-1758197__340.jpg',
-  'https://cdn.pixabay.com/photo/2013/08/20/15/47/sunset-174276__340.jpg',
-  'https://cdn.pixabay.com/photo/2014/02/27/16/10/medieval-276019__340.jpg',
-];
-
-final List<String> aCat = ['Dance', 'Music', 'theatre'];
-final List<String> subCat = ['Bhangra', 'Kathak', 'Western'];
-final List<String> sName = ['kalā', 'paritrāṇa', 'aarogya', 'Krīḍā'];
-final List<String> eName = [
-  'performing arts',
-  'self defense',
-  'fitness',
-  'sports'
-];
 
 class AcademiesPage extends StatefulWidget {
 
@@ -143,7 +86,7 @@ class _AcademiesPageState extends State<AcademiesPage> {
         children: <Widget>[
           Container(
             height: 300,
-            child: Image.network('${postImg[0]}', fit: BoxFit.cover),
+            child: Image.network('https://images.com/image.jpg', fit: BoxFit.cover),
           ),
           Container(
             margin: EdgeInsets.symmetric(vertical: 10),

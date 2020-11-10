@@ -16,7 +16,7 @@ class NavDrawer extends StatelessWidget {
                   image: DecorationImage(
                       fit: BoxFit.cover,
                       image: NetworkImage(
-                          '${postImg[2]}'))),
+                          'https://images.com/image.jpg'))),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[

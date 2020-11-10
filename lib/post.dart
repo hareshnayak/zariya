@@ -1,15 +1,75 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart' as Path;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 final Color grey1 = Colors.grey.shade400;
 final List<String> cat = ['#Dance', '#Music', '#theatre'];
 
 
 class Post extends StatefulWidget {
+
+  Post({this.name, this.email});
+
+  final String name, email;
+
   @override
   _PostState createState() => _PostState();
 }
 
 class _PostState extends State<Post> {
+
+  bool imageTaken = false;
+  File _image;
+  final picker = ImagePicker();
+
+  String category = 'DANCE';
+  TextEditingController textController = new TextEditingController();
+
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(
+        source: ImageSource.gallery, imageQuality: 50);
+    if (image != null)
+    {
+      setState(() {
+        _image = image;
+        imageTaken = true;
+      });
+      print(_image.path);
+    }
+  }
+
+  Future uploadFile() async {
+    StorageReference storageReference = FirebaseStorage.instance
+        .ref()
+        .child('community/$category/posts/${Path.basename(_image.path)}');
+    StorageUploadTask uploadTask = storageReference.putFile(_image);
+    await uploadTask.onComplete;
+    print('File Uploaded');
+    storageReference.getDownloadURL().then((fileURL) {
+      Firestore.instance.collection('community')
+          .document('$category').setData(
+          {
+            'posts' : FieldValue.arrayUnion([{
+              'image' : fileURL,
+              'name' : widget.name,
+              'email' : widget.email,
+              'text' : fileURL
+            }])
+          }, merge: true).then((value){
+        setState(() {
+          textController.clear();
+          imageTaken = false;
+          _image.delete();
+          print('image path is : ${_image.path}');
+        });
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
