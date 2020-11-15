@@ -7,11 +7,8 @@ import 'package:path/path.dart' as Path;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 final Color grey1 = Colors.grey.shade400;
-final List<String> cat = ['#Dance', '#Music', '#theatre'];
-
 
 class Post extends StatefulWidget {
-
   Post({this.name, this.email});
 
   final String name, email;
@@ -21,19 +18,19 @@ class Post extends StatefulWidget {
 }
 
 class _PostState extends State<Post> {
-
   bool imageTaken = false;
   File _image;
   final picker = ImagePicker();
 
-  String category = 'DANCE';
+  List<String> category = ['DANCE', 'MUSIC', 'THEATRE'];
+  int categoryIndex = 0;
+
   TextEditingController textController = new TextEditingController();
 
   Future getImage() async {
     var image = await ImagePicker.pickImage(
         source: ImageSource.gallery, imageQuality: 50);
-    if (image != null)
-    {
+    if (image != null) {
       setState(() {
         _image = image;
         imageTaken = true;
@@ -45,21 +42,21 @@ class _PostState extends State<Post> {
   Future uploadFile() async {
     StorageReference storageReference = FirebaseStorage.instance
         .ref()
-        .child('community/$category/posts/${Path.basename(_image.path)}');
+        .child('community/${category[categoryIndex]}/posts/${Path.basename(_image.path)}');
     StorageUploadTask uploadTask = storageReference.putFile(_image);
     await uploadTask.onComplete;
     print('File Uploaded');
     storageReference.getDownloadURL().then((fileURL) {
-      Firestore.instance.collection('community')
-          .document('$category').setData(
+      Firestore.instance.collection('community').document('${category[categoryIndex]}').setData({
+        'posts': FieldValue.arrayUnion([
           {
-            'posts' : FieldValue.arrayUnion([{
-              'image' : fileURL,
-              'name' : widget.name,
-              'email' : widget.email,
-              'text' : fileURL
-            }])
-          }, merge: true).then((value){
+            'image': fileURL,
+            'name': widget.name,
+            'email': widget.email,
+            'text': fileURL
+          }
+        ])
+      }, merge: true).then((value) {
         setState(() {
           textController.clear();
           imageTaken = false;
@@ -112,71 +109,96 @@ class _PostState extends State<Post> {
               child: ListView(
 //                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                   Row(children:<Widget>[
-                     Text(
-                      'Post',
-                      style: TextStyle(
-                          fontSize: 20.0, fontWeight: FontWeight.bold),
-                    ),
-                     Spacer(),
-                   Container(
-                      height: 30,
-                      width: 70,
-                       margin: EdgeInsets.symmetric(horizontal:5),
-                     padding: EdgeInsets.symmetric(horizontal:10,vertical: 5 ),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.blue),
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),                     
-                        child: 
-                            Text(
-                            '${cat[0]}',
-                            style: TextStyle(color: Colors.blue),),                                               
-                    ),
-                   ]),                       
+                    Row(children: <Widget>[
+                      Text(
+                        'Post',
+                        style: TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.bold),
+                      ),
+                      Spacer(),
+                      IconButton(
+                        icon: Icon(Icons.arrow_back_ios),
+                        onPressed: (){
+                          if (categoryIndex > 0)
+                            setState(() {
+                              categoryIndex--;
+                            });
+                        },
+                      ),
+                      Container(
+                        height: 30,
+                        width: 70,
+                        margin: EdgeInsets.symmetric(horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.blue),
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        child: Text(
+                          '${category[categoryIndex]}',
+                          style: TextStyle(color: Colors.blue),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.arrow_forward_ios),
+                        onPressed: (){
+                          if (categoryIndex < category.length - 1)
+                            setState(() {
+                              categoryIndex++;
+                            });
+                        },
+                      ),
+                    ]),
                     Padding(
                       padding: EdgeInsets.all(10),
-                      child:FlatButton(                     
-                      padding: EdgeInsets.all(0),
-                     onPressed:(){},
-                      child: Container(                                               
-                        decoration: BoxDecoration(                        
-                          color: grey1,
-                        borderRadius: BorderRadius.all(Radius.circular(15))),                        
-                        height: 200,  
+                      child: FlatButton(
+                        padding: EdgeInsets.all(0),
+                        onPressed: () {},
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: grey1,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15))),
+                          height: 200,
 //                         width: MediaQuery.of(context).size.width,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children:<Widget>[
-                            Icon(Icons.add, size:50, color: Colors.grey.shade800)
-                          ]),
-                         ),),),
-//                       child: SizedBox(                                                
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(Icons.add,
+                                    size: 50, color: Colors.grey.shade800)
+                              ]),
+                        ),
+                      ),
+                    ),
+//                       child: SizedBox(
 //                         child: Icon(Icons.add, size:30, color: Colors.black)),
-                     
+
 //                        Stack(children:<Widget>[
 //                          Container(
-//                          margin: EdgeInsets.all(10),                      
+//                          margin: EdgeInsets.all(10),
 //                       height: 250,
 //                       decoration: BoxDecoration(
 //                         color: grey1,
-                        
+
 //                         borderRadius: BorderRadius.all(
 //                           Radius.circular(15),
-//                         ),),),                        
-//                        Center(                         
-//                        child: FlatButton(                        
+//                         ),),),
+//                        Center(
+//                        child: FlatButton(
 //                       onPressed:(){},
 //                          child: Icon(Icons.add,size: 30, color: Colors.black),
 //                       ),),]),
 
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal:10),
-                      child:TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Attach post link:',
-                      ),),),
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Attach post link:',
+                        ),
+                      ),
+                    ),
                     Container(
                       margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
                       child: TextField(
@@ -186,24 +208,31 @@ class _PostState extends State<Post> {
                           border: OutlineInputBorder(),
                         ),
                       ),
-                    ),                    
-                     Padding(
+                    ),
+                    Padding(
                       padding: EdgeInsets.all(10),
-                      child:FlatButton(                     
-                      padding: EdgeInsets.all(0),
-                     onPressed:(){},
-                      child: Container(          
-                        decoration: BoxDecoration(                        
-                          color: Colors.black,
-                        borderRadius: BorderRadius.all(Radius.circular(10))),                        
-                        height: 40,  
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children:<Widget>[
-                            Text('Post', style: TextStyle(fontWeight:  FontWeight.bold, fontSize: 25, color:Colors.white))
-                          ]),
-                         ),),),
+                      child: FlatButton(
+                        padding: EdgeInsets.all(0),
+                        onPressed: () {},
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          height: 40,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text('Post',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 25,
+                                        color: Colors.white))
+                              ]),
+                        ),
+                      ),
+                    ),
                   ])),
         ));
   }

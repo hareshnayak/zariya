@@ -167,13 +167,13 @@ class _DancePageState extends State<DancePage> {
             ),
           ),
           Positioned(
-            bottom: 40,
+            bottom: 10,
             child: FlatButton(
               padding: EdgeInsets.all(0),
               onPressed: () {},
               child: Container(
                 width: MediaQuery.of(context).size.width - 100,
-                height: 20,
+//                height: 20,
                 padding: EdgeInsets.symmetric(horizontal: 5),
                 margin: EdgeInsets.symmetric(horizontal: 10),
                 child: Text(data['text'],
