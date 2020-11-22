@@ -341,7 +341,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Padding(
                       padding: EdgeInsets.only(
                           left: 10),
-                      child: Text(data['instructor'],
+                      child: Text('data[instructor]',
                           style: TextStyle(
                             color: Colors
                                 .grey.shade500,

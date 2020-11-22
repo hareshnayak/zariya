@@ -1,6 +1,7 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:zariya/book.dart';
 import 'package:zariya/navDrawer.dart';
 final Color grey1 = Colors.grey.shade300;
 
@@ -231,7 +232,6 @@ class _AcademyPageState extends State<AcademyPage> {
   }
 
   Widget _buildCourse(dynamic course){
-    print(course);
     List<String> keys = [], values = [];
     course.forEach((key, value){
       if (key != 'category' && key != 'duration')
@@ -322,7 +322,10 @@ class _AcademyPageState extends State<AcademyPage> {
               width: MediaQuery.of(context).size.width,
               color: Colors.black,
               child: FlatButton(
-                onPressed: () {},
+                onPressed: () {
+                  print(course);
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Book(course:course, email: 'hareshnayak018@gmail.com')));
+                },
                 child: Text(
                   'Book',
                   style: TextStyle(
