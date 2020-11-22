@@ -70,6 +70,7 @@ class _MyAppState extends State<MyApp> {
         bottomNavigationBar: Container(
           height: 40,
           child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed, 
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.person, color: Colors.grey),
