@@ -299,19 +299,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Padding(
                       padding: EdgeInsets.only(
                           left: 10),
-                      child: Text(
-                          'Instructor : ',
-                          style: TextStyle(
-                              fontWeight:
-                              FontWeight
-                                  .bold),
-                          textAlign:
-                          TextAlign.left),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: 10),
-                      child: Text('Time Slot :',
+                      child: Text('Time Slot',
                           style: TextStyle(
                               fontWeight:
                               FontWeight
@@ -323,7 +311,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: EdgeInsets.only(
                           left: 10),
                       child: Text(
-                          'Fees/month : ',
+                          'Fees/month',
                           style: TextStyle(
                             fontWeight:
                             FontWeight.bold,
@@ -341,19 +329,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     Padding(
                       padding: EdgeInsets.only(
                           left: 10),
-                      child: Text('data[instructor]',
-                          style: TextStyle(
-                            color: Colors
-                                .grey.shade500,
-                          ),
-                          textAlign:
-                          TextAlign.left),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: 10),
                       child: Text(
-                          data['timing'],
+                          ': ${data['timing']}',
                           style: TextStyle(
                             color: Colors
                                 .grey.shade500,
@@ -364,7 +341,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Padding(
                       padding: EdgeInsets.only(
                           left: 10),
-                      child: Text(data['fees'],
+                      child: Text(': ${data['fees']}',
                           style: TextStyle(
                             color: Colors
                                 .grey.shade500,

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/book.dart';
 import 'package:zariya/navDrawer.dart';
+import 'package:zariya/widgets/functions.dart';
 final Color grey1 = Colors.grey.shade300;
 
 class Academy extends StatelessWidget {
@@ -37,7 +38,7 @@ class Academy extends StatelessWidget {
 //           ),),
             title: Center(
               child: Text(
-                'zariyā',
+                'zariya',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 25,
@@ -234,13 +235,22 @@ class _AcademyPageState extends State<AcademyPage> {
   Widget _buildCourse(dynamic course){
     List<String> keys = [], values = [];
     course.forEach((key, value){
-      if (key != 'category' && key != 'duration')
+      if (key == 'start')
       {
-        keys.add(key);
-        if (value.runtimeType == Timestamp)
-          values.add(value.toDate().toString());
-        else
-          values.add(value.toString());
+        keys.add('Start Time');
+        values.add(getDateString(value.toDate()));
+      } else if (key == 'end') {
+        keys.add('End Time');
+        values.add(getDateString(value.toDate()));
+      } else if (key == 'title') {
+        keys.insert(0, 'Title');
+        values.insert(0, value);
+      } else if (key == 'seats') {
+        keys.add('Seats');
+        values.add('$value');
+      } else if (key == 'enrolled') {
+        keys.add('Enrolled');
+        values.add('$value');
       }
     });
     return Padding(
@@ -291,7 +301,7 @@ class _AcademyPageState extends State<AcademyPage> {
                     for(int i = 0; i < keys.length; i++)
                     Padding(
                       padding: EdgeInsets.only(left: 10),
-                      child: Text('${keys[i]} : ',
+                      child: Text('${keys[i]}',
                           style: TextStyle(
                               fontWeight: FontWeight.bold),
                           textAlign: TextAlign.left),
@@ -305,7 +315,7 @@ class _AcademyPageState extends State<AcademyPage> {
                     for(int i = 0; i < values.length; i++)
                     Padding(
                       padding: EdgeInsets.only(left: 10),
-                      child: Text(values[i],
+                      child: Text(': ${values[i]}',
                           style: TextStyle(
                             color: Colors.grey.shade500,
                           ),

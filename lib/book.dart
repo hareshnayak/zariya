@@ -145,8 +145,8 @@ class _BookState extends State<Book> {
                         padding: EdgeInsets.all(0),
                         onPressed: () {
                           try{
-                            Firestore.instance.collection('users').document(widget.email)
-                                .setData({
+                            FirebaseFirestore.instance.collection('users').doc(widget.email)
+                                .set({
                               'reservations' : FieldValue.arrayUnion([{
                                 'id' : widget.course['id'],
                                 'title' : widget.course['title'],
@@ -154,7 +154,7 @@ class _BookState extends State<Book> {
                                 'timing' : '${getDateString(widget.course['start'])} - ${getDateString(widget.course['end'])}',
                                 'fees' : widget.course['fees'],
                               }])
-                            }, merge: true).whenComplete(() => Navigator.pop(context));
+                            }).whenComplete(() => Navigator.pop(context));
                           } catch(err) {
                             print(err);
                           }

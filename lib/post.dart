@@ -25,7 +25,8 @@ class _PostState extends State<Post> {
   List<String> category = ['DANCE', 'MUSIC', 'THEATRE'];
   int categoryIndex = 0;
 
-  TextEditingController textController = new TextEditingController();
+  TextEditingController linkController = new TextEditingController();
+  TextEditingController descController = new TextEditingController();
 
   Future getImage() async {
     var image = await ImagePicker.pickImage(
@@ -40,31 +41,37 @@ class _PostState extends State<Post> {
   }
 
   Future uploadFile() async {
-    StorageReference storageReference = FirebaseStorage.instance
-        .ref()
-        .child('community/${category[categoryIndex]}/posts/${Path.basename(_image.path)}');
-    StorageUploadTask uploadTask = storageReference.putFile(_image);
-    await uploadTask.onComplete;
-    print('File Uploaded');
-    storageReference.getDownloadURL().then((fileURL) {
-      Firestore.instance.collection('community').document('${category[categoryIndex]}').setData({
-        'posts': FieldValue.arrayUnion([
-          {
-            'image': fileURL,
-            'name': widget.name,
-            'email': widget.email,
-            'text': fileURL
-          }
-        ])
-      }, merge: true).then((value) {
-        setState(() {
-          textController.clear();
-          imageTaken = false;
-          _image.delete();
-          print('image path is : ${_image.path}');
+    try{
+      StorageReference storageReference = FirebaseStorage.instance
+          .ref()
+          .child('community/${category[categoryIndex]}/posts/${Path.basename(_image.path)}');
+      StorageUploadTask uploadTask = storageReference.putFile(_image);
+      await uploadTask.onComplete.whenComplete(() {
+        storageReference.getDownloadURL().then((fileURL) {
+          FirebaseFirestore.instance.collection('community').doc('${category[categoryIndex]}').update({
+            'posts': FieldValue.arrayUnion([
+              {
+                'image': fileURL,
+                'name': widget.name,
+                'email': widget.email,
+                'text': fileURL
+              }
+            ])
+          }).then((value) {
+            setState(() {
+              descController.clear();
+              linkController.clear();
+              imageTaken = false;
+              _image.delete();
+              print('image path is : ${_image.path}');
+            });
+          });
         });
       });
-    });
+      print('File Uploaded');
+    } catch (err) {
+      print(err);
+    }
   }
 
   @override
@@ -85,7 +92,7 @@ class _PostState extends State<Post> {
                       child: Icon(Icons.menu, color: Colors.black))),
               title: Center(
                 child: Text(
-                  'zariyā',
+                  'zariya',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
@@ -99,7 +106,9 @@ class _PostState extends State<Post> {
                     height: 30,
                     child: FlatButton(
                         padding: EdgeInsets.all(0),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(context, '/root', (route) => false);
+                        },
                         child: Icon(Icons.home, color: Colors.black)))
               ],
             ),
@@ -154,8 +163,14 @@ class _PostState extends State<Post> {
                       padding: EdgeInsets.all(10),
                       child: FlatButton(
                         padding: EdgeInsets.all(0),
-                        onPressed: () {},
-                        child: Container(
+                        onPressed: () {
+                          setState((){
+                            getImage();
+                          });
+                        },
+                        child:(imageTaken)
+                          ? Container(child: Image.file(_image),)
+                          : Container(
                           decoration: BoxDecoration(
                               color: grey1,
                               borderRadius:
@@ -194,6 +209,7 @@ class _PostState extends State<Post> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: TextField(
+                        controller: linkController,
                         decoration: InputDecoration(
                           hintText: 'Attach post link:',
                         ),
@@ -202,6 +218,7 @@ class _PostState extends State<Post> {
                     Container(
                       margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
                       child: TextField(
+                        controller: descController,
                         maxLines: 4,
                         decoration: InputDecoration(
                           hintText: "Description",
@@ -213,7 +230,14 @@ class _PostState extends State<Post> {
                       padding: EdgeInsets.all(10),
                       child: FlatButton(
                         padding: EdgeInsets.all(0),
-                        onPressed: () {},
+                        onPressed: () async {
+                          if (linkController.value.text.isNotEmpty && descController.value.text.isNotEmpty && imageTaken == true)
+                          {
+                            await uploadFile().whenComplete(() => Navigator.pop(context));
+                          } else {
+                            print('something is left!');
+                          }
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                               color: Colors.black,
