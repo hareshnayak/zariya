@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/index.dart';
 import 'package:zariya/login.dart';
@@ -15,13 +14,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
 
   @override
-  void initState() {
-    // TODO: implement initState
-    Firebase.initializeApp();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
@@ -32,10 +24,10 @@ class _MyAppState extends State<MyApp> {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       routes: {
-        '/root' : (context) => IndexPage(),
+        '/root' : (context) => LoginScreen(title: 'Zariya'),
       },
       debugShowCheckedModeBanner: false,
-      home: IndexPage(),
+      home: LoginScreen(title: 'Zariya'),
     );
   }
 }

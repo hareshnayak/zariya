@@ -40,7 +40,7 @@ class NavDrawer extends StatelessWidget {
                 leading: Icon(Icons.chat, color: Colors.deepPurple),
                 title: Text('Chat'),
                 onTap: () => {
-                 Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()),)
+                 Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(title: 'Zariya')),)
                 },
               ),
             ),

@@ -1,5 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:zariya/widgets/functions.dart';
+import 'package:zariya/resources/colors.dart';
+class Loading extends StatelessWidget {
+  const Loading();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(themeColor),
+        ),
+      ),
+      color: Colors.white.withOpacity(0.8),
+    );
+  }
+}
 
 Widget otherMsg(BuildContext context, dynamic data) {
   return Align(
@@ -73,3 +89,4 @@ Widget myMsg(BuildContext context, dynamic data) {
     ),
   );
 }
+

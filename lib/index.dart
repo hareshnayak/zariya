@@ -4,13 +4,45 @@ import 'package:zariya/community.dart';
 import 'package:zariya/home.dart';
 import 'package:zariya/navDrawer.dart';
 import 'package:zariya/profile.dart';
-
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:zariya/main.dart';
 class IndexPage extends StatefulWidget {
+
+  IndexPage({this.currentUserId});
+
+  final String currentUserId;
+
   @override
-  _IndexPageState createState() => _IndexPageState();
+  _IndexPageState createState() => _IndexPageState(currentUserId: currentUserId);
 }
 
 class _IndexPageState extends State<IndexPage> {
+
+  _IndexPageState({this.currentUserId});
+
+  final String currentUserId;
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+
+  bool isLoading = false;
+
+  Future<Null> handleSignOut() async {
+    this.setState(() {
+      isLoading = true;
+    });
+
+    await FirebaseAuth.instance.signOut();
+    await googleSignIn.disconnect();
+    await googleSignIn.signOut();
+
+    this.setState(() {
+      isLoading = false;
+    });
+
+    Navigator.of(context)
+        .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (Route<dynamic> route) => false);
+  }
+
   int _selectedIndex = 1;
   @override
   Widget build(BuildContext context) {

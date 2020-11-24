@@ -48,7 +48,7 @@ class _PostState extends State<Post> {
       StorageUploadTask uploadTask = storageReference.putFile(_image);
       await uploadTask.onComplete.whenComplete(() {
         storageReference.getDownloadURL().then((fileURL) {
-          FirebaseFirestore.instance.collection('community').doc('${category[categoryIndex]}').update({
+          Firestore.instance.collection('community').document('${category[categoryIndex]}').setData({
             'posts': FieldValue.arrayUnion([
               {
                 'image': fileURL,
@@ -57,7 +57,7 @@ class _PostState extends State<Post> {
                 'text': fileURL
               }
             ])
-          }).then((value) {
+          }, merge: true).then((value) {
             setState(() {
               descController.clear();
               linkController.clear();
