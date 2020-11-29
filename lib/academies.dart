@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/academy.dart';
-import 'package:zariya/community.dart';
+import 'package:zariya/resources/strings.dart';
 
 final Color grey1 = Colors.grey.shade300;
 
@@ -33,7 +33,7 @@ class Academies extends StatelessWidget {
 //                       onPressed: () {},: Colors.black))),
           title: Center(
             child: Text(
-              'zariyā',
+              'zariya',
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 25,
@@ -86,7 +86,7 @@ class _AcademiesPageState extends State<AcademiesPage> {
         children: <Widget>[
           Container(
             height: 300,
-            child: Image.network('https://images.com/image.jpg', fit: BoxFit.cover),
+            child: Image.network(defaultImageIcon, fit: BoxFit.cover),
           ),
           Container(
             margin: EdgeInsets.symmetric(vertical: 10),
@@ -99,11 +99,13 @@ class _AcademiesPageState extends State<AcademiesPage> {
           ),
           Container(
             child:StreamBuilder(
-            stream: (widget.category == null)
-              ? Firestore.instance.collection('academies').snapshots()
+            stream:
+            (widget.category == null)
+              ? Firestore.instance.collection('academies')
+                .orderBy('rating', descending: true).snapshots()
               : Firestore.instance.collection('academies')
                 .where('keywords', arrayContainsAny: [widget.category])
-                .snapshots(),
+                .orderBy('rating', descending: true).snapshots(),
             builder: (context, snapshot){
               if(!snapshot.hasData)
                 return Center(child:CircularProgressIndicator());
@@ -152,7 +154,7 @@ class _AcademiesPageState extends State<AcademiesPage> {
                   height: 70,
                   width: 70,
                   child:
-                  Image.network(data['logo'] ?? 'https://image.com/image.jpg', fit: BoxFit.cover),
+                  Image.network(data['logo']['url'] ?? defaultImageIcon, fit: BoxFit.cover),
                 ),
                 Container(
                   height: 70,
@@ -171,7 +173,7 @@ class _AcademiesPageState extends State<AcademiesPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          for (int j = 0; j < subCategories.length; j++)
+                          for (int j = 0; j < subCategories.length ?? 0; j++)
                             Row(
                               children: <Widget>[
                                 Text(
@@ -196,7 +198,7 @@ class _AcademiesPageState extends State<AcademiesPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          for (int s = 0; s < data['rating']; s++)
+                          for (int s = 0; s < data['rating'] ?? 0; s++)
                             Icon(Icons.star,
                                 color: Colors.black, size: 15),
                         ],

@@ -3,10 +3,16 @@ import 'package:zariya/dance.dart';
 import 'package:zariya/navDrawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:zariya/resources/strings.dart' as Strings;
 
 final Color grey1 = Colors.grey.shade300;
 
 class Community extends StatelessWidget {
+
+  Community({this.email, this.name, this.photoUrl});
+
+  final String email, name, photoUrl;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,7 +52,7 @@ class Community extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (BuildContext context) => Dance(category: snapshot.data['cards'][index]['tag'],)));
+                                      builder: (BuildContext context) => Dance(category: snapshot.data['cards'][index]['tag'], email: email, name: name, photoUrl: photoUrl)));
                             },
                             child: Container(
                               height: 350,
@@ -56,7 +62,7 @@ class Community extends StatelessWidget {
                                   borderRadius: BorderRadius.all(Radius.circular(15)),
                                   image: new DecorationImage(
                                       image: NetworkImage(
-                                          snapshot.data['cards'][index]['image']),
+                                          snapshot.data['cards'][index]['image'] ?? Strings.defaultImageIcon),
                                       fit: BoxFit.cover)),
                             ),
                           ),
@@ -132,7 +138,7 @@ class Community extends StatelessWidget {
                                       decoration: BoxDecoration(
                                         image: new DecorationImage(
                                             image:
-                                                NetworkImage(snapshot.data['allPosts'][imageIndex]['image']),
+                                                NetworkImage(snapshot.data['allPosts'][imageIndex]['image'] ?? Strings.defaultImageIcon),
                                             fit: BoxFit.cover),
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(15),

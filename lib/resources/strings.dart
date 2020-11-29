@@ -1,0 +1,2 @@
+String defaultImageIcon = 'https://firebasestorage.googleapis.com/v0/b/kalakar-c7f21.appspot.com/o/misc%2Ficon.png?alt=media&token=5bb8832d-e351-4791-8130-52fd7955aac1';
+String loginBgImage = 'assets/images/loginbg.png';

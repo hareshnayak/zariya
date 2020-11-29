@@ -1,15 +1,16 @@
 import 'package:carousel_pro/carousel_pro.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/book.dart';
 import 'package:zariya/navDrawer.dart';
 import 'package:zariya/widgets/functions.dart';
+import 'package:zariya/resources/strings.dart' as Strings;
 final Color grey1 = Colors.grey.shade300;
 
 class Academy extends StatelessWidget {
 
-  Academy({this.data});
+  Academy({this.data, this.email});
   final dynamic data;
+  final String email;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +61,7 @@ class Academy extends StatelessWidget {
         body: Container(
           child: new Builder(
             builder: (context) {
-              return AcademyPage(data: data);
+              return AcademyPage(data: data, email: email);
             },
           ),
         ),
@@ -72,10 +73,10 @@ int noReviews = 0;
 
 class AcademyPage extends StatefulWidget {
 
-  AcademyPage({this.data});
+  AcademyPage({this.data, this.email});
 
   final dynamic data;
-
+  final String email;
   @override
   _AcademyPageState createState() => _AcademyPageState();
 }
@@ -146,7 +147,7 @@ class _AcademyPageState extends State<AcademyPage> {
                     indicatorBgPadding: 7.0,
                     images: [
                       for (var image in widget.data['images'])
-                        NetworkImage(image['url']),
+                        NetworkImage(image['url'] ?? Strings.defaultImageIcon),
                     ],
                   ),
                 ),
@@ -334,7 +335,7 @@ class _AcademyPageState extends State<AcademyPage> {
               child: FlatButton(
                 onPressed: () {
                   print(course);
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Book(course:course, email: 'hareshnayak018@gmail.com')));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Book(course:course, email: widget.email, academyLogo: widget.data['logo']['url'])));
                 },
                 child: Text(
                   'Book',

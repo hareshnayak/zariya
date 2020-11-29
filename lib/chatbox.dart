@@ -1,3 +1,4 @@
+import 'package:zariya/resources/strings.dart' as Strings;
 import 'package:zariya/widgets/functions.dart';
 import 'package:zariya/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -142,7 +143,7 @@ class _ChatBoxState extends State<ChatBox> {
                 child: ListTile(
                   leading: CircleAvatar(
                     radius: 25,
-                    backgroundImage: new NetworkImage(widget.academyImage),
+                    backgroundImage: new NetworkImage(widget.academyImage ?? Strings.defaultImageIcon),
                   ),
                   title: Text(
                     widget.academyName,

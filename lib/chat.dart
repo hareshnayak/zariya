@@ -2,15 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/chatbox.dart';
-import 'package:zariya/widgets/functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:zariya/resources/strings.dart' as Strings;
 
 final Color grey1 = Colors.grey.shade300;
 
 class ChatPage extends StatefulWidget {
 
-  ChatPage({this.email, this.name});
+  ChatPage({this.currentUser});
 
-  final String email, name;
+  final FirebaseUser currentUser;
 
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -60,7 +61,7 @@ class _ChatPageState extends State<ChatPage> {
               child: Text('Chats',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15))),
           StreamBuilder<QuerySnapshot>(
-            stream: Firestore.instance.collection('users/${widget.email}/chatBox').snapshots(),
+            stream: Firestore.instance.collection('academies').snapshots(),
             builder: (context, snapshot){
               if(!snapshot.hasData)
                 return Center(child: CircularProgressIndicator());
@@ -93,7 +94,8 @@ class _ChatPageState extends State<ChatPage> {
         padding: EdgeInsets.all(10),
         child: FlatButton(
           onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatBox(email: widget.email, myName: widget.name, myImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBUXESNi9dDwsxnZoDpAktF-piO2mU778bEQ&usqp=CAU', academyImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBUXESNi9dDwsxnZoDpAktF-piO2mU778bEQ&usqp=CAU', academyName: data['name'],)));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>
+              ChatBox(email: widget.currentUser.email, myName: widget.currentUser.displayName, myImage: widget.currentUser.photoUrl, academyName: data['name'], academyImage: data['logo']['url'] ?? 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBUXESNi9dDwsxnZoDpAktF-piO2mU778bEQ&usqp=CAU',)));
           },
           child: Row(children:<Widget>[
             Padding(
@@ -101,32 +103,36 @@ class _ChatPageState extends State<ChatPage> {
               child: CircleAvatar(
                   radius: 25,
                   backgroundImage: NetworkImage(
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBUXESNi9dDwsxnZoDpAktF-piO2mU778bEQ&usqp=CAU',
+                    data['logo']['url'] ?? Strings.defaultImageIcon,
                   )),
             ),
-            Column(children:<Widget>[
+            Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children:<Widget>[
               Text(data['name'],
                   style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-              Container(
-                  padding: EdgeInsets.only(top:5, right:5),
-                  child: Text((data['messages'].length != 0) ? data['messages'][data['messages'].length - 1]['text'] : '',
-                      style: TextStyle(fontSize: 15))),
+//              Container(
+//                  padding: EdgeInsets.only(top:5, right:5),
+//                  child:
+                  Text('Admin Office',
+                      style: TextStyle(fontSize: 15)),
+//    ),
             ]),
-            Spacer(),
-            Column(children:<Widget>[
-              Text((data['messages'].length != 0) ? getTimeString(data['messages'][data['messages'].length - 1]['dateAndTime']) : '',),
-              Visibility(
-                visible: (data['messages'].length != 0),
-                child: Container(
-                  margin: EdgeInsets.only(top:15),
-                  height: 10,
-                  width: 10,
-                  decoration: new BoxDecoration(
-                      color: Colors.blue,
-                      shape: BoxShape.circle),
-                ),
-              ),
-            ]),
+//            Spacer(),
+//            Column(children:<Widget>[
+//              Text((data['messages'].length != 0) ? getTimeString(data['messages'][data['messages'].length - 1]['dateAndTime']) : '',),
+//              Visibility(
+//                visible: (data['messages'].length != 0),
+//                child: Container(
+//                  margin: EdgeInsets.only(top:15),
+//                  height: 10,
+//                  width: 10,
+//                  decoration: new BoxDecoration(
+//                      color: Colors.blue,
+//                      shape: BoxShape.circle),
+//                ),
+//              ),
+//            ]),
           ]),
         ));
   }

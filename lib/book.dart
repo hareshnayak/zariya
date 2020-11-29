@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:zariya/resources/colors.dart';
+import 'package:zariya/resources/strings.dart' as Strings;
 import 'package:zariya/widgets/functions.dart';
 
 class Book extends StatefulWidget {
   final dynamic course;
-  final String email;
-  Book({this.course, this.email});
+  final String email, academyLogo;
+  Book({this.course, this.email, this.academyLogo});
   @override
   _BookState createState() => _BookState();
 }
@@ -51,7 +51,7 @@ class _BookState extends State<Book> {
                     margin: EdgeInsets.symmetric(vertical: 2),
                     height: 170,
                     width: MediaQuery.of(context).size.width,
-                    child: Image.network(widget.course['images'][i]['url']),
+                    child: Image.network(widget.course['images'][i]['url'] ?? Strings.defaultImageIcon),
                   ),
               ],
             ),
@@ -97,11 +97,11 @@ class _BookState extends State<Book> {
                           width: 70,
                           height: 70,
                           decoration: BoxDecoration(
-                            color: Colors.grey,
                             borderRadius: BorderRadius.all(
                               Radius.circular(10),
                             ),
                           ),
+                          child: Image.network(widget.academyLogo ?? Strings.defaultImageIcon)
                         ),
                       ],
                     ),

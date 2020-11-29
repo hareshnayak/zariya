@@ -9,9 +9,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 final Color grey1 = Colors.grey.shade400;
 
 class Post extends StatefulWidget {
-  Post({this.name, this.email});
+  Post({this.name, this.email, this.photoUrl});
 
-  final String name, email;
+  final String name, email, photoUrl;
 
   @override
   _PostState createState() => _PostState();
@@ -54,7 +54,8 @@ class _PostState extends State<Post> {
                 'image': fileURL,
                 'name': widget.name,
                 'email': widget.email,
-                'text': fileURL
+                'text': descController.value.text,
+                'photoUrl' : widget.photoUrl
               }
             ])
           }, merge: true).then((value) {
@@ -67,7 +68,7 @@ class _PostState extends State<Post> {
             });
           });
         });
-      });
+      }).whenComplete(() => Navigator.pop(context));
       print('File Uploaded');
     } catch (err) {
       print(err);
@@ -230,10 +231,10 @@ class _PostState extends State<Post> {
                       padding: EdgeInsets.all(10),
                       child: FlatButton(
                         padding: EdgeInsets.all(0),
-                        onPressed: () async {
+                        onPressed: () {
                           if (linkController.value.text.isNotEmpty && descController.value.text.isNotEmpty && imageTaken == true)
                           {
-                            await uploadFile().whenComplete(() => Navigator.pop(context));
+                            uploadFile();
                           } else {
                             print('something is left!');
                           }

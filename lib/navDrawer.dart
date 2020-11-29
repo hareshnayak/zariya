@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:zariya/login.dart';
 import 'package:zariya/academies.dart';
+import 'package:zariya/resources/strings.dart' as Strings;
 
 class NavDrawer extends StatelessWidget {
+
+  NavDrawer({@required this.signOut});
+
+  final signOut;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,8 +21,7 @@ class NavDrawer extends StatelessWidget {
               decoration: BoxDecoration(
                   image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(
-                          'https://images.com/image.jpg'))),
+                      image: NetworkImage(Strings.defaultImageIcon))),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
@@ -67,7 +72,9 @@ class NavDrawer extends StatelessWidget {
               child: ListTile(
                 leading: Icon(Icons.exit_to_app, color: Colors.deepPurple),
                 title: Text('Logout'),
-                onTap: () => {Navigator.of(context).pop()},
+                onTap: () {
+                  signOut();
+                },
               ),
             ),
           ],

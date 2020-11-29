@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:zariya/academies.dart';
 import 'package:zariya/resources/colors.dart' as appColors;
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:zariya/resources/strings.dart' as Strings;
 
 class HomePage extends StatefulWidget {
   @override
@@ -40,13 +41,13 @@ class _HomePageState extends State<HomePage> {
                         indicatorBgPadding: 7.0,
                         images: [
                           for (var image in snapshot.data['images'])
-                            NetworkImage(image),
+                            NetworkImage(image ?? Strings.defaultImageIcon),
                         ],
                       ),
                     ),
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height - 375,
+                    height: MediaQuery.of(context).size.height - 385,
                     child: ListView.builder(
                       itemCount: snapshot.data['genres'].length,
                       itemBuilder: (context, item){
@@ -86,6 +87,9 @@ class _HomePageState extends State<HomePage> {
                                 itemCount: snapshot.data['genres'][item]['categories'].length,
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (BuildContext context, int index) {
+                                  String imageUrl = snapshot.data['genres'][item]['categories'][index]['image'];
+                                  if (imageUrl.isEmpty)
+                                    imageUrl = Strings.defaultImageIcon;
                                   return Padding(
                                       padding: EdgeInsets.symmetric(horizontal: 10),
                                       child: FlatButton(
@@ -103,13 +107,13 @@ class _HomePageState extends State<HomePage> {
                                               decoration: BoxDecoration(
                                                 image: new DecorationImage(
                                                     image: NetworkImage(
-                                                        snapshot.data['genres'][item]['categories'][index]['image']),
+                                                         imageUrl ?? Strings.defaultImageIcon),
                                                     fit: BoxFit.cover),
                                                 borderRadius: BorderRadius.only(
                                                   topLeft: Radius.circular(20),
                                                   topRight: Radius.circular(20),
                                                 ),
-                                                color: appColors.grey1,
+//                                                color: appColors.grey1,
                                               ),
                                             ),
                                             Container(

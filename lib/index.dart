@@ -9,22 +9,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zariya/main.dart';
 class IndexPage extends StatefulWidget {
 
-  IndexPage({this.currentUserId});
+  IndexPage({this.currentUser});
 
-  final String currentUserId;
+  final FirebaseUser currentUser;
 
   @override
-  _IndexPageState createState() => _IndexPageState(currentUserId: currentUserId);
+  _IndexPageState createState() => _IndexPageState();
 }
 
 class _IndexPageState extends State<IndexPage> {
-
-  _IndexPageState({this.currentUserId});
-
-  final String currentUserId;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   bool isLoading = false;
+  int _selectedIndex = 0;
 
   Future<Null> handleSignOut() async {
     this.setState(() {
@@ -43,11 +40,15 @@ class _IndexPageState extends State<IndexPage> {
         .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (Route<dynamic> route) => false);
   }
 
-  int _selectedIndex = 1;
+  @override
+  void initState(){
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: NavDrawer(),
+        drawer: NavDrawer(signOut: handleSignOut),
         drawerScrimColor: Colors.black54,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(45.0),
@@ -76,30 +77,30 @@ class _IndexPageState extends State<IndexPage> {
           ),
         ),
         bottomNavigationBar: Container(
-          height: 50,
+          height: 60,
           decoration: BoxDecoration(color: Color(0xFF6F90FA)),
           child: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             backgroundColor: Colors.white,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                activeIcon: Container(child: Image.asset('assets/images/profileicona.png'), height: 30, width: 30,),
-                icon: Container(child: Image.asset('assets/images/profileicon.png'), height: 30, width: 30,),
+                activeIcon: Container(child: Image.asset('assets/images/homeicona.png'), height: 40, width: 40,),
+                icon: Container(child: Image.asset('assets/images/homeicon.png'), height: 40, width: 40,),
                 title: Padding(padding: EdgeInsets.all(0)),
               ),
               BottomNavigationBarItem(
-                activeIcon: Container(child: Image.asset('assets/images/homeicona.png'), height: 30, width: 30,),
-                icon: Container(child: Image.asset('assets/images/homeicon.png'), height: 30, width: 30,),
+                activeIcon: Container(child: Image.asset('assets/images/profileicona.png'), height: 40, width: 40,),
+                icon: Container(child: Image.asset('assets/images/profileicon.png'), height: 40, width: 40,),
                 title: Padding(padding: EdgeInsets.all(0)),
               ),
               BottomNavigationBarItem(
-                activeIcon: Container(child: Image.asset('assets/images/chaticona.png'), height: 30, width: 30,),
-                icon: Container(child: Image.asset('assets/images/chaticon.png'), height: 30, width: 30,),
+                activeIcon: Container(child: Image.asset('assets/images/commicona.png'), height: 40, width: 40,),
+                icon: Container(child: Image.asset('assets/images/commicon.png'), height: 40, width: 40,),
                 title: Padding(padding: EdgeInsets.all(0)),
               ),
               BottomNavigationBarItem(
-                activeIcon: Container(child: Image.asset('assets/images/commicona.png'), height: 30, width: 30,),
-                icon: Container(child: Image.asset('assets/images/commicon.png'), height: 30, width: 30,),
+                activeIcon: Container(child: Image.asset('assets/images/chaticona.png'), height: 40, width: 40,),
+                icon: Container(child: Image.asset('assets/images/chaticon.png'), height: 40, width: 40,),
                 title: Padding(padding: EdgeInsets.all(0)),
               ),
             ],
@@ -113,14 +114,13 @@ class _IndexPageState extends State<IndexPage> {
           ),
         ),
         body: (_selectedIndex == 0)
-            ? ProfilePage(email: 'hareshnayak018@gmail.com')
-            : (_selectedIndex == 1)
-            ? HomePage()
-            : (_selectedIndex == 2)
-            ? ChatPage(
-            email: 'hareshnayak018@gmail.com',
-            name: 'Haresh Nayak')
-            : Community());
+          ? HomePage()
+          : (_selectedIndex == 1)
+          ? ProfilePage(email: widget.currentUser.email)
+          : (_selectedIndex == 2)
+          ? Community(email: widget.currentUser.email, name: widget.currentUser.displayName, photoUrl: widget.currentUser.photoUrl,)
+          : ChatPage(currentUser: widget.currentUser)
+    );
   }
 }
 

@@ -2,14 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/navDrawer.dart';
 import 'package:zariya/post.dart';
+import 'package:zariya/resources/strings.dart' as Strings;
 
 final Color grey1 = Colors.grey.shade300;
 
 class Dance extends StatelessWidget {
 
-  Dance({this.category});
+  Dance({this.category, this.email, this.name, this.photoUrl});
 
-  final String category;
+  final String category, email, name, photoUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class Dance extends StatelessWidget {
         ),
     floatingActionButton: FloatingActionButton(
       onPressed: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> Post()));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> Post(email: email, name: name, photoUrl: photoUrl,)));
       },
       backgroundColor: Colors.black,
       child: Icon(Icons.add, color: Colors.white),
@@ -91,13 +92,16 @@ class _DancePageState extends State<DancePage> {
             builder: (context, snapshot){
               if (!snapshot.hasData)
                 return Center(child: CircularProgressIndicator());
-              return ListView.builder(
-                itemCount: snapshot.data['posts'].length,
-                physics: ScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, i) {
-                  return postCard(context, snapshot.data['posts'][i]);
-              });
+              return Container(
+                height: MediaQuery.of(context).size.height - 125,
+                child: ListView.builder(
+                  itemCount: snapshot.data['posts'].length,
+                  physics: ScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, i) {
+                    return postCard(context, snapshot.data['posts'][i]);
+                }),
+              );
             }
           ),
           ],        
@@ -115,7 +119,7 @@ class _DancePageState extends State<DancePage> {
             width: MediaQuery.of(context).size.width - 20,
             child: Row(children: <Widget>[
               CircleAvatar(
-                  backgroundImage: NetworkImage(data['image'])),
+                  backgroundImage: NetworkImage(data['image'] ?? Strings.defaultImageIcon)),
               Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: Column(

@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:zariya/resources/colors.dart';
 import 'package:zariya/index.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zariya/resources/strings.dart' as Strings;
+//import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key, this.title}) : super(key: key);
@@ -20,7 +21,7 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   final GoogleSignIn googleSignIn = GoogleSignIn();
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  SharedPreferences prefs;
+//  SharedPreferences prefs;
 
   bool isLoading = false;
   bool isLoggedIn = false;
@@ -37,15 +38,21 @@ class LoginScreenState extends State<LoginScreen> {
       isLoading = true;
     });
 
-    prefs = await SharedPreferences.getInstance();
+//    prefs = await SharedPreferences.getInstance();
 
-    isLoggedIn = await googleSignIn.isSignedIn();
-    if (isLoggedIn) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => IndexPage(currentUserId: prefs.getString('id'))),
-      );
-    }
+    await googleSignIn.isSignedIn().then((value) async {
+      setState(() {
+        isLoggedIn = value;
+      });
+      if (isLoggedIn == true) {
+        currentUser = await firebaseAuth.currentUser().whenComplete(() {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => IndexPage(currentUser: currentUser)),
+          );
+        });
+      }
+    });
 
     this.setState(() {
       isLoading = false;
@@ -53,7 +60,7 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   Future<Null> handleSignIn() async {
-    prefs = await SharedPreferences.getInstance();
+//    prefs = await SharedPreferences.getInstance();
 
     this.setState(() {
       isLoading = true;
@@ -71,9 +78,8 @@ class LoginScreenState extends State<LoginScreen> {
 
     if (firebaseUser != null) {
       try{
-        await Firestore.instance.collection('users').where('email', isEqualTo: firebaseUser.email).getDocuments().then((snapshot) async {
-          final List<DocumentSnapshot> documents = snapshot.documents;
-          if (documents.length == 0) {
+        await Firestore.instance.collection('users').document(firebaseUser.email).get().then((doc) async {
+          if (!doc.exists) {
             print('new User present');
             // Update data to server if new user
             Firestore.instance.collection('users').document(firebaseUser.email).setData({
@@ -82,24 +88,16 @@ class LoginScreenState extends State<LoginScreen> {
               'email': firebaseUser.email,
               'coupons': [],
               'reservations': [],
-            }).whenComplete(() => print('Data Written to firebase!'));
-            // Write data to local
-            currentUser = firebaseUser;
-            await prefs.setString('email', currentUser.email);
-            await prefs.setString('name', currentUser.displayName);
-            await prefs.setString('photoUrl', currentUser.photoUrl);
-          } else {
-            // Write data to local
-            print('email present in firebase!');
-            await prefs.setString('email', documents[0]['email']);
-            await prefs.setString('name', documents[0]['name']);
-            await prefs.setString('photoUrl', documents[0]['photoUrl']);
+            }).whenComplete(()  {
+              print('Data Written to firebase!');
+            });
           }
+        }).whenComplete(() {
           print("Sign in success");
           this.setState(() {
             isLoading = false;
           });
-          Navigator.push(context, MaterialPageRoute(builder: (context) => IndexPage(currentUserId: firebaseUser.email)));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => IndexPage(currentUser: firebaseUser)));
         });
       } catch (err) {
         print(err);
@@ -115,12 +113,13 @@ class LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: (isLoading)
+        ? Center(child: CircularProgressIndicator())
+        : Container(
         decoration: BoxDecoration(
             image: new DecorationImage(
-                image: new NetworkImage(
-                    'https://cdn.pixabay.com/photo/2018/11/25/12/59/silhouette-3837379__340.png'),
-                fit: BoxFit.fitWidth)),
+                image: new AssetImage(Strings.loginBgImage),
+                fit: BoxFit.cover)),
         padding: EdgeInsets.all(30),
         child: ListView(
           children: <Widget>[
@@ -137,14 +136,7 @@ class LoginScreenState extends State<LoginScreen> {
               style: TextStyle(
                   fontSize: 20, fontFamily: 'Inter', color: Colors.black),
             ),
-            SizedBox(height: 155),
-            Container(
-              height: 200,
-//                   decoration:BoxDecoration(
-//                     image: new DecorationImage(
-//                   image: new NetworkImage(
-//                   'https://cdn.pixabay.com/photo/2016/11/29/06/20/blonde-1867768__340.jpg'),fit: BoxFit.cover))),
-            ),
+            SizedBox(height: 400),
             Container(
 //                 width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.symmetric(vertical: 20),
