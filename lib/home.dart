@@ -6,6 +6,11 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:zariya/resources/strings.dart' as Strings;
 
 class HomePage extends StatefulWidget {
+
+  HomePage({this.email});
+
+  final String email;
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -95,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                                       child: FlatButton(
                                         padding: EdgeInsets.all(0),
                                         onPressed: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>Academies(category: snapshot.data['genres'][item]['categories'][index]['name'])));
+                                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>Academies(category: snapshot.data['genres'][item]['categories'][index]['name'], email: widget.email,)));
                                         },
                                         child: Column(
                                           children: <Widget>[

@@ -7,9 +7,9 @@ final Color grey1 = Colors.grey.shade300;
 
 class Academies extends StatelessWidget {
 
-  Academies({this.category,});
+  Academies({this.category, this.email});
 
-  final String category;
+  final String category, email;
 
   @override
   Widget build(BuildContext context) {
@@ -52,16 +52,16 @@ class Academies extends StatelessWidget {
           ],
         ),
       ),
-      body: AcademiesPage(category: category),
+      body: AcademiesPage(category: category, email: email),
     );
   }
 }
 
 class AcademiesPage extends StatefulWidget {
 
-  AcademiesPage({this.category});
+  AcademiesPage({this.category, this.email});
 
-  final String category;
+  final String category, email;
 
   @override
   _AcademiesPageState createState() => _AcademiesPageState();
@@ -93,7 +93,7 @@ class _AcademiesPageState extends State<AcademiesPage> {
             height: 40,
             color: grey1,
             child: Center(
-              child: Text('${widget.category} ACADEMIES',
+              child: Text((widget.category != null)?'${widget.category} ACADEMIES':'ACADEMIES',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
             ),
           ),
@@ -142,7 +142,7 @@ class _AcademiesPageState extends State<AcademiesPage> {
       color: Colors.white,
       child: FlatButton(
         onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>Academy(data:data)));
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>Academy(data:data, email: widget.email,)));
         },
         child: Column(
           children: <Widget>[

@@ -1,85 +1,98 @@
 import 'package:flutter/material.dart';
 import 'package:zariya/dance.dart';
-import 'package:zariya/navDrawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:zariya/post.dart';
 import 'package:zariya/resources/strings.dart' as Strings;
 
 final Color grey1 = Colors.grey.shade300;
 
 class Community extends StatelessWidget {
-
   Community({this.email, this.name, this.photoUrl});
 
   final String email, name, photoUrl;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Stack(
+      children: [
+        Container(
 //       margin: EdgeInsets.all(5),
-      child: FutureBuilder<DocumentSnapshot>(
-        future: Firestore.instance
-            .collection('community')
-            .document('community')
-            .get(),
-        builder: (context, snapshot) {
-          if(!snapshot.hasData)
-            return Center(child: CircularProgressIndicator());
-          return ListView(
-            children: <Widget>[
-              Center(
-                child: SizedBox(
-                  height: 350.0,
-                  width: MediaQuery.of(context).size.width - 20,
-                  child: Carousel(
-                    boxFit: BoxFit.cover,
-                    autoplay: true,
-                    animationCurve: Curves.fastOutSlowIn,
-                    animationDuration: Duration(milliseconds: 1000),
-                    dotSize: 6.0,
-                    dotIncreasedColor: Color(0xFFFF335C),
-                    dotBgColor: Colors.transparent,
-                    dotPosition: DotPosition.topRight,
-                    dotVerticalPadding: 10.0,
-                    showIndicator: true,
-                    indicatorBgPadding: 7.0,
-                    images: [
-                      for (int index  = 0; index < snapshot.data['cards'].length; index++)
-                        Stack(children: <Widget>[
-                          FlatButton(
-                            padding: EdgeInsets.all(0),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) => Dance(category: snapshot.data['cards'][index]['tag'], email: email, name: name, photoUrl: photoUrl)));
-                            },
-                            child: Container(
-                              height: 350,
-                              margin: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: grey1,
-                                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                                  image: new DecorationImage(
-                                      image: NetworkImage(
-                                          snapshot.data['cards'][index]['image'] ?? Strings.defaultImageIcon),
-                                      fit: BoxFit.cover)),
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 50,
-                            child: Container(
-                                width: 150,
-                                height: 30,
-                                padding: EdgeInsets.symmetric(horizontal: 5),
-                                margin: EdgeInsets.symmetric(horizontal: 10),
-                                child: Text('#${snapshot.data['cards'][index]['tag']}',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 30,
-                                        color: Colors.white)),
-                            ),
-                          ),
+          child: FutureBuilder<DocumentSnapshot>(
+            future: Firestore.instance
+                .collection('community')
+                .document('community')
+                .get(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData)
+                return Center(child: CircularProgressIndicator());
+              return ListView(
+                children: <Widget>[
+                  Center(
+                    child: SizedBox(
+                      height: 350.0,
+                      width: MediaQuery.of(context).size.width - 20,
+                      child: Carousel(
+                        boxFit: BoxFit.cover,
+                        autoplay: true,
+                        animationCurve: Curves.fastOutSlowIn,
+                        animationDuration: Duration(milliseconds: 1000),
+                        dotSize: 6.0,
+                        dotIncreasedColor: Color(0xFFFF335C),
+                        dotBgColor: Colors.transparent,
+                        dotPosition: DotPosition.topRight,
+                        dotVerticalPadding: 10.0,
+                        showIndicator: true,
+                        indicatorBgPadding: 7.0,
+                        images: [
+                          for (int index = 0;
+                              index < snapshot.data['cards'].length;
+                              index++)
+                            FlatButton(
+                              padding: EdgeInsets.all(0),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            Dance(
+                                              category: snapshot.data['cards']
+                                                  [index]['tag'],
+//                                              email: email, name: name, photoUrl: photoUrl
+                                            )));
+                              },
+                              child: Stack(children: <Widget>[
+                                Container(
+                                  height: 350,
+                                  margin: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      color: grey1,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(15)),
+                                      image: new DecorationImage(
+                                          image: NetworkImage(
+                                              snapshot.data['cards'][index]
+                                                      ['image'] ??
+                                                  Strings.defaultImageIcon),
+                                          fit: BoxFit.cover)),
+                                ),
+                                Positioned(
+                                  bottom: 50,
+                                  child: Container(
+//                                    width: 150,
+                                    height: 30,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 5),
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 10),
+                                    child: Text(
+                                        '#${snapshot.data['cards'][index]['tag']}',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 30,
+                                            color: Colors.white)),
+                                  ),
+                                ),
 //                          Positioned(
 //                            bottom: 10,
 //                            child: Container(
@@ -104,57 +117,94 @@ class Community extends StatelessWidget {
 //                                      ])),
 //                            ),
 //                          )
-                        ]),
-                    ],
+                              ]),
+                            ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
-                  Widget>[
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    'New Posts',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-                  ),
-                ),
-                for (int k = 0, imageIndex = 0; k < 3 && imageIndex < snapshot.data['allPosts'].length; k++)
-                  Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            for (int k = 0; k < 3 && imageIndex < snapshot.data['allPosts'].length; k++, imageIndex++)
-                              FlatButton(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                onPressed: () {
-//                                  launch(snapshot.data['allPosts'][imageIndex]['link']);
-                                },
-                                child: Column(
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            'New Posts',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 22),
+                          ),
+                        ),
+                        for (int k = 0, imageIndex = 0;
+                            k < 3 &&
+                                imageIndex < snapshot.data['allPosts'].length;
+                            k++)
+                          Padding(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    Container(
-                                      width: 85,
-                                      height: 85,
-                                      decoration: BoxDecoration(
-                                        image: new DecorationImage(
-                                            image:
-                                                NetworkImage(snapshot.data['allPosts'][imageIndex]['image'] ?? Strings.defaultImageIcon),
-                                            fit: BoxFit.cover),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(15),
+                                    for (int k = 0;
+                                        k < 3 &&
+                                            imageIndex <
+                                                snapshot
+                                                    .data['allPosts'].length;
+                                        k++, imageIndex++)
+                                      FlatButton(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        onPressed: () {
+//                                  launch(snapshot.data['allPosts'][imageIndex]['link']);
+                                        },
+                                        child: Column(
+                                          children: <Widget>[
+                                            Container(
+                                              width: 85,
+                                              height: 85,
+                                              decoration: BoxDecoration(
+                                                image: new DecorationImage(
+                                                    image: NetworkImage(snapshot
+                                                                        .data[
+                                                                    'allPosts']
+                                                                [imageIndex]
+                                                            ['image'] ??
+                                                        Strings
+                                                            .defaultImageIcon),
+                                                    fit: BoxFit.cover),
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(15),
+                                                ),
+                                                color: grey1,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        color: grey1,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                          ]))
-              ]),
-            ],
-          );
-        },
-      ),
+                                      )
+                                  ]))
+                      ]),
+                ],
+              );
+            },
+          ),
+        ),
+        Positioned(
+          bottom: 20,
+          right: 20,
+          child: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Post(
+                            email: email,
+                            name: name,
+                            photoUrl: photoUrl,
+                          )));
+            },
+            backgroundColor: Colors.black,
+            child: Icon(Icons.add, color: Colors.white),
+          ),
+        ),
+      ],
     );
   }
 }

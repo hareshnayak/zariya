@@ -22,8 +22,10 @@ class _PostState extends State<Post> {
   File _image;
   final picker = ImagePicker();
 
-  List<String> category = ['DANCE', 'MUSIC', 'THEATRE'];
+  List<String> category = [];
   int categoryIndex = 0;
+
+  bool isLoading = true;
 
   TextEditingController linkController = new TextEditingController();
   TextEditingController descController = new TextEditingController();
@@ -58,7 +60,15 @@ class _PostState extends State<Post> {
                 'photoUrl' : widget.photoUrl
               }
             ])
-          }, merge: true).then((value) {
+          }, merge: true).whenComplete(() =>
+            Firestore.instance.collection('community').document('community').setData({
+              'allPosts': FieldValue.arrayUnion([
+                {
+                  'image': fileURL,
+                  'link': linkController.value.text
+                }
+              ])
+            }, merge: true)).whenComplete((){
             setState(() {
               descController.clear();
               linkController.clear();
@@ -68,11 +78,29 @@ class _PostState extends State<Post> {
             });
           });
         });
-      }).whenComplete(() => Navigator.pop(context));
-      print('File Uploaded');
+      }).whenComplete(() => print('File Uploaded'));
     } catch (err) {
       print(err);
     }
+  }
+  
+  void getCategory() async {
+    await Firestore.instance.collection('community').document('community').get().then((data){
+      setState(() {
+        for(int i = 0; i < data['cards'].length; i++){
+          print(data['cards'][i]['tag']);
+          category.add(data['cards'][i]['tag']);
+        }
+        isLoading = false;
+      });
+    });
+  }
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCategory();
   }
 
   @override
@@ -114,7 +142,9 @@ class _PostState extends State<Post> {
               ],
             ),
           ),
-          body: Container(
+          body: (isLoading)
+            ? Container(child:Center(child: CircularProgressIndicator()))
+            : Container(
               margin: EdgeInsets.symmetric(horizontal: 10),
               child: ListView(
 //                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,7 +167,7 @@ class _PostState extends State<Post> {
                       ),
                       Container(
                         height: 30,
-                        width: 70,
+//                        width: 100,
                         margin: EdgeInsets.symmetric(horizontal: 5),
                         padding:
                             EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -146,7 +176,7 @@ class _PostState extends State<Post> {
                           borderRadius: BorderRadius.all(Radius.circular(20)),
                         ),
                         child: Text(
-                          '${category[categoryIndex]}',
+                          '#${category[categoryIndex]}',
                           style: TextStyle(color: Colors.blue),
                         ),
                       ),
@@ -234,7 +264,12 @@ class _PostState extends State<Post> {
                         onPressed: () {
                           if (linkController.value.text.isNotEmpty && descController.value.text.isNotEmpty && imageTaken == true)
                           {
-                            uploadFile();
+                            setState(() {
+                              isLoading = true;
+                            });
+                            uploadFile().whenComplete(() => setState((){
+                              isLoading = false;
+                            }));
                           } else {
                             print('something is left!');
                           }

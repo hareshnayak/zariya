@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:zariya/login.dart';
 import 'package:zariya/academies.dart';
 import 'package:zariya/resources/strings.dart' as Strings;
+import 'package:firebase_auth/firebase_auth.dart';
 
 class NavDrawer extends StatelessWidget {
 
-  NavDrawer({@required this.signOut});
+  NavDrawer({@required this.signOut, this.currentUser});
 
   final signOut;
+  final FirebaseUser currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class NavDrawer extends StatelessWidget {
               leading: Icon(Icons.book, color: Colors.deepPurple),
               title: Text('Courses'),
               onTap: () => {
-                 Navigator.push(context, MaterialPageRoute(builder: (context) => Academies()),)
+                 Navigator.push(context, MaterialPageRoute(builder: (context) => Academies(email: currentUser.email)),)
               },
             ),
             Container(

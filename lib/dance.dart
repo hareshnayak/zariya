@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/navDrawer.dart';
-import 'package:zariya/post.dart';
 import 'package:zariya/resources/strings.dart' as Strings;
 
 final Color grey1 = Colors.grey.shade300;
 
 class Dance extends StatelessWidget {
 
-  Dance({this.category, this.email, this.name, this.photoUrl});
+  Dance({this.category});
 
-  final String category, email, name, photoUrl;
+  final String category;
+//  email, name, photoUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class Dance extends StatelessWidget {
             iconTheme: new IconThemeData(color: Colors.black),
             title: Center(
               child: Text(
-                'zariyā',
+                'zariya',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 25,
@@ -42,13 +42,6 @@ class Dance extends StatelessWidget {
             ],
           ),
         ),
-    floatingActionButton: FloatingActionButton(
-      onPressed: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> Post(email: email, name: name, photoUrl: photoUrl,)));
-      },
-      backgroundColor: Colors.black,
-      child: Icon(Icons.add, color: Colors.white),
-    ),
         body: DancePage(category: category,),
       );
   }
@@ -119,7 +112,7 @@ class _DancePageState extends State<DancePage> {
             width: MediaQuery.of(context).size.width - 20,
             child: Row(children: <Widget>[
               CircleAvatar(
-                  backgroundImage: NetworkImage(data['image'] ?? Strings.defaultImageIcon)),
+                  backgroundImage: NetworkImage(data['photoUrl'] ?? Strings.defaultImageIcon)),
               Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: Column(

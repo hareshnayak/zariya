@@ -114,7 +114,7 @@ class _IndexPageState extends State<IndexPage> {
           ),
         ),
         body: (_selectedIndex == 0)
-          ? HomePage()
+          ? HomePage(email: widget.currentUser.email)
           : (_selectedIndex == 1)
           ? ProfilePage(email: widget.currentUser.email)
           : (_selectedIndex == 2)

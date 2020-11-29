@@ -149,7 +149,7 @@ class LoginScreenState extends State<LoginScreen> {
                   handleSignIn();
                 },
                 child: Text(
-                  'Login',
+                  'Sign in with Google',
                   style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
