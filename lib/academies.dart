@@ -213,5 +213,4 @@ class _AcademiesPageState extends State<AcademiesPage> {
       ),
     );
   }
-
 }

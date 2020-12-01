@@ -5,25 +5,33 @@ import 'package:zariya/widgets/functions.dart';
 
 class Book extends StatefulWidget {
   final dynamic course;
-  final String email, academyLogo;
-  Book({this.course, this.email, this.academyLogo});
+  final String email, academyEmail, academyLogo;
+
+  Book({this.course, this.email, this.academyEmail, this.academyLogo});
+
   @override
   _BookState createState() => _BookState();
 }
 
 class _BookState extends State<Book> {
+  @override
+  void initState(){
+    super.initState();
+    print(widget.academyEmail);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading : Padding(
+        leading: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: SizedBox(
             width: 20,
             height: 20,
             child: FlatButton(
               padding: EdgeInsets.all(0),
-              child: Icon(Icons.arrow_back_ios,
-                  color: Colors.black, size: 20),
+              child: Icon(Icons.arrow_back_ios, color: Colors.black, size: 20),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -31,13 +39,13 @@ class _BookState extends State<Book> {
           ),
         ),
         title: Text(
-            'CLASS DETAILS',
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-                fontSize: 17,
-                fontFamily: 'Inter',
-                letterSpacing: -0.3),
+          'CLASS DETAILS',
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              fontSize: 17,
+              fontFamily: 'Inter',
+              letterSpacing: -0.3),
         ),
         backgroundColor: Colors.white,
       ),
@@ -51,7 +59,8 @@ class _BookState extends State<Book> {
                     margin: EdgeInsets.symmetric(vertical: 2),
                     height: 170,
                     width: MediaQuery.of(context).size.width,
-                    child: Image.network(widget.course['images'][i]['url'] ?? Strings.defaultImageIcon),
+                    child: Image.network(widget.course['images'][i]['url'] ??
+                        Strings.defaultImageIcon),
                   ),
               ],
             ),
@@ -66,7 +75,7 @@ class _BookState extends State<Book> {
                   children: <Widget>[
                     Container(
                       padding: EdgeInsets.all(5),
-                      margin: EdgeInsets.only(top:10,left:10),
+                      margin: EdgeInsets.only(top: 10, left: 10),
                       decoration: BoxDecoration(
                         color: Colors.yellow,
                         borderRadius: BorderRadius.all(
@@ -74,14 +83,18 @@ class _BookState extends State<Book> {
                         ),
                       ),
                       child: Text(
-                        widget.course['category'], style: TextStyle(color: Colors.white,fontSize: 13, fontWeight: FontWeight.w500),
+                        widget.course['category'],
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500),
                       ),
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          margin: EdgeInsets.symmetric(horizontal:10),
+                          margin: EdgeInsets.symmetric(horizontal: 10),
                           width: 200,
                           child: Text(
                             '${widget.course['title']} : ${widget.course['duration']}',
@@ -93,20 +106,21 @@ class _BookState extends State<Book> {
                         ),
                         Spacer(),
                         Container(
-                          margin: EdgeInsets.only(right: 10, top: 10),
-                          width: 70,
-                          height: 70,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
+                            margin: EdgeInsets.only(right: 10, top: 10),
+                            width: 70,
+                            height: 70,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
                             ),
-                          ),
-                          child: Image.network(widget.academyLogo ?? Strings.defaultImageIcon)
-                        ),
+                            child: Image.network(widget.academyLogo ??
+                                Strings.defaultImageIcon)),
                       ],
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                       child: Text(
                         'End Date : ${getDateString(widget.course['end'])}',
                         style: TextStyle(
@@ -116,7 +130,8 @@ class _BookState extends State<Book> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                       child: Text(
                         'Fees : ${widget.course['fees']}',
                         style: TextStyle(
@@ -126,7 +141,8 @@ class _BookState extends State<Book> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                       child: Text(
                         'Date of Registry : ${getDateString(DateTime.now())}',
                         style: TextStyle(
@@ -144,18 +160,64 @@ class _BookState extends State<Book> {
                       child: FlatButton(
                         padding: EdgeInsets.all(0),
                         onPressed: () {
-                          try{
-                            Firestore.instance.collection('users').document(widget.email)
+                          try {
+                            Firestore.instance
+                                .collection('users')
+                                .document(widget.email)
                                 .setData({
-                              'reservations' : FieldValue.arrayUnion([{
-                                'id' : widget.course['id'],
-                                'title' : widget.course['title'],
-                                'duration' : widget.course['duration'],
-                                'timing' : '${getDateString(widget.course['start'])} - ${getDateString(widget.course['end'])}',
-                                'fees' : widget.course['fees'],
-                              }])
-                            }, merge: true).whenComplete(() => Navigator.pop(context));
-                          } catch(err) {
+                                  'reservations': FieldValue.arrayUnion([
+                                    {
+                                      'id': widget.course['id'],
+                                      'title': widget.course['title'],
+                                      'duration': widget.course['duration'],
+                                      'schedule':
+                                          '${getDateString(widget.course['start'])} - ${getDateString(widget.course['end'])}',
+                                      'timing' : '${getTimeString(widget.course['start'])} - ${getTimeString(widget.course['end'])}',
+                                      'fees' : widget.course['fees'],
+                                    }
+                                  ])
+                                }, merge: true)
+                                .then((data) => Firestore.instance
+                                        .collection('academies')
+                                        .document(widget.academyEmail)
+                                        .collection('enrolled')
+                                        .document(widget.course['id'])
+                                        .setData({
+                                      'users': FieldValue.arrayUnion([
+                                        {
+                                          'email': widget.email,
+                                        }
+                                      ])
+                                    }, merge: true))
+                                .then((value) async => await Firestore.instance
+                                        .collection('academies')
+                                        .document(widget.academyEmail)
+                                        .get()
+                                        .then((data) {
+                                          Map<String, dynamic> subCats = data['subCategories'];
+                                          subCats.forEach((key, value) {
+                                            if (widget.course['category'] == key)
+                                            {
+                                              List<dynamic> courseList = subCats[key];
+                                              for(int i = 0; i < courseList.length; i++)
+                                              {
+                                                if (widget.course['id'] == courseList[i]['id'])
+                                                {
+                                                  courseList[i]['enrolled'] += 1;
+                                                }
+                                              }
+                                              subCats[key] = courseList;
+                                            }
+                                          });
+                                      Firestore.instance
+                                          .collection('academies')
+                                          .document(widget.academyEmail)
+                                          .updateData({
+                                            'subCategories': subCats
+                                      });
+                                    }))
+                                .whenComplete(() => Navigator.pop(context));
+                          } catch (err) {
                             print(err);
                           }
                         },

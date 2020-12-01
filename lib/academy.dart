@@ -335,7 +335,8 @@ class _AcademyPageState extends State<AcademyPage> {
               child: FlatButton(
                 onPressed: () {
                   print(course);
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Book(course:course, email: widget.email, academyLogo: widget.data['logo']['url'])));
+                  print(widget.data.documentID);
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Book(course:course, email: widget.email, academyEmail: widget.data.documentID, academyLogo: widget.data['logo']['url'])));
                 },
                 child: Text(
                   'Book',
