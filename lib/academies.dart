@@ -139,6 +139,7 @@ class _AcademiesPageState extends State<AcademiesPage> {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5),
       height: 70,
+      width: MediaQuery.of(context).size.width,
       color: Colors.white,
       child: FlatButton(
         onPressed: (){
