@@ -57,10 +57,10 @@ class _BookState extends State<Book> {
                 for (int i = 0; i < widget.course['images'].length; i++)
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 2),
-                    height: 170,
+                    height: 250,
                     width: MediaQuery.of(context).size.width,
                     child: Image.network(widget.course['images'][i]['url'] ??
-                        Strings.defaultImageIcon),
+                        Strings.defaultImageIcon, fit : BoxFit.cover),
                   ),
               ],
             ),
@@ -222,7 +222,7 @@ class _BookState extends State<Book> {
                           }
                         },
                         child: Text(
-                          'Reserve',
+                          'RESERVE',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 17,

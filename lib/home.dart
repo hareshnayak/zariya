@@ -126,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                                               height: 25,
                                               width: 130,
                                               child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
                                                   children: <Widget>[
                                                     Padding(
                                                       padding: EdgeInsets.symmetric(

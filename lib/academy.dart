@@ -1,4 +1,5 @@
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/book.dart';
 import 'package:zariya/navDrawer.dart';
@@ -15,6 +16,7 @@ class Academy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       drawer: NavDrawer(),
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(45.0),
@@ -111,10 +113,10 @@ class _AcademyPageState extends State<AcademyPage> {
                 height: 40,
                 color: grey1,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(right: 20),
+                      padding: EdgeInsets.only(left: 20),
                       child: Text(widget.data['name'],
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 25)),
@@ -130,8 +132,12 @@ class _AcademyPageState extends State<AcademyPage> {
                 ),
               ),
               Center(
-                child: SizedBox(
-                  height: 300.0,
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal:10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
+                  height: 250.0,
                   width: MediaQuery.of(context).size.width - 20,
                   child: Carousel(
                     boxFit: BoxFit.cover,
@@ -139,10 +145,12 @@ class _AcademyPageState extends State<AcademyPage> {
                     animationCurve: Curves.fastOutSlowIn,
                     animationDuration: Duration(milliseconds: 1000),
                     dotSize: 6.0,
-                    dotIncreasedColor: Color(0xFFFF335C),
+                    dotIncreasedColor: Colors.black,
                     dotBgColor: Colors.transparent,
-                    dotPosition: DotPosition.topRight,
+                    dotPosition: DotPosition.bottomCenter,
                     dotVerticalPadding: 10.0,
+                    borderRadius: true,
+                    radius: Radius.circular(20),
                     showIndicator: true,
                     indicatorBgPadding: 7.0,
                     images: [
@@ -153,66 +161,71 @@ class _AcademyPageState extends State<AcademyPage> {
                 ),
               ),
               Container(
-                height: 50,
+                height: 70,
                 color: Colors.white,
                 child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       SizedBox(
-                        width: 40,
+                        width: 90,
                         child: FlatButton(
-                          padding: EdgeInsets.all(0),
-                          onPressed: () {},
+                          padding: EdgeInsets.only(left: 40),
+                          onPressed: () => address(context),
                           child: Icon(Icons.near_me,
-                              color: Colors.black, size: 30),
+                              color: Colors.black, size: 40),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        padding: EdgeInsets.symmetric(horizontal: 10),
                         child: SizedBox(
-                          width: 60,
+                          width: 70,
                           child: FlatButton(
                             padding: EdgeInsets.all(0),
                             onPressed: () => rating(context),
                             child: Text('${widget.data['rating']}/5',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 30)),
+                                    fontWeight: FontWeight.bold, fontSize: 40)),
                           ),
                         ),
                       ),
                       SizedBox(
-                        width: 40,
+                        width: 90,
                         child: FlatButton(
-                          padding: EdgeInsets.all(0),
+                          padding: EdgeInsets.only(right: 40),
                           onPressed: () {},
                           child: Icon(Icons.chat_bubble,
-                              color: Colors.black, size: 30),
+                              color: Colors.black, size: 50),
                         ),
                       ),
                     ]),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  for (int j = 0; j < subCategories.length; j++)
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          '${subCategories[j]}',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                        if (j != subCategories.length - 1)
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 3),
-                            height: 5,
-                            width: 5,
-                            decoration: new BoxDecoration(
-                                color: Colors.black, shape: BoxShape.circle),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    for (int j = 0; j < subCategories.length; j++)
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            '${subCategories[j]}',
+                            style: TextStyle(fontSize: 15),
                           ),
-                        SizedBox(width: 5),
-                      ],
-                    ),
-                ],
+                          if (j != subCategories.length - 1)
+                            Container(
+                              margin: EdgeInsets.symmetric(horizontal: 3),
+                              height: 5,
+                              width: 5,
+                              decoration: new BoxDecoration(
+                                  color: Colors.black, shape: BoxShape.circle),
+                            ),
+                          SizedBox(width: 5),
+                        ],
+                      ),
+                  ],
+                ),
               ),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 5),
@@ -318,7 +331,7 @@ class _AcademyPageState extends State<AcademyPage> {
                       padding: EdgeInsets.only(left: 10),
                       child: Text(': ${values[i]}',
                           style: TextStyle(
-                            color: Colors.grey.shade500,
+                            color: Colors.black,
                           ),
                           textAlign: TextAlign.left),
                     ),
@@ -339,9 +352,10 @@ class _AcademyPageState extends State<AcademyPage> {
                   Navigator.push(context, MaterialPageRoute(builder: (context)=>Book(course:course, email: widget.email, academyEmail: widget.data.documentID, academyLogo: widget.data['logo']['url'])));
                 },
                 child: Text(
-                  'Book',
+                  'BOOK',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
+                      fontSize:20,
                       color: Colors.white),
                 ),
               ),
@@ -351,7 +365,40 @@ class _AcademyPageState extends State<AcademyPage> {
       ),
     );
   }
-
+  address(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return new Container(
+            height: 250,
+            child: Column(children: <Widget>[
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 5),
+                height: 40,
+                color: grey1,
+                child: Center(
+                  child: Text('ADDRESS',
+                      style:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                    itemCount: 1,
+                    physics: ScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                          child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(widget.data['address'],
+                                  textAlign: TextAlign.center)));
+                    }),
+              )
+            ]),
+          );
+        });
+  }
   about(BuildContext context) {
     showModalBottomSheet(
         context: context,
