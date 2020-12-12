@@ -251,20 +251,20 @@ class _AcademyPageState extends State<AcademyPage> {
     course.forEach((key, value){
       if (key == 'start')
       {
-        keys.add('Start Time');
+        keys.add('Start Date');
         values.add(getDateString(value.toDate()));
       } else if (key == 'end') {
-        keys.add('End Time');
+        keys.add('End Date');
         values.add(getDateString(value.toDate()));
-      } else if (key == 'title') {
-        keys.insert(0, 'Title');
-        values.insert(0, value);
-      } else if (key == 'seats') {
-        keys.add('Seats');
-        values.add('$value');
-      } else if (key == 'enrolled') {
-        keys.add('Enrolled');
-        values.add('$value');
+//      } else if (key == 'title') {
+//        keys.insert(0, 'Title');
+//        values.insert(0, value);
+//      } else if (key == 'seats') {
+//        keys.add('Seats');
+//        values.add('$value');
+//      } else if (key == 'enrolled') {
+//        keys.add('Enrolled');
+//        values.add('$value');
       }
     });
     return Padding(
@@ -293,6 +293,13 @@ class _AcademyPageState extends State<AcademyPage> {
                       decoration: new BoxDecoration(
                           color: Colors.black,
                           shape: BoxShape.circle),
+                    ),
+                    SizedBox(width: 5),
+                    Text(
+                      course['title'],
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17),
                     ),
                     SizedBox(width: 5),
                     Text(

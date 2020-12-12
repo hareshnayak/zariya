@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height - 385,
+                    height: MediaQuery.of(context).size.height - 387,
                     child: ListView.builder(
                       itemCount: snapshot.data['genres'].length,
                       itemBuilder: (context, item){
