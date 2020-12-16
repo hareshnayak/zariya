@@ -45,8 +45,8 @@ class _CommunityState extends State<Community> {
                   Center(
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: 350,
+                        Container(
+                          height: 250,
                           child: FlatButton(
                             padding: const EdgeInsets.symmetric(vertical: 10.0),
                             onPressed: () {
@@ -60,6 +60,7 @@ class _CommunityState extends State<Community> {
                             },
                             child: CarouselSlider(
                               options: CarouselOptions(
+                                enlargeStrategy: CenterPageEnlargeStrategy.scale,
 //                                aspectRatio: 2.0,
                                   enlargeCenterPage: true,
                                   enableInfiniteScroll: true,
@@ -73,14 +74,16 @@ class _CommunityState extends State<Community> {
                               items: imgList
                                   .map(
                                     (item) => Container(
-                                      margin: EdgeInsets.all(5.0),
-                                      height: 350.0,
+//                                      margin: EdgeInsets.all(5.0),
+                                    color: grey1,
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0)),
                                         child: Stack(
                                           children: [
-                                            Image.network(item),
+                                            Container(
+                                                width: MediaQuery.of(context).size.width,
+                                                child: Image.network(item, fit : BoxFit.cover)),
                                             Positioned(
                                               bottom: 10,
                                               left: 10,

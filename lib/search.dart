@@ -89,136 +89,136 @@ class _ChatPageState extends State<ChatPage> {
 //               return chatItemsList(context, snapshot.data.documents);
 //             },          
 //           ),
-          _buildCourse(),
+//          _buildCourse(),
         ],
       ),
     ));
   }
 }
 
-  Widget _buildCourse(dynamic course){
-    List<String> keys = [], values = [];
-    course.forEach((key, value){
-      if (key == 'start')
-      {
-        keys.add('Start Date');
-        values.add(getDateString(value.toDate()));
-      } else if (key == 'end') {
-        keys.add('End Date');
-        values.add(getDateString(value.toDate()));
-//      } else if (key == 'title') {
-//        keys.insert(0, 'Title');
-//        values.insert(0, value);
-//      } else if (key == 'seats') {
-//        keys.add('Seats');
-//        values.add('$value');
-//      } else if (key == 'enrolled') {
-//        keys.add('Enrolled');
-//        values.add('$value');
-      }
-    });
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5),
-      child: Card(
-        color: grey1,
-        child: Column(
-          children: <Widget>[
-            Container(color: grey1, height: 5),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    SizedBox(width: 10),
-                    Text(
-                      course['category'],
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17),
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 2),
-                      height: 5,
-                      width: 5,
-                      decoration: new BoxDecoration(
-                          color: Colors.black,
-                          shape: BoxShape.circle),
-                    ),
-                    SizedBox(width: 5),
-                    Text(
-                      course['title'],
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17),
-                    ),
-                    SizedBox(width: 5),
-                    Text(
-                      course['duration'],
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Container(color: grey1, height: 3),
-            Row(
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-//                       mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    for(int i = 0; i < keys.length; i++)
-                    Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Text('${keys[i]}',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.left),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-//                       mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    for(int i = 0; i < values.length; i++)
-                    Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Text(': ${values[i]}',
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                          textAlign: TextAlign.left),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Container(
-//                           margin: EdgeInsets.all(15),
-              margin: EdgeInsets.only(top: 15),
-              height: 30,
-              width: MediaQuery.of(context).size.width,
-              color: Colors.black,
-              child: FlatButton(
-                onPressed: () {
-                  print(course);
-                  print(widget.data.documentID);
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Book(course:course, email: widget.email, academyEmail: widget.data.documentID, academyLogo: widget.data['logo']['url'])));
-                },
-                child: Text(
-                  'BOOK',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize:20,
-                      color: Colors.white),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+//  Widget _buildCourse(dynamic course){
+//    List<String> keys = [], values = [];
+//    course.forEach((key, value){
+//      if (key == 'start')
+//      {
+//        keys.add('Start Date');
+//        values.add(getDateString(value.toDate()));
+//      } else if (key == 'end') {
+//        keys.add('End Date');
+//        values.add(getDateString(value.toDate()));
+////      } else if (key == 'title') {
+////        keys.insert(0, 'Title');
+////        values.insert(0, value);
+////      } else if (key == 'seats') {
+////        keys.add('Seats');
+////        values.add('$value');
+////      } else if (key == 'enrolled') {
+////        keys.add('Enrolled');
+////        values.add('$value');
+//      }
+//    });
+//    return Padding(
+//      padding: EdgeInsets.symmetric(vertical: 5),
+//      child: Card(
+//        color: grey1,
+//        child: Column(
+//          children: <Widget>[
+//            Container(color: grey1, height: 5),
+//            Row(
+//              mainAxisAlignment: MainAxisAlignment.start,
+//              children: <Widget>[
+//                Row(
+//                  children: <Widget>[
+//                    SizedBox(width: 10),
+//                    Text(
+//                      course['category'],
+//                      style: TextStyle(
+//                          fontWeight: FontWeight.bold,
+//                          fontSize: 17),
+//                    ),
+//                    Container(
+//                      margin: EdgeInsets.symmetric(horizontal: 2),
+//                      height: 5,
+//                      width: 5,
+//                      decoration: new BoxDecoration(
+//                          color: Colors.black,
+//                          shape: BoxShape.circle),
+//                    ),
+//                    SizedBox(width: 5),
+//                    Text(
+//                      course['title'],
+//                      style: TextStyle(
+//                          fontWeight: FontWeight.bold,
+//                          fontSize: 17),
+//                    ),
+//                    SizedBox(width: 5),
+//                    Text(
+//                      course['duration'],
+//                      style: TextStyle(
+//                          fontWeight: FontWeight.bold,
+//                          fontSize: 17),
+//                    ),
+//                  ],
+//                ),
+//              ],
+//            ),
+//            Container(color: grey1, height: 3),
+//            Row(
+//              children: <Widget>[
+//                Column(
+//                  crossAxisAlignment: CrossAxisAlignment.start,
+////                       mainAxisAlignment: MainAxisAlignment.start,
+//                  children: <Widget>[
+//                    for(int i = 0; i < keys.length; i++)
+//                    Padding(
+//                      padding: EdgeInsets.only(left: 10),
+//                      child: Text('${keys[i]}',
+//                          style: TextStyle(
+//                              fontWeight: FontWeight.bold),
+//                          textAlign: TextAlign.left),
+//                    ),
+//                  ],
+//                ),
+//                Column(
+//                  crossAxisAlignment: CrossAxisAlignment.start,
+////                       mainAxisAlignment: MainAxisAlignment.start,
+//                  children: <Widget>[
+//                    for(int i = 0; i < values.length; i++)
+//                    Padding(
+//                      padding: EdgeInsets.only(left: 10),
+//                      child: Text(': ${values[i]}',
+//                          style: TextStyle(
+//                            color: Colors.black,
+//                          ),
+//                          textAlign: TextAlign.left),
+//                    ),
+//                  ],
+//                ),
+//              ],
+//            ),
+//            Container(
+////                           margin: EdgeInsets.all(15),
+//              margin: EdgeInsets.only(top: 15),
+//              height: 30,
+//              width: MediaQuery.of(context).size.width,
+//              color: Colors.black,
+//              child: FlatButton(
+//                onPressed: () {
+//                  print(course);
+//                  print(widget.data.documentID);
+//                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Book(course:course, email: widget.email, academyEmail: widget.data.documentID, academyLogo: widget.data['logo']['url'])));
+//                },
+//                child: Text(
+//                  'BOOK',
+//                  style: TextStyle(
+//                      fontWeight: FontWeight.bold,
+//                      fontSize:20,
+//                      color: Colors.white),
+//                ),
+//              ),
+//            ),
+//          ],
+//        ),
+//      ),
+//    );
+//  }
