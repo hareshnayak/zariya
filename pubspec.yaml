@@ -27,8 +27,9 @@ dependencies:
 #  Packages
   carousel_pro: ^1.0.0
   image_picker: ^0.6.7+6
+  carousel_slider: ^2.3.1
 
-#  Firebase
+  #  Firebase
   firebase_auth: ^0.14.0+5
   google_sign_in: ^4.0.7
   cloud_firestore: ^0.12.9+5

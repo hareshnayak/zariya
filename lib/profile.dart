@@ -14,6 +14,10 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
+  String instaId = '';
+  TextEditingController instaController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -75,85 +79,75 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ],
         ),
-        (data['insta'] == null)
-            ? Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                height: 90,
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'OTHER PROFILES',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 17),
-                        textAlign: TextAlign.left,
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+//          height: 90,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'OTHER PROFILES',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 17),
+                  textAlign: TextAlign.left,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 20),
+                        height: 30,
+                        width: 30,
+                        child: Image.asset('assets/images/instagram.jpg',
+                          fit: BoxFit.cover),
                       ),
-                      FlatButton(
-                        onPressed:(){},
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.symmetric(horizontal: 20),
-                              height: 30,
-                              width: 30,
-                              child: Image.asset('assets/images/icon.png',
-                                  fit: BoxFit.cover),
-                            ),
-                            Text(
-                              "ADD INSTAGRAM ACCOUNT",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  color: Colors.black87),
-                              textAlign: TextAlign.left,
-                            ),
-                          ],
+                      (data['insta'] != null)
+                      ? Text(
+                        data['insta'] ?? instaId,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: Colors.black87),
+                        textAlign: TextAlign.left,
+                      )
+                      : Container(
+                        width: MediaQuery.of(context).size.width - 100,
+                        child: TextField(
+                          controller: instaController,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: Colors.black87
+                          ),
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(0),
+                            hintText: 'ENTER INSTAGRAM ID',
+                            hintStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                color: Colors.black87),
+                            suffix: IconButton(
+                              icon: Icon(Icons.done),
+                              onPressed: (){
+                                setState(() {
+                                  instaId = instaController.value.text;
+                                });
+                                Firestore.instance.collection('users').document(widget.email).updateData({
+                                  'insta' : instaId
+                                });
+                              },
+                            )
+                          ),
                         ),
                       ),
-                    ]),
-              )
-            : Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                height: 90,
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'OTHER PROFILES',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 17),
-                        textAlign: TextAlign.left,
-                      ),
-                      FlatButton(
-                        onPressed:(){},
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.symmetric(horizontal: 20),
-                              height: 30,
-                              width: 30,
-                              child: Image.asset('assets/images/icon.png',
-                                  fit: BoxFit.cover),
-                            ),
-                            Text(
-                              data['insta'],
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  color: Colors.black87),
-                              textAlign: TextAlign.left,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ]),
-              ),
+                    ],
+                  ),
+                ),
+              ]),
+        ),
         DefaultTabController(
           length: 2,
           child: Container(
