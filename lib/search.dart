@@ -13,6 +13,32 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       appBar: PreferredSize(
+          preferredSize: Size.fromHeight(45.0),
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            iconTheme: new IconThemeData(color: Colors.black),
+            title: Center(
+              child: Text(
+                'zariya',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                    color: Colors.black),
+              ),
+            ),
+            elevation: 0,
+            actions: <Widget>[
+              SizedBox(
+                  width: 60,
+                  height: 30,
+                  child: FlatButton(
+                      padding: EdgeInsets.all(0),
+                      onPressed: () {},
+                      child: Icon(Icons.home, color: Colors.black)))
+            ],
+          ),
+        ),
       body: Container(
 //       margin: EdgeInsets.all(5),
       child: Column(
