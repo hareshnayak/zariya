@@ -7,9 +7,9 @@ final Color grey1 = Colors.grey.shade300;
 
 class Academies extends StatelessWidget {
 
-  Academies({this.category, this.email});
+  Academies({this.category, this.email, this.image});
 
-  final String category, email;
+  final String category, email, image;
 
   @override
   Widget build(BuildContext context) {
@@ -52,16 +52,16 @@ class Academies extends StatelessWidget {
           ],
         ),
       ),
-      body: AcademiesPage(category: category, email: email),
+      body: AcademiesPage(category: category, email: email, image: image),
     );
   }
 }
 
 class AcademiesPage extends StatefulWidget {
 
-  AcademiesPage({this.category, this.email});
+  AcademiesPage({this.category, this.email, this.image});
 
-  final String category, email;
+  final String category, email, image;
 
   @override
   _AcademiesPageState createState() => _AcademiesPageState();
@@ -86,7 +86,7 @@ class _AcademiesPageState extends State<AcademiesPage> {
         children: <Widget>[
           Container(
             height: 300,
-            child: Image.network(defaultImageIcon, fit: BoxFit.cover),
+            child: Image.network(widget.image ?? defaultImageIcon, fit: BoxFit.cover),
           ),
           Container(
             margin: EdgeInsets.symmetric(vertical: 10),

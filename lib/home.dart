@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                                   child: FlatButton(
                                     padding: EdgeInsets.all(0),
                                     onPressed: () {
-                                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>Academies(category: snapshot.data['genres'][item]['categories'][index]['name'], email: widget.email,)));
+                                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>Academies(image: imageUrl, category: snapshot.data['genres'][item]['categories'][index]['name'], email: widget.email,)));
                                     },
                                     child: Column(
                                       children: <Widget>[
