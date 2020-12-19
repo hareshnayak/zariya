@@ -69,14 +69,14 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             Spacer(),
-            SizedBox(
-              width: 50,
-              child: FlatButton(
-                padding: EdgeInsets.all(0),
-                onPressed: () {},
-                child: Icon(Icons.edit, color: Colors.black),
-              ),
-            ),
+//             SizedBox(
+//               width: 50,
+//               child: FlatButton(
+//                 padding: EdgeInsets.all(0),
+//                 onPressed: () {},
+//                 child: Icon(Icons.edit, color: Colors.black),
+//               ),
+//             ),
           ],
         ),
         Container(

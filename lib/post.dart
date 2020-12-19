@@ -237,15 +237,15 @@ class _PostState extends State<Post> {
 //                          child: Icon(Icons.add,size: 30, color: Colors.black),
 //                       ),),]),
 
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: TextField(
-                        controller: linkController,
-                        decoration: InputDecoration(
-                          hintText: 'Attach post link:',
-                        ),
-                      ),
-                    ),
+//                     Padding(
+//                       padding: EdgeInsets.symmetric(horizontal: 10),
+//                       child: TextField(
+//                         controller: linkController,
+//                         decoration: InputDecoration(
+//                           hintText: 'Attach post link:',
+//                         ),
+//                       ),
+//                     ),
                     Container(
                       margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
                       child: TextField(
@@ -284,7 +284,7 @@ class _PostState extends State<Post> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Text('Post',
+                                Text('POST',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 25,
