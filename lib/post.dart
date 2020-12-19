@@ -65,7 +65,7 @@ class _PostState extends State<Post> {
               'allPosts': FieldValue.arrayUnion([
                 {
                   'image': fileURL,
-                  'link': linkController.value.text
+//                  'link': linkController.value.text
                 }
               ])
             }, merge: true)).whenComplete((){
@@ -262,7 +262,7 @@ class _PostState extends State<Post> {
                       child: FlatButton(
                         padding: EdgeInsets.all(0),
                         onPressed: () {
-                          if (linkController.value.text.isNotEmpty && descController.value.text.isNotEmpty && imageTaken == true)
+                          if (descController.value.text.isNotEmpty && imageTaken == true)
                           {
                             setState(() {
                               isLoading = true;
