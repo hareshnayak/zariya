@@ -23,7 +23,7 @@ class NavDrawer extends StatelessWidget {
               decoration: BoxDecoration(
                   image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(Strings.defaultImageIcon))),
+                      image: NetworkImage(https://firebasestorage.googleapis.com/v0/b/kalakar-c7f21.appspot.com/o/misc%2F1.png?alt=media&token=589cc643-f339-4ba7-9004-865dee6db0e3))),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
@@ -34,23 +34,23 @@ class NavDrawer extends StatelessWidget {
                 ],
               ),
             ),
-            ListTile(
-              leading: Icon(Icons.book, color: Colors.deepPurple),
-              title: Text('Courses'),
-              onTap: () => {
-                 Navigator.push(context, MaterialPageRoute(builder: (context) => Academies(email: currentUser.email)),)
-              },
-            ),
-            Container(
-              color: Colors.grey.shade300,
-              child: ListTile(
-                leading: Icon(Icons.chat, color: Colors.deepPurple),
-                title: Text('Chat'),
-                onTap: () => {
-                 Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(title: 'Zariya')),)
-                },
-              ),
-            ),
+//             ListTile(
+//               leading: Icon(Icons.book, color: Colors.deepPurple),
+//               title: Text('Courses'),
+//               onTap: () => {
+//                  Navigator.push(context, MaterialPageRoute(builder: (context) => Academies(email: currentUser.email)),)
+//               },
+//             ),
+//             Container(
+//               color: Colors.grey.shade300,
+//               child: ListTile(
+//                 leading: Icon(Icons.chat, color: Colors.deepPurple),
+//                 title: Text('Chat'),
+//                 onTap: () => {
+//                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(title: 'Zariya')),)
+//                 },
+//               ),
+//             ),
             ListTile(
               leading: Icon(Icons.verified_user, color: Colors.deepPurple),
               title: Text('Profile'),
