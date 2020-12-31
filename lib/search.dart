@@ -44,12 +44,15 @@ class _ChatPageState extends State<ChatPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-              padding: EdgeInsets.fromLTRB(10,10,10,5),
-              child: Text('SEARCH',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              textAlign: TextAlign.left,)),
+//           Container(
+//               padding: EdgeInsets.fromLTRB(10,10,10,5),
+//               child: Text('SEARCH',
+//                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+//               textAlign: TextAlign.left,)),
 //           Container(height: 1, color: grey1),
+          SizedBox(
+          height: 50,
+          ),
           Stack(children:<Widget>[
             Container(
                 margin: EdgeInsets.fromLTRB(10,5,10,10),
@@ -76,9 +79,15 @@ class _ChatPageState extends State<ChatPage> {
                   child: Icon(Icons.search, color: Colors.black),),),),
           ]),
           Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.symmetric(horizontal:20),
+          child:Text('Enter the name of the course you are looking for', textAlign:TextAlign.center, style:TextStyle
+(fontWeight:FontWeight.bold, fontSize:17),),),
+          SizedBox(height:20),
+          Container(
               padding: EdgeInsets.fromLTRB(10,5,10,10),
               child: Text('Courses',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15))),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),),
 //           StreamBuilder<QuerySnapshot>(
 //             stream: Firestore.instance.collection('academies').snapshots(),
 //             builder: (context, snapshot){
