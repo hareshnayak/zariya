@@ -6,8 +6,9 @@ import 'package:zariya/widgets/functions.dart';
 class Book extends StatefulWidget {
   final dynamic course;
   final String email, academyEmail, academyLogo;
+  final bool isReserved;
 
-  Book({this.course, this.email, this.academyEmail, this.academyLogo});
+  Book({this.course, this.email, this.academyEmail, this.academyLogo, this.isReserved});
 
   @override
   _BookState createState() => _BookState();
@@ -54,7 +55,8 @@ class _BookState extends State<Book> {
           height: MediaQuery.of(context).size.height,
           child: Stack(
             children: <Widget>[
-              Container(
+              (widget.isReserved == false)
+              ? Container(
                 height: MediaQuery.of(context).size.height - 300,
                 child: ListView(
                   shrinkWrap: true,
@@ -69,7 +71,8 @@ class _BookState extends State<Book> {
                       ),
                   ],
                 ),
-              ),
+              )
+              : Container(),
               Positioned(
                 bottom: 0,
                 child: Container(
@@ -89,7 +92,7 @@ class _BookState extends State<Book> {
                           ),
                         ),
                         child: Text(
-                          widget.course['category'],
+                          '${widget.course['category']}',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 13,
@@ -202,7 +205,8 @@ class _BookState extends State<Book> {
                               fontSize: 15),
                         ),
                       ),
-                      Container(
+                      (widget.isReserved == false)
+                      ? Container(
                         height: 40,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
@@ -225,6 +229,7 @@ class _BookState extends State<Book> {
                                             '${getDateString(widget.course['start'])} - ${getDateString(widget.course['end'])}',
                                         'timing' : '${getTimeString(widget.course['start'])} - ${getTimeString(widget.course['end'])}',
                                         'fees' : widget.course['fees'],
+                                        'dateAndTime' : DateTime.now()
                                       }
                                     ])
                                   }, merge: true)
@@ -280,7 +285,8 @@ class _BookState extends State<Book> {
                                 fontWeight: FontWeight.w600),
                           ),
                         ),
-                      ),
+                      )
+                      : Container(),
                     ],
                   ),
                 ),

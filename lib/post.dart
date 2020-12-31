@@ -9,9 +9,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 final Color grey1 = Colors.grey.shade400;
 
 class Post extends StatefulWidget {
-  Post({this.name, this.email, this.photoUrl});
+  Post({this.name, this.email, this.photoUrl, this.followId});
 
-  final String name, email, photoUrl;
+  final String name, email, photoUrl, followId;
 
   @override
   _PostState createState() => _PostState();
@@ -57,7 +57,8 @@ class _PostState extends State<Post> {
                 'name': widget.name,
                 'email': widget.email,
                 'text': descController.value.text,
-                'photoUrl' : widget.photoUrl
+                'photoUrl' : widget.photoUrl,
+                'followId' : widget.followId
               }
             ])
           }, merge: true).whenComplete(() =>

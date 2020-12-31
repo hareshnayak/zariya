@@ -356,7 +356,7 @@ class _AcademyPageState extends State<AcademyPage> {
                 onPressed: () {
                   print(course);
                   print(widget.data.documentID);
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Book(course:course, email: widget.email, academyEmail: widget.data.documentID, academyLogo: widget.data['logo']['url'])));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Book(course:course, email: widget.email, academyEmail: widget.data.documentID, academyLogo: widget.data['logo']['url'], isReserved: false)));
                 },
                 child: Text(
                   'BOOK',

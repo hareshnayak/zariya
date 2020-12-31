@@ -28,13 +28,14 @@ dependencies:
   carousel_pro: ^1.0.0
   image_picker: ^0.6.7+6
   carousel_slider: ^2.3.1
+  shared_preferences: ^0.5.3+4
+  url_launcher: ^5.5.0
 
   #  Firebase
   firebase_auth: ^0.14.0+5
   google_sign_in: ^4.0.7
   cloud_firestore: ^0.12.9+5
   firebase_storage: ^3.0.6
-  shared_preferences: ^0.5.3+4
 
 #  IOS
   cupertino_icons: ^0.1.3

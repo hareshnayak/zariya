@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:zariya/book.dart';
 import 'package:zariya/resources/strings.dart' as Strings;
 
 final Color grey1 = Colors.grey.shade300;
@@ -223,6 +224,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget reservationCard(BuildContext context, dynamic data) {
+    print(data);
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 5),
       child: Card(
@@ -311,7 +313,9 @@ class _ProfilePageState extends State<ProfilePage> {
               width: MediaQuery.of(context).size.width,
               color: Colors.black,
               child: FlatButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Book(course: data, email: widget.email, isReserved: true)));
+                },
                 child: Text(
                   'VIEW DETAILS',
                   style: TextStyle(

@@ -3,12 +3,13 @@ import 'package:zariya/login.dart';
 import 'package:zariya/academies.dart';
 import 'package:zariya/resources/strings.dart' as Strings;
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NavDrawer extends StatelessWidget {
 
-  NavDrawer({@required this.signOut, this.currentUser});
+  NavDrawer({@required this.signOut, this.openProfile, this.currentUser});
 
-  final signOut;
+  final VoidCallback signOut, openProfile;
   final FirebaseUser currentUser;
 
   @override
@@ -23,7 +24,7 @@ class NavDrawer extends StatelessWidget {
               decoration: BoxDecoration(
                   image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(https://firebasestorage.googleapis.com/v0/b/kalakar-c7f21.appspot.com/o/misc%2F1.png?alt=media&token=589cc643-f339-4ba7-9004-865dee6db0e3))),
+                      image: NetworkImage('https://firebasestorage.googleapis.com/v0/b/kalakar-c7f21.appspot.com/o/misc%2F1.png?alt=media&token=589cc643-f339-4ba7-9004-865dee6db0e3'))),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
@@ -54,20 +55,28 @@ class NavDrawer extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.verified_user, color: Colors.deepPurple),
               title: Text('Profile'),
-              onTap: () => {Navigator.of(context).pop()},
+              onTap: () {
+                openProfile();
+                Navigator.of(context).pop();
+              },
             ),
             Container(
               color: Colors.grey.shade300,
               child: ListTile(
                 leading: Icon(Icons.settings, color: Colors.deepPurple),
                 title: Text('Settings'),
-                onTap: () => {Navigator.of(context).pop()},
+                onTap: () => {
+                  Navigator.of(context).pop()
+                },
               ),
             ),
             ListTile(
               leading: Icon(Icons.border_color, color: Colors.deepPurple),
               title: Text('Feedback'),
-              onTap: () => {Navigator.of(context).pop()},
+              onTap: () {
+                Navigator.of(context).pop();
+                launch('https://kalakar-c7f21.web.app');
+              },
             ),
             Container(
               color: Colors.grey.shade300,

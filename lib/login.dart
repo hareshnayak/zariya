@@ -45,11 +45,23 @@ class LoginScreenState extends State<LoginScreen> {
         isLoggedIn = value;
       });
       if (isLoggedIn == true) {
-        currentUser = await firebaseAuth.currentUser().whenComplete(() {
-          Navigator.pushReplacement(
+        currentUser = await firebaseAuth.currentUser().whenComplete(() async {
+          String followId = 'none';
+          (currentUser != null)
+              ?
+          await Firestore.instance.collection('users').document(currentUser.email).get().then((data){
+            followId = data['followId'] ?? 'none';
+          }).whenComplete(() {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => IndexPage(currentUser: currentUser, followId: followId)),
+            );
+          })
+          : Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => IndexPage(currentUser: currentUser)),
+            MaterialPageRoute(builder: (context) => IndexPage(currentUser: currentUser, followId: 'none')),
           );
+
         });
       }
     });

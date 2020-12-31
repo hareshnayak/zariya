@@ -9,9 +9,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zariya/main.dart';
 class IndexPage extends StatefulWidget {
 
-  IndexPage({this.currentUser});
+  IndexPage({this.currentUser, this.followId});
 
   final FirebaseUser currentUser;
+  final String followId;
 
   @override
   _IndexPageState createState() => _IndexPageState();
@@ -40,6 +41,12 @@ class _IndexPageState extends State<IndexPage> {
         .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (Route<dynamic> route) => false);
   }
 
+  void openProfile(){
+    setState((){
+      _selectedIndex = 1;
+    });
+  }
+
   @override
   void initState(){
     super.initState();
@@ -48,7 +55,7 @@ class _IndexPageState extends State<IndexPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: NavDrawer(signOut: handleSignOut),
+        drawer: NavDrawer(signOut: handleSignOut, openProfile: openProfile,),
         drawerScrimColor: Colors.black54,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(45.0),
@@ -65,15 +72,15 @@ class _IndexPageState extends State<IndexPage> {
               ),
             ),
             elevation: 0,
-            actions: <Widget>[
-              SizedBox(
-                  width: 60,
-                  height: 30,
-                  child: FlatButton(
-                      padding: EdgeInsets.all(0),
-                      onPressed: () {},
-                      child: Icon(Icons.search, color: Colors.black)))
-            ],
+//            actions: <Widget>[
+//              SizedBox(
+//                  width: 60,
+//                  height: 30,
+//                  child: FlatButton(
+//                      padding: EdgeInsets.all(0),
+//                      onPressed: () {},
+//                      child: Icon(Icons.search, color: Colors.black)))
+//            ],
           ),
         ),
         bottomNavigationBar: Container(
@@ -118,7 +125,7 @@ class _IndexPageState extends State<IndexPage> {
           : (_selectedIndex == 1)
           ? ProfilePage(email: widget.currentUser.email)
           : (_selectedIndex == 2)
-          ? Community(email: widget.currentUser.email, name: widget.currentUser.displayName, photoUrl: widget.currentUser.photoUrl,)
+          ? Community(email: widget.currentUser.email, name: widget.currentUser.displayName, photoUrl: widget.currentUser.photoUrl, followId: widget.followId)
           : ChatPage(currentUser: widget.currentUser)
     );
   }

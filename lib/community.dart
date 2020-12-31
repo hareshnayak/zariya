@@ -9,9 +9,9 @@ import 'package:zariya/resources/strings.dart' as Strings;
 final Color grey1 = Colors.grey.shade300;
 
 class Community extends StatefulWidget {
-  Community({this.email, this.name, this.photoUrl});
+  Community({this.email, this.name, this.photoUrl, this.followId});
 
-  final String email, name, photoUrl;
+  final String email, name, photoUrl, followId;
 
   @override
   _CommunityState createState() => _CommunityState();
@@ -295,6 +295,7 @@ class _CommunityState extends State<Community> {
                     email: widget.email,
                     name: widget.name,
                     photoUrl: widget.photoUrl,
+                    followId: widget.followId,
                   ),
                 ),
               );

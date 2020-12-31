@@ -127,7 +127,9 @@ class _DancePageState extends State<DancePage> {
                             style: TextStyle(color: Colors.grey))
                       ])),
               Spacer(),
-              Container(
+              Visibility(
+                visible : (data['followId'] != 'none' || data['followId'] == null),
+                child: Container(
                 height: 30,
                 width: 80,
                 decoration: BoxDecoration(
@@ -145,6 +147,7 @@ class _DancePageState extends State<DancePage> {
                         style: TextStyle(color: Colors.blue),),
                     ],),
                 ),
+              ),
               ),
             ])),
         Stack(children: <Widget>[
