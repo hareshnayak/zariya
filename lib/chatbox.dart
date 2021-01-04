@@ -128,27 +128,33 @@ class _ChatBoxState extends State<ChatBox> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70),
-        child: AppBar(
+      appBar: AppBar(
+          elevation:0,
           iconTheme: IconThemeData(color: Colors.white),
-          backgroundColor: Color(0xFF6F90FA),
-          elevation: 1,
+          backgroundColor: Colors.white,
+           bottom: PreferredSize(
+      child: Container(
+         color: Colors.deepPurple,
+         height: 4.0,
+      ),
+      preferredSize: Size.fromHeight(4.0)),         
 //           centerTitle: true,
           title: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              SizedBox(height: 10),
+              SizedBox(height: 20),
               Container(
                 child: ListTile(
-                  leading: CircleAvatar(
+                  leading: Padding(
+                    padding: EdgeInsets.only(bottom:5),
+                    child: CircleAvatar(
                     radius: 25,
-                    backgroundImage: new NetworkImage(widget.academyImage ?? Strings.defaultImageIcon),
-                  ),
+//                     backgroundImage: new NetworkImage(widget.academyImage ?? Strings.defaultImageIcon),
+                  ),),
                   title: Text(
-                    widget.academyName,
+                    'widget.academyName',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
                       fontStyle: FontStyle.normal,
@@ -159,7 +165,7 @@ class _ChatBoxState extends State<ChatBox> {
                   subtitle: Text(
                     'Admin Office',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontWeight: FontWeight.normal,
                       fontStyle: FontStyle.normal,
                       fontSize: 13,
@@ -169,10 +175,10 @@ class _ChatBoxState extends State<ChatBox> {
                   ),
                 ),
               ),
+              SizedBox(height:20)
             ],
           ),
         ),
-      ),
       body: Stack(
         children: <Widget>[
            Container(
@@ -213,8 +219,8 @@ class _ChatBoxState extends State<ChatBox> {
                     width: MediaQuery.of(context).size.width - 60,
                     decoration: BoxDecoration(
                       color: Color(0xFFF0EDFF),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30),
+                      borderRadius: BorderRadius.only(
+                        topLeft:Radius.circular(30),bottomLeft:Radius.circular(30),
                       ),
                     ),
                     child: TextField(
