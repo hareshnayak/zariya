@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/academies.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:zariya/resources/colors.dart' as appColors;
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:zariya/resources/strings.dart' as Strings;
 
 class HomePage extends StatefulWidget {
@@ -19,6 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   int _current = 0;
+  List<String> imgList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,6 @@ class _HomePageState extends State<HomePage> {
         builder:(context, snapshot){
           if(!snapshot.hasData)
             return Center(child: CircularProgressIndicator());
-          List<String> imgList = [];
           if (imgList.isEmpty)
             for(int i = 0; i < snapshot.data['images'].length; i++){
               imgList.add(snapshot.data['images'][i].toString());
@@ -133,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                                   child: FlatButton(
                                     padding: EdgeInsets.all(0),
                                     onPressed: () {
-                                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>Academies(image: imageUrl, category: snapshot.data['genres'][item]['categories'][index]['name'], email: widget.email,)));
+                                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>Academies(image: imgList[item], category: snapshot.data['genres'][item]['categories'][index]['name'], email: widget.email,)));
                                     },
                                     child: Column(
                                       children: <Widget>[
