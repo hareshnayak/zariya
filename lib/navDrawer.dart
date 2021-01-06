@@ -4,6 +4,7 @@ import 'package:zariya/academies.dart';
 import 'package:zariya/resources/strings.dart' as Strings;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:zariya/profile.dart';
 
 class NavDrawer extends StatelessWidget {
 
@@ -20,11 +21,16 @@ class NavDrawer extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
+            Container(
+              height: 200,
+              padding: EdgeInsets.all(0),
+              margin: EdgeInsets.all(0),
+              child:DrawerHeader(
               decoration: BoxDecoration(
                   image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage('https://firebasestorage.googleapis.com/v0/b/kalakar-c7f21.appspot.com/o/misc%2F1.png?alt=media&token=589cc643-f339-4ba7-9004-865dee6db0e3'))),
+                      image: NetworkImage('https://firebasestorage.googleapis.com/v0/b/kalakar-c7f21.appspot.com/o/misc%2F1.png?alt=media&token=589cc643-f339-4ba7-9004-865dee6db0e3'),
+                  ),),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
@@ -34,7 +40,7 @@ class NavDrawer extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
+            ),),
 //             ListTile(
 //               leading: Icon(Icons.book, color: Colors.deepPurple),
 //               title: Text('Courses'),
@@ -66,7 +72,7 @@ class NavDrawer extends StatelessWidget {
                 leading: Icon(Icons.settings, color: Colors.deepPurple),
                 title: Text('Settings'),
                 onTap: () => {
-                  Navigator.of(context).pop()
+                  Navigator.of(context MaterialPageRoute(builder: (context) => ProfilePage(),),),
                 },
               ),
             ),
