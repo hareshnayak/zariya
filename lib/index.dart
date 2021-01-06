@@ -7,8 +7,8 @@ import 'package:zariya/profile.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zariya/main.dart';
-class IndexPage extends StatefulWidget {
 
+class IndexPage extends StatefulWidget {
   IndexPage({this.currentUser, this.followId});
 
   final FirebaseUser currentUser;
@@ -37,25 +37,29 @@ class _IndexPageState extends State<IndexPage> {
       isLoading = false;
     });
 
-    Navigator.of(context)
-        .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (Route<dynamic> route) => false);
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => MyApp()),
+        (Route<dynamic> route) => false);
   }
 
-  void openProfile(){
-    setState((){
+  void openProfile() {
+    setState(() {
       _selectedIndex = 1;
     });
   }
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: NavDrawer(signOut: handleSignOut, openProfile: openProfile,),
+        drawer: NavDrawer(
+          signOut: handleSignOut,
+          openProfile: openProfile,
+        ),
         drawerScrimColor: Colors.black54,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(45.0),
@@ -91,23 +95,55 @@ class _IndexPageState extends State<IndexPage> {
             backgroundColor: Colors.white,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                activeIcon: Container(child: Image.asset('assets/images/homeicona.png'), height: 40, width: 40,),
-                icon: Container(child: Image.asset('assets/images/homeicon.png'), height: 40, width: 40,),
+                activeIcon: Container(
+                  child: Image.asset('assets/images/homeicona.png'),
+                  height: 40,
+                  width: 40,
+                ),
+                icon: Container(
+                  child: Image.asset('assets/images/homeicon.png'),
+                  height: 40,
+                  width: 40,
+                ),
                 title: Padding(padding: EdgeInsets.all(0)),
               ),
               BottomNavigationBarItem(
-                activeIcon: Container(child: Image.asset('assets/images/profileicona.png'), height: 40, width: 40,),
-                icon: Container(child: Image.asset('assets/images/profileicon.png'), height: 40, width: 40,),
+                activeIcon: Container(
+                  child: Image.asset('assets/images/profileicona.png'),
+                  height: 40,
+                  width: 40,
+                ),
+                icon: Container(
+                  child: Image.asset('assets/images/profileicon.png'),
+                  height: 40,
+                  width: 40,
+                ),
                 title: Padding(padding: EdgeInsets.all(0)),
               ),
               BottomNavigationBarItem(
-                activeIcon: Container(child: Image.asset('assets/images/commicona.png'), height: 40, width: 40,),
-                icon: Container(child: Image.asset('assets/images/commicon.png'), height: 40, width: 40,),
+                activeIcon: Container(
+                  child: Image.asset('assets/images/commicona.png'),
+                  height: 40,
+                  width: 40,
+                ),
+                icon: Container(
+                  child: Image.asset('assets/images/commicon.png'),
+                  height: 40,
+                  width: 40,
+                ),
                 title: Padding(padding: EdgeInsets.all(0)),
               ),
               BottomNavigationBarItem(
-                activeIcon: Container(child: Image.asset('assets/images/chaticona.png'), height: 40, width: 40,),
-                icon: Container(child: Image.asset('assets/images/chaticon.png'), height: 40, width: 40,),
+                activeIcon: Container(
+                  child: Image.asset('assets/images/chaticona.png'),
+                  height: 40,
+                  width: 40,
+                ),
+                icon: Container(
+                  child: Image.asset('assets/images/chaticon.png'),
+                  height: 40,
+                  width: 40,
+                ),
                 title: Padding(padding: EdgeInsets.all(0)),
               ),
             ],
@@ -121,13 +157,15 @@ class _IndexPageState extends State<IndexPage> {
           ),
         ),
         body: (_selectedIndex == 0)
-          ? HomePage(email: widget.currentUser.email)
-          : (_selectedIndex == 1)
-          ? ProfilePage(email: widget.currentUser.email)
-          : (_selectedIndex == 2)
-          ? Community(email: widget.currentUser.email, name: widget.currentUser.displayName, photoUrl: widget.currentUser.photoUrl, followId: widget.followId)
-          : ChatPage(currentUser: widget.currentUser)
-    );
+            ? HomePage(email: widget.currentUser.email)
+            : (_selectedIndex == 1)
+                ? ProfilePage(email: widget.currentUser.email)
+                : (_selectedIndex == 2)
+                    ? Community(
+                        email: widget.currentUser.email,
+                        name: widget.currentUser.displayName,
+                        photoUrl: widget.currentUser.photoUrl,
+                        followId: widget.followId)
+                    : ChatPage(currentUser: widget.currentUser));
   }
 }
-

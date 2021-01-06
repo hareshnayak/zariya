@@ -11,16 +11,12 @@ String addZeroToInt(int i) {
 
 String getDateString(dynamic data) {
   String date;
-  if (data.runtimeType == Timestamp)
-  {
+  if (data.runtimeType == Timestamp) {
     DateTime dateTime = data.toDate();
     date =
-    '${addZeroToInt(dateTime.day)}/${addZeroToInt(dateTime.month)}/${dateTime.year}';
-  }
-  else if(data.runtimeType == DateTime)
-  {
-    date =
-    '${addZeroToInt(data.day)}/${addZeroToInt(data.month)}/${data.year}';
+        '${addZeroToInt(dateTime.day)}/${addZeroToInt(dateTime.month)}/${dateTime.year}';
+  } else if (data.runtimeType == DateTime) {
+    date = '${addZeroToInt(data.day)}/${addZeroToInt(data.month)}/${data.year}';
   }
   return date;
 }
@@ -41,14 +37,13 @@ String getAmPm(DateTime d) {
 
 String getTimeString(dynamic data) {
   String time;
-  if (data.runtimeType == DateTime)
-  {
+  if (data.runtimeType == DateTime) {
     time =
-    '${addZeroToInt(convertTo12Hr(data.hour))}:${addZeroToInt(data.minute)}${getAmPm(data)}';
-  } else if (data.runtimeType == Timestamp){
+        '${addZeroToInt(convertTo12Hr(data.hour))}:${addZeroToInt(data.minute)}${getAmPm(data)}';
+  } else if (data.runtimeType == Timestamp) {
     DateTime dateTime = data.toDate();
     time =
-    '${addZeroToInt(convertTo12Hr(dateTime.hour))}:${addZeroToInt(dateTime.minute)}${getAmPm(dateTime)}';
+        '${addZeroToInt(convertTo12Hr(dateTime.hour))}:${addZeroToInt(dateTime.minute)}${getAmPm(dateTime)}';
   }
   return time;
 }

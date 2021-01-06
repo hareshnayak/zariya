@@ -7,7 +7,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:zariya/profile.dart';
 
 class NavDrawer extends StatelessWidget {
-
   NavDrawer({@required this.signOut, this.openProfile, this.currentUser});
 
   final VoidCallback signOut, openProfile;
@@ -25,22 +24,25 @@ class NavDrawer extends StatelessWidget {
               height: 200,
               padding: EdgeInsets.all(0),
               margin: EdgeInsets.all(0),
-              child:DrawerHeader(
-              decoration: BoxDecoration(
+              child: DrawerHeader(
+                decoration: BoxDecoration(
                   image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage('https://firebasestorage.googleapis.com/v0/b/kalakar-c7f21.appspot.com/o/misc%2F1.png?alt=media&token=589cc643-f339-4ba7-9004-865dee6db0e3'),
-                  ),),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Text(
-                    'Kalakaar',
-                    style: TextStyle(color: Colors.white, fontSize: 25),
+                    fit: BoxFit.cover,
+                    image: NetworkImage(
+                        'https://firebasestorage.googleapis.com/v0/b/kalakar-c7f21.appspot.com/o/misc%2F1.png?alt=media&token=589cc643-f339-4ba7-9004-865dee6db0e3'),
                   ),
-                ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Text(
+                      'Kalakaar',
+                      style: TextStyle(color: Colors.white, fontSize: 25),
+                    ),
+                  ],
+                ),
               ),
-            ),),
+            ),
 //             ListTile(
 //               leading: Icon(Icons.book, color: Colors.deepPurple),
 //               title: Text('Courses'),
@@ -72,7 +74,11 @@ class NavDrawer extends StatelessWidget {
                 leading: Icon(Icons.settings, color: Colors.deepPurple),
                 title: Text('Settings'),
                 onTap: () => {
-                  Navigator.of(context MaterialPageRoute(builder: (context) => ProfilePage(),),),
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ProfilePage(),
+                    ),
+                  ),
                 },
               ),
             ),

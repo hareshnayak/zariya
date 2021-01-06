@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-
 final Color grey1 = Colors.grey.shade300;
 
-class ChatPage extends StatefulWidget {  
-
+class ChatPage extends StatefulWidget {
   @override
   _ChatPageState createState() => _ChatPageState();
 }
@@ -13,7 +11,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: PreferredSize(
+        appBar: PreferredSize(
           preferredSize: Size.fromHeight(45.0),
           child: AppBar(
             backgroundColor: Colors.transparent,
@@ -39,55 +37,63 @@ class _ChatPageState extends State<ChatPage> {
             ],
           ),
         ),
-      body: Container(
+        body: Container(
 //       margin: EdgeInsets.all(5),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
 //           Container(
 //               padding: EdgeInsets.fromLTRB(10,10,10,5),
 //               child: Text('SEARCH',
 //                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
 //               textAlign: TextAlign.left,)),
 //           Container(height: 1, color: grey1),
-          SizedBox(
-          height: 50,
-          ),
-          Stack(children:<Widget>[
-            Container(
-                margin: EdgeInsets.fromLTRB(10,5,10,10),
-                padding: EdgeInsets.symmetric(horizontal:10),
-                decoration: BoxDecoration(
-                    color: grey1,
-                    borderRadius: BorderRadius.all(Radius.circular(15))),
-                child:
-                TextField(
-                    decoration:InputDecoration(
-                        hintText:'Search',
-                        border: InputBorder.none))),
-            Positioned(
-              right:10,
-              top: -5,
-              child:Container(
-                margin: EdgeInsets.all(10),
-//             padding: EdgeInsets.symmetric(horizontal:10),
-                width: 50,
+              SizedBox(
                 height: 50,
-                child: FlatButton(
-                  padding: EdgeInsets.all(0),
-                  onPressed: () {},
-                  child: Icon(Icons.search, color: Colors.black),),),),
-          ]),
-          Container(
-          width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.symmetric(horizontal:20),
-          child:Text('Enter the name of the course you are looking for', textAlign:TextAlign.center, style:TextStyle
-(fontWeight:FontWeight.bold, fontSize:17),),),
-          SizedBox(height:20),
-          Container(
-              padding: EdgeInsets.fromLTRB(10,5,10,10),
-              child: Text('Courses',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),),
+              ),
+              Stack(children: <Widget>[
+                Container(
+                    margin: EdgeInsets.fromLTRB(10, 5, 10, 10),
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                        color: grey1,
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    child: TextField(
+                        decoration: InputDecoration(
+                            hintText: 'Search', border: InputBorder.none))),
+                Positioned(
+                  right: 10,
+                  top: -5,
+                  child: Container(
+                    margin: EdgeInsets.all(10),
+//             padding: EdgeInsets.symmetric(horizontal:10),
+                    width: 50,
+                    height: 50,
+                    child: FlatButton(
+                      padding: EdgeInsets.all(0),
+                      onPressed: () {},
+                      child: Icon(Icons.search, color: Colors.black),
+                    ),
+                  ),
+                ),
+              ]),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  'Enter the name of the course you are looking for',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                ),
+              ),
+              SizedBox(height: 20),
+              Container(
+                padding: EdgeInsets.fromLTRB(10, 5, 10, 10),
+                child: Text(
+                  'Courses',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                ),
+              ),
 //           StreamBuilder<QuerySnapshot>(
 //             stream: Firestore.instance.collection('academies').snapshots(),
 //             builder: (context, snapshot){
@@ -96,12 +102,12 @@ class _ChatPageState extends State<ChatPage> {
 //               else if (snapshot.data.documents == null || snapshot.data.documents.length == 0)
 //                 return Center(child: Text('Nothing here!!!'));
 //               return chatItemsList(context, snapshot.data.documents);
-//             },          
+//             },
 //           ),
 //          _buildCourse(),
-        ],
-      ),
-    ));
+            ],
+          ),
+        ));
   }
 }
 

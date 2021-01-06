@@ -5,11 +5,12 @@ import 'package:zariya/book.dart';
 import 'package:zariya/navDrawer.dart';
 import 'package:zariya/widgets/functions.dart';
 import 'package:zariya/resources/strings.dart' as Strings;
+
 final Color grey1 = Colors.grey.shade300;
 
 class Academy extends StatelessWidget {
-
   Academy({this.data, this.email});
+
   final dynamic data;
   final String email;
 
@@ -18,11 +19,11 @@ class Academy extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       drawer: NavDrawer(),
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(45.0),
-          child: AppBar(
-            iconTheme: new IconThemeData(color: Colors.black),
-            backgroundColor: Colors.transparent,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(45.0),
+        child: AppBar(
+          iconTheme: new IconThemeData(color: Colors.black),
+          backgroundColor: Colors.transparent,
 //            leading: SizedBox(
 //              width: 60,
 //              height: 30,
@@ -39,61 +40,60 @@ class Academy extends StatelessWidget {
 //                 padding: EdgeInsets.all(0),
 //                       onPressed: () {},: Colors.black),
 //           ),),
-            title: Center(
-              child: Text(
-                'zariya',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
-                    color: Colors.black),
-              ),
+          title: Center(
+            child: Text(
+              'zariya',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25,
+                  color: Colors.black),
             ),
-            elevation: 0,
-            actions: <Widget>[
-              SizedBox(
-                  width: 60,
-                  height: 30,
-                  child: FlatButton(
-                      padding: EdgeInsets.all(0),
-                      onPressed: () {},
-                      child: Icon(Icons.search, color: Colors.black)))
-            ],
           ),
+          elevation: 0,
+          actions: <Widget>[
+            SizedBox(
+                width: 60,
+                height: 30,
+                child: FlatButton(
+                    padding: EdgeInsets.all(0),
+                    onPressed: () {},
+                    child: Icon(Icons.search, color: Colors.black)))
+          ],
         ),
-        body: Container(
-          child: new Builder(
-            builder: (context) {
-              return AcademyPage(data: data, email: email);
-            },
-          ),
+      ),
+      body: Container(
+        child: new Builder(
+          builder: (context) {
+            return AcademyPage(data: data, email: email);
+          },
         ),
-      );
+      ),
+    );
   }
 }
 
 int noReviews = 0;
 
 class AcademyPage extends StatefulWidget {
-
   AcademyPage({this.data, this.email});
 
   final dynamic data;
   final String email;
+
   @override
   _AcademyPageState createState() => _AcademyPageState();
 }
 
 class _AcademyPageState extends State<AcademyPage> {
-
   List<String> subCategories = [];
   List<dynamic> course = [];
 
   @override
   void initState() {
     // TODO: implement initState
-    widget.data['subCategories'].forEach((key, value){
+    widget.data['subCategories'].forEach((key, value) {
       subCategories.add(key);
-      for (int i = 0; i < value.length; i++){
+      for (int i = 0; i < value.length; i++) {
         course.add(value[i]);
       }
     });
@@ -133,7 +133,7 @@ class _AcademyPageState extends State<AcademyPage> {
               ),
               Center(
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal:10),
+                  margin: EdgeInsets.symmetric(horizontal: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                   ),
@@ -237,8 +237,7 @@ class _AcademyPageState extends State<AcademyPage> {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
                 ),
               ),
-              for (int k = 0; k < course.length; k++)
-                _buildCourse(course[k])
+              for (int k = 0; k < course.length; k++) _buildCourse(course[k])
             ],
           );
         },
@@ -246,11 +245,10 @@ class _AcademyPageState extends State<AcademyPage> {
     );
   }
 
-  Widget _buildCourse(dynamic course){
+  Widget _buildCourse(dynamic course) {
     List<String> keys = [], values = [];
-    course.forEach((key, value){
-      if (key == 'start')
-      {
+    course.forEach((key, value) {
+      if (key == 'start') {
         keys.add('Start Date');
         values.add(getDateString(value.toDate()));
       } else if (key == 'end') {
@@ -282,31 +280,27 @@ class _AcademyPageState extends State<AcademyPage> {
                     SizedBox(width: 10),
                     Text(
                       course['category'],
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                     ),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 2),
                       height: 5,
                       width: 5,
                       decoration: new BoxDecoration(
-                          color: Colors.black,
-                          shape: BoxShape.circle),
+                          color: Colors.black, shape: BoxShape.circle),
                     ),
                     SizedBox(width: 5),
                     Text(
                       course['title'],
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                     ),
                     SizedBox(width: 5),
                     Text(
                       course['duration'],
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                     ),
                   ],
                 ),
@@ -319,29 +313,28 @@ class _AcademyPageState extends State<AcademyPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
 //                       mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    for(int i = 0; i < keys.length; i++)
-                    Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Text('${keys[i]}',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.left),
-                    ),
+                    for (int i = 0; i < keys.length; i++)
+                      Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text('${keys[i]}',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.left),
+                      ),
                   ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
 //                       mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    for(int i = 0; i < values.length; i++)
-                    Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Text(': ${values[i]}',
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                          textAlign: TextAlign.left),
-                    ),
+                    for (int i = 0; i < values.length; i++)
+                      Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text(': ${values[i]}',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                            textAlign: TextAlign.left),
+                      ),
                   ],
                 ),
               ],
@@ -356,13 +349,21 @@ class _AcademyPageState extends State<AcademyPage> {
                 onPressed: () {
                   print(course);
                   print(widget.data.documentID);
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Book(course:course, email: widget.email, academyEmail: widget.data.documentID, academyLogo: widget.data['logo']['url'], isReserved: false)));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Book(
+                              course: course,
+                              email: widget.email,
+                              academyEmail: widget.data.documentID,
+                              academyLogo: widget.data['logo']['url'],
+                              isReserved: false)));
                 },
                 child: Text(
                   'BOOK',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize:20,
+                      fontSize: 20,
                       color: Colors.white),
                 ),
               ),
@@ -372,6 +373,7 @@ class _AcademyPageState extends State<AcademyPage> {
       ),
     );
   }
+
   address(BuildContext context) {
     showModalBottomSheet(
         context: context,
@@ -386,7 +388,7 @@ class _AcademyPageState extends State<AcademyPage> {
                 child: Center(
                   child: Text('ADDRESS',
                       style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
                 ),
               ),
               Expanded(
@@ -406,6 +408,7 @@ class _AcademyPageState extends State<AcademyPage> {
           );
         });
   }
+
   about(BuildContext context) {
     showModalBottomSheet(
         context: context,
@@ -498,10 +501,12 @@ class _AcademyPageState extends State<AcademyPage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     for (int f = 0; f < 5; f++)
-                      if (f < widget.data['rating'])
-                        Icon(Icons.star, color: Colors.black, size: 15)
-                      else
-                        Icon(Icons.star_border, color: Colors.grey, size: 15)
+                                      if (f < widget.data['rating'])
+                                        Icon(Icons.star,
+                                            color: Colors.black, size: 15)
+                                      else
+                                        Icon(Icons.star_border,
+                                            color: Colors.grey, size: 15)
                                   ],
                                 ),
                                 Padding(

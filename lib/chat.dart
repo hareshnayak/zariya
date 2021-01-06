@@ -8,7 +8,6 @@ import 'package:zariya/resources/strings.dart' as Strings;
 final Color grey1 = Colors.grey.shade300;
 
 class ChatPage extends StatefulWidget {
-
   ChatPage({this.currentUser});
 
   final FirebaseUser currentUser;
@@ -26,27 +25,27 @@ class _ChatPageState extends State<ChatPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-              padding: EdgeInsets.fromLTRB(10,10,10,5),
-              child: Text('MESSENGER',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              textAlign: TextAlign.left,)),
+              padding: EdgeInsets.fromLTRB(10, 10, 10, 5),
+              child: Text(
+                'MESSENGER',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                textAlign: TextAlign.left,
+              )),
 //           Container(height: 1, color: grey1),
-          Stack(children:<Widget>[
+          Stack(children: <Widget>[
             Container(
-                margin: EdgeInsets.fromLTRB(10,5,10,10),
-                padding: EdgeInsets.symmetric(horizontal:10),
+                margin: EdgeInsets.fromLTRB(10, 5, 10, 10),
+                padding: EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
                     color: grey1,
                     borderRadius: BorderRadius.all(Radius.circular(15))),
-                child:
-                TextField(
-                    decoration:InputDecoration(
-                        hintText:'Search',
-                        border: InputBorder.none))),
+                child: TextField(
+                    decoration: InputDecoration(
+                        hintText: 'Search', border: InputBorder.none))),
             Positioned(
-              right:10,
+              right: 10,
               top: -5,
-              child:Container(
+              child: Container(
                 margin: EdgeInsets.all(10),
 //             padding: EdgeInsets.symmetric(horizontal:10),
                 width: 50,
@@ -54,18 +53,22 @@ class _ChatPageState extends State<ChatPage> {
                 child: FlatButton(
                   padding: EdgeInsets.all(0),
                   onPressed: () {},
-                  child: Icon(Icons.search, color: Colors.black),),),),
+                  child: Icon(Icons.search, color: Colors.black),
+                ),
+              ),
+            ),
           ]),
           Container(
-              padding: EdgeInsets.fromLTRB(10,5,10,10),
+              padding: EdgeInsets.fromLTRB(10, 5, 10, 10),
               child: Text('Chats',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15))),
           StreamBuilder<QuerySnapshot>(
             stream: Firestore.instance.collection('academies').snapshots(),
-            builder: (context, snapshot){
-              if(!snapshot.hasData)
+            builder: (context, snapshot) {
+              if (!snapshot.hasData)
                 return Center(child: CircularProgressIndicator());
-              else if (snapshot.data.documents == null || snapshot.data.documents.length == 0)
+              else if (snapshot.data.documents == null ||
+                  snapshot.data.documents.length == 0)
                 return Center(child: Text('Nothing here!!!'));
               return chatItemsList(context, snapshot.data.documents);
             },
@@ -75,31 +78,39 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  Widget chatItemsList(BuildContext context, List<DocumentSnapshot> doc)
-  {
+  Widget chatItemsList(BuildContext context, List<DocumentSnapshot> doc) {
     return Expanded(
       child: ListView.builder(
           itemCount: doc.length,
           shrinkWrap: true,
           physics: ScrollPhysics(),
-          itemBuilder: (BuildContext context, int i ){
+          itemBuilder: (BuildContext context, int i) {
             return chatItem(context, doc[i].data);
           }),
     );
   }
 
-  Widget chatItem(BuildContext context, dynamic data){
+  Widget chatItem(BuildContext context, dynamic data) {
     return Container(
-        height:70,
+        height: 70,
         padding: EdgeInsets.all(10),
         child: FlatButton(
-          onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>
-              ChatBox(email: widget.currentUser.email, myName: widget.currentUser.displayName, myImage: widget.currentUser.photoUrl, academyName: data['name'], academyImage: data['logo']['url'] ?? 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBUXESNi9dDwsxnZoDpAktF-piO2mU778bEQ&usqp=CAU',)));
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ChatBox(
+                          email: widget.currentUser.email,
+                          myName: widget.currentUser.displayName,
+                          myImage: widget.currentUser.photoUrl,
+                          academyName: data['name'],
+                          academyImage: data['logo']['url'] ??
+                              'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBUXESNi9dDwsxnZoDpAktF-piO2mU778bEQ&usqp=CAU',
+                        )));
           },
-          child: Row(children:<Widget>[
+          child: Row(children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(right:10),
+              padding: EdgeInsets.only(right: 10),
               child: CircleAvatar(
                   radius: 25,
                   backgroundImage: NetworkImage(
@@ -108,16 +119,16 @@ class _ChatPageState extends State<ChatPage> {
             ),
             Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children:<Widget>[
-              Text(data['name'],
-                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+                children: <Widget>[
+                  Text(data['name'],
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
 //              Container(
 //                  padding: EdgeInsets.only(top:5, right:5),
 //                  child:
-                  Text('Admin Office',
-                      style: TextStyle(fontSize: 15)),
+                  Text('Admin Office', style: TextStyle(fontSize: 15)),
 //    ),
-            ]),
+                ]),
 //            Spacer(),
 //            Column(children:<Widget>[
 //              Text((data['messages'].length != 0) ? getTimeString(data['messages'][data['messages'].length - 1]['dateAndTime']) : '',),
@@ -136,5 +147,4 @@ class _ChatPageState extends State<ChatPage> {
           ]),
         ));
   }
-
 }

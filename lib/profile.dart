@@ -15,7 +15,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
   String instaId = '';
   TextEditingController instaController = new TextEditingController();
 
@@ -90,8 +89,7 @@ class _ProfilePageState extends State<ProfilePage> {
               children: <Widget>[
                 Text(
                   'OTHER PROFILES',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 17),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                   textAlign: TextAlign.left,
                 ),
                 Padding(
@@ -103,47 +101,46 @@ class _ProfilePageState extends State<ProfilePage> {
                         height: 30,
                         width: 30,
                         child: Image.asset('assets/images/instagram.jpg',
-                          fit: BoxFit.cover),
+                            fit: BoxFit.cover),
                       ),
                       (data['insta'] != null)
-                      ? Text(
-                        data['insta'] ?? instaId,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: Colors.black87),
-                        textAlign: TextAlign.left,
-                      )
-                      : Container(
-                        width: MediaQuery.of(context).size.width - 100,
-                        child: TextField(
-                          controller: instaController,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: Colors.black87
-                          ),
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(0),
-                            hintText: 'ENTER INSTAGRAM ID',
-                            hintStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: Colors.black87),
-                            suffix: IconButton(
-                              icon: Icon(Icons.done),
-                              onPressed: (){
-                                setState(() {
-                                  instaId = instaController.value.text;
-                                });
-                                Firestore.instance.collection('users').document(widget.email).updateData({
-                                  'insta' : instaId
-                                });
-                              },
+                          ? Text(
+                              data['insta'] ?? instaId,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.black87),
+                              textAlign: TextAlign.left,
                             )
-                          ),
-                        ),
-                      ),
+                          : Container(
+                              width: MediaQuery.of(context).size.width - 100,
+                              child: TextField(
+                                controller: instaController,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                    color: Colors.black87),
+                                decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(0),
+                                    hintText: 'ENTER INSTAGRAM ID',
+                                    hintStyle: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                        color: Colors.black87),
+                                    suffix: IconButton(
+                                      icon: Icon(Icons.done),
+                                      onPressed: () {
+                                        setState(() {
+                                          instaId = instaController.value.text;
+                                        });
+                                        Firestore.instance
+                                            .collection('users')
+                                            .document(widget.email)
+                                            .updateData({'insta': instaId});
+                                      },
+                                    )),
+                              ),
+                            ),
                     ],
                   ),
                 ),
@@ -314,7 +311,11 @@ class _ProfilePageState extends State<ProfilePage> {
               color: Colors.black,
               child: FlatButton(
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Book(course: data, email: widget.email, isReserved: true)));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Book(
+                          course: data,
+                          email: widget.email,
+                          isReserved: true)));
                 },
                 child: Text(
                   'VIEW DETAILS',

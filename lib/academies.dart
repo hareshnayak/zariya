@@ -6,7 +6,6 @@ import 'package:zariya/resources/strings.dart';
 final Color grey1 = Colors.grey.shade300;
 
 class Academies extends StatelessWidget {
-
   Academies({this.category, this.email, this.image});
 
   final String category, email, image;
@@ -58,7 +57,6 @@ class Academies extends StatelessWidget {
 }
 
 class AcademiesPage extends StatefulWidget {
-
   AcademiesPage({this.category, this.email, this.image});
 
   final String category, email, image;
@@ -68,7 +66,6 @@ class AcademiesPage extends StatefulWidget {
 }
 
 class _AcademiesPageState extends State<AcademiesPage> {
-
   List<dynamic> academies;
 
   @override
@@ -86,54 +83,58 @@ class _AcademiesPageState extends State<AcademiesPage> {
         children: <Widget>[
           Container(
             height: 300,
-            child: Image.network(widget.image ?? defaultImageIcon, fit: BoxFit.cover),
+            child: Image.network(widget.image ?? defaultImageIcon,
+                fit: BoxFit.cover),
           ),
           Container(
             margin: EdgeInsets.symmetric(vertical: 10),
             height: 40,
             color: grey1,
             child: Center(
-              child: Text((widget.category != null)?'${widget.category} ACADEMIES':'ACADEMIES',
+              child: Text(
+                  (widget.category != null)
+                      ? '${widget.category} ACADEMIES'
+                      : 'ACADEMIES',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
             ),
           ),
           Container(
-            child:StreamBuilder(
-            stream:
-            (widget.category == null)
-              ? Firestore.instance.collection('academies')
-                .orderBy('rating', descending: true).snapshots()
-              : Firestore.instance.collection('academies')
-                .where('keywords', arrayContainsAny: [widget.category])
-                .orderBy('rating', descending: true).snapshots(),
-            builder: (context, snapshot){
-              if(!snapshot.hasData)
-                return Center(child:CircularProgressIndicator());
-              return _buildAcademyList(context, snapshot.data.documents);
-            },
-          ),
+            child: StreamBuilder(
+              stream: (widget.category == null)
+                  ? Firestore.instance
+                      .collection('academies')
+                      .orderBy('rating', descending: true)
+                      .snapshots()
+                  : Firestore.instance
+                      .collection('academies')
+                      .where('keywords', arrayContainsAny: [widget.category])
+                      .orderBy('rating', descending: true)
+                      .snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData)
+                  return Center(child: CircularProgressIndicator());
+                return _buildAcademyList(context, snapshot.data.documents);
+              },
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildAcademyList(BuildContext context, List<dynamic> dataList)
-  {
+  Widget _buildAcademyList(BuildContext context, List<dynamic> dataList) {
     return ListView.builder(
         itemCount: dataList.length,
         physics: ScrollPhysics(),
         shrinkWrap: true,
-        itemBuilder: (context, item){
+        itemBuilder: (context, item) {
           return _buildAcademyItem(context, dataList[item]);
-        }
-    );
+        });
   }
 
-  Widget _buildAcademyItem(BuildContext context, dynamic data)
-  {
+  Widget _buildAcademyItem(BuildContext context, dynamic data) {
     List<String> subCategories = [];
-    data['subCategories'].forEach((key, value){
+    data['subCategories'].forEach((key, value) {
       subCategories.add(key);
     });
     return Container(
@@ -142,8 +143,14 @@ class _AcademiesPageState extends State<AcademiesPage> {
       width: MediaQuery.of(context).size.width,
       color: Colors.white,
       child: FlatButton(
-        onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>Academy(data:data, email: widget.email,)));
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => Academy(
+                        data: data,
+                        email: widget.email,
+                      )));
         },
         child: Column(
           children: <Widget>[
@@ -154,8 +161,8 @@ class _AcademiesPageState extends State<AcademiesPage> {
                   margin: EdgeInsets.symmetric(horizontal: 10),
                   height: 70,
                   width: 70,
-                  child:
-                  Image.network(data['logo']['url'] ?? defaultImageIcon, fit: BoxFit.cover),
+                  child: Image.network(data['logo']['url'] ?? defaultImageIcon,
+                      fit: BoxFit.cover),
                 ),
                 Container(
                   height: 70,
@@ -183,8 +190,7 @@ class _AcademiesPageState extends State<AcademiesPage> {
                                 ),
                                 if (j != 2)
                                   Container(
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 2),
+                                    margin: EdgeInsets.symmetric(horizontal: 2),
                                     height: 3,
                                     width: 3,
                                     decoration: new BoxDecoration(
@@ -200,8 +206,7 @@ class _AcademiesPageState extends State<AcademiesPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           for (int s = 0; s < data['rating'] ?? 0; s++)
-                            Icon(Icons.star,
-                                color: Colors.black, size: 15),
+                            Icon(Icons.star, color: Colors.black, size: 15),
                         ],
                       ),
                     ],

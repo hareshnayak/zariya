@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/dance.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:zariya/post.dart';
 import 'package:zariya/resources/strings.dart' as Strings;
 
@@ -60,7 +59,8 @@ class _CommunityState extends State<Community> {
                             },
                             child: CarouselSlider(
                               options: CarouselOptions(
-                                enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                                  enlargeStrategy:
+                                      CenterPageEnlargeStrategy.scale,
 //                                aspectRatio: 2.0,
                                   enlargeCenterPage: true,
                                   enableInfiniteScroll: true,
@@ -75,15 +75,18 @@ class _CommunityState extends State<Community> {
                                   .map(
                                     (item) => Container(
 //                                      margin: EdgeInsets.all(5.0),
-                                    color: grey1,
+                                      color: grey1,
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0)),
                                         child: Stack(
                                           children: [
                                             Container(
-                                                width: MediaQuery.of(context).size.width,
-                                                child: Image.network(item, fit : BoxFit.cover)),
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                child: Image.network(item,
+                                                    fit: BoxFit.cover)),
                                             Positioned(
                                               bottom: 10,
                                               left: 10,

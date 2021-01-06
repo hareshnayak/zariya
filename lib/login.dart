@@ -21,6 +21,7 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   final GoogleSignIn googleSignIn = GoogleSignIn();
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
 //  SharedPreferences prefs;
 
   bool isLoading = false;
@@ -48,20 +49,26 @@ class LoginScreenState extends State<LoginScreen> {
         currentUser = await firebaseAuth.currentUser().whenComplete(() async {
           String followId = 'none';
           (currentUser != null)
-              ?
-          await Firestore.instance.collection('users').document(currentUser.email).get().then((data){
-            followId = data['followId'] ?? 'none';
-          }).whenComplete(() {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => IndexPage(currentUser: currentUser, followId: followId)),
-            );
-          })
-          : Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => IndexPage(currentUser: currentUser, followId: 'none')),
-          );
-
+              ? await Firestore.instance
+                  .collection('users')
+                  .document(currentUser.email)
+                  .get()
+                  .then((data) {
+                  followId = data['followId'] ?? 'none';
+                }).whenComplete(() {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => IndexPage(
+                            currentUser: currentUser, followId: followId)),
+                  );
+                })
+              : Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => IndexPage(
+                          currentUser: currentUser, followId: 'none')),
+                );
         });
       }
     });
@@ -86,21 +93,29 @@ class LoginScreenState extends State<LoginScreen> {
       idToken: googleAuth.idToken,
     );
 
-    FirebaseUser firebaseUser = (await firebaseAuth.signInWithCredential(credential)).user;
+    FirebaseUser firebaseUser =
+        (await firebaseAuth.signInWithCredential(credential)).user;
 
     if (firebaseUser != null) {
-      try{
-        await Firestore.instance.collection('users').document(firebaseUser.email).get().then((doc) async {
+      try {
+        await Firestore.instance
+            .collection('users')
+            .document(firebaseUser.email)
+            .get()
+            .then((doc) async {
           if (!doc.exists) {
             print('new User present');
             // Update data to server if new user
-            Firestore.instance.collection('users').document(firebaseUser.email).setData({
+            Firestore.instance
+                .collection('users')
+                .document(firebaseUser.email)
+                .setData({
               'name': firebaseUser.displayName,
               'photoUrl': firebaseUser.photoUrl,
               'email': firebaseUser.email,
               'coupons': [],
               'reservations': [],
-            }).whenComplete(()  {
+            }).whenComplete(() {
               print('Data Written to firebase!');
             });
           }
@@ -109,7 +124,10 @@ class LoginScreenState extends State<LoginScreen> {
           this.setState(() {
             isLoading = false;
           });
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => IndexPage(currentUser: firebaseUser)));
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => IndexPage(currentUser: firebaseUser)));
         });
       } catch (err) {
         print(err);
@@ -126,28 +144,29 @@ class LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: (isLoading)
-        ? Center(child: CircularProgressIndicator())
-        : Container(
-        decoration: BoxDecoration(
-            image: new DecorationImage(
-                image: new AssetImage(Strings.loginBgImage),
-                fit: BoxFit.cover)),
-        padding: EdgeInsets.all(30),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-       FlatButton(
-          padding: EdgeInsets.all(0),
-        onPressed:(){
-         handleSignIn();
-        },
-          child: new Image.asset('assets/images/signinGoogle.png'),
-        ),
-            SizedBox(
-        height: 200,
-        ),
-        ],),  
-          
+          ? Center(child: CircularProgressIndicator())
+          : Container(
+              decoration: BoxDecoration(
+                  image: new DecorationImage(
+                      image: new AssetImage(Strings.loginBgImage),
+                      fit: BoxFit.cover)),
+              padding: EdgeInsets.all(30),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  FlatButton(
+                    padding: EdgeInsets.all(0),
+                    onPressed: () {
+                      handleSignIn();
+                    },
+                    child: new Image.asset('assets/images/signinGoogle.png'),
+                  ),
+                  SizedBox(
+                    height: 200,
+                  ),
+                ],
+              ),
+
 //         child: ListView(
 //           children: <Widget>[
 //             Text(
@@ -210,7 +229,7 @@ class LoginScreenState extends State<LoginScreen> {
 // //                  ),
 //           ],
 //         ),
-      ),
+            ),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zariya/widgets/functions.dart';
 import 'package:zariya/resources/colors.dart';
+
 class Loading extends StatelessWidget {
   const Loading();
 
@@ -31,8 +32,7 @@ Widget otherMsg(BuildContext context, dynamic data) {
             borderRadius: BorderRadius.all(Radius.circular(5)),
             color: Color(0x40FF808C),
           ),
-          child: Text(
-              data['text'],
+          child: Text(data['text'],
               style: TextStyle(
                 fontStyle: FontStyle.normal,
                 fontSize: 15,
@@ -89,4 +89,3 @@ Widget myMsg(BuildContext context, dynamic data) {
     ),
   );
 }
-

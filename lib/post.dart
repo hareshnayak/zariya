@@ -43,52 +43,62 @@ class _PostState extends State<Post> {
   }
 
   Future uploadFile() async {
-    try{
-      StorageReference storageReference = FirebaseStorage.instance
-          .ref()
-          .child('community/${category[categoryIndex]}/posts/${Path.basename(_image.path)}');
+    try {
+      StorageReference storageReference = FirebaseStorage.instance.ref().child(
+          'community/${category[categoryIndex]}/posts/${Path.basename(_image.path)}');
       StorageUploadTask uploadTask = storageReference.putFile(_image);
       await uploadTask.onComplete.whenComplete(() {
         storageReference.getDownloadURL().then((fileURL) {
-          Firestore.instance.collection('community').document('${category[categoryIndex]}').setData({
-            'posts': FieldValue.arrayUnion([
-              {
-                'image': fileURL,
-                'name': widget.name,
-                'email': widget.email,
-                'text': descController.value.text,
-                'photoUrl' : widget.photoUrl,
-                'followId' : widget.followId
-              }
-            ])
-          }, merge: true).whenComplete(() =>
-            Firestore.instance.collection('community').document('community').setData({
-              'allPosts': FieldValue.arrayUnion([
-                {
-                  'image': fileURL,
+          Firestore.instance
+              .collection('community')
+              .document('${category[categoryIndex]}')
+              .setData({
+                'posts': FieldValue.arrayUnion([
+                  {
+                    'image': fileURL,
+                    'name': widget.name,
+                    'email': widget.email,
+                    'text': descController.value.text,
+                    'photoUrl': widget.photoUrl,
+                    'followId': widget.followId
+                  }
+                ])
+              }, merge: true)
+              .whenComplete(() => Firestore.instance
+                      .collection('community')
+                      .document('community')
+                      .setData({
+                    'allPosts': FieldValue.arrayUnion([
+                      {
+                        'image': fileURL,
 //                  'link': linkController.value.text
-                }
-              ])
-            }, merge: true)).whenComplete((){
-            setState(() {
-              descController.clear();
-              linkController.clear();
-              imageTaken = false;
-              _image.delete();
-              print('image path is : ${_image.path}');
-            });
-          });
+                      }
+                    ])
+                  }, merge: true))
+              .whenComplete(() {
+                setState(() {
+                  descController.clear();
+                  linkController.clear();
+                  imageTaken = false;
+                  _image.delete();
+                  print('image path is : ${_image.path}');
+                });
+              });
         });
       }).whenComplete(() => print('File Uploaded'));
     } catch (err) {
       print(err);
     }
   }
-  
+
   void getCategory() async {
-    await Firestore.instance.collection('community').document('community').get().then((data){
+    await Firestore.instance
+        .collection('community')
+        .document('community')
+        .get()
+        .then((data) {
       setState(() {
-        for(int i = 0; i < data['cards'].length; i++){
+        for (int i = 0; i < data['cards'].length; i++) {
           print(data['cards'][i]['tag']);
           category.add(data['cards'][i]['tag']);
         }
@@ -96,7 +106,7 @@ class _PostState extends State<Post> {
       });
     });
   }
-  
+
   @override
   void initState() {
     // TODO: implement initState
@@ -137,88 +147,95 @@ class _PostState extends State<Post> {
                     child: FlatButton(
                         padding: EdgeInsets.all(0),
                         onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(context, '/root', (route) => false);
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/root', (route) => false);
                         },
                         child: Icon(Icons.home, color: Colors.black)))
               ],
             ),
           ),
           body: (isLoading)
-            ? Container(child:Center(child: CircularProgressIndicator()))
-            : Container(
-              margin: EdgeInsets.symmetric(horizontal: 10),
-              child: ListView(
+              ? Container(child: Center(child: CircularProgressIndicator()))
+              : Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  child: ListView(
 //                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(children: <Widget>[
-                      Text(
-                        'Post',
-                        style: TextStyle(
-                            fontSize: 20.0, fontWeight: FontWeight.bold),
-                      ),
-                      Spacer(),
-                      IconButton(
-                        icon: Icon(Icons.arrow_back_ios),
-                        onPressed: (){
-                          if (categoryIndex > 0)
-                            setState(() {
-                              categoryIndex--;
-                            });
-                        },
-                      ),
-                      Container(
-                        height: 30,
+                      children: <Widget>[
+                        Row(children: <Widget>[
+                          Text(
+                            'Post',
+                            style: TextStyle(
+                                fontSize: 20.0, fontWeight: FontWeight.bold),
+                          ),
+                          Spacer(),
+                          IconButton(
+                            icon: Icon(Icons.arrow_back_ios),
+                            onPressed: () {
+                              if (categoryIndex > 0)
+                                setState(() {
+                                  categoryIndex--;
+                                });
+                            },
+                          ),
+                          Container(
+                            height: 30,
 //                        width: 100,
-                        margin: EdgeInsets.symmetric(horizontal: 5),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.blue),
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        child: Text(
-                          '#${category[categoryIndex]}',
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.arrow_forward_ios),
-                        onPressed: (){
-                          if (categoryIndex < category.length - 1)
-                            setState(() {
-                              categoryIndex++;
-                            });
-                        },
-                      ),
-                    ]),
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                      child: FlatButton(
-                        padding: EdgeInsets.all(0),
-                        onPressed: () {
-                          setState((){
-                            getImage();
-                          });
-                        },
-                        child:(imageTaken)
-                          ? Container(child: Image.file(_image),)
-                          : Container(
-                          decoration: BoxDecoration(
-                              color: grey1,
+                            margin: EdgeInsets.symmetric(horizontal: 5),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.blue),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(15))),
-                          height: 200,
+                                  BorderRadius.all(Radius.circular(20)),
+                            ),
+                            child: Text(
+                              '#${category[categoryIndex]}',
+                              style: TextStyle(color: Colors.blue),
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.arrow_forward_ios),
+                            onPressed: () {
+                              if (categoryIndex < category.length - 1)
+                                setState(() {
+                                  categoryIndex++;
+                                });
+                            },
+                          ),
+                        ]),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: FlatButton(
+                            padding: EdgeInsets.all(0),
+                            onPressed: () {
+                              setState(() {
+                                getImage();
+                              });
+                            },
+                            child: (imageTaken)
+                                ? Container(
+                                    child: Image.file(_image),
+                                  )
+                                : Container(
+                                    decoration: BoxDecoration(
+                                        color: grey1,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(15))),
+                                    height: 200,
 //                         width: MediaQuery.of(context).size.width,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Icon(Icons.add,
-                                    size: 50, color: Colors.grey.shade800)
-                              ]),
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Icon(Icons.add,
+                                              size: 50,
+                                              color: Colors.grey.shade800)
+                                        ]),
+                                  ),
+                          ),
                         ),
-                      ),
-                    ),
 //                       child: SizedBox(
 //                         child: Icon(Icons.add, size:30, color: Colors.black)),
 
@@ -247,54 +264,54 @@ class _PostState extends State<Post> {
 //                         ),
 //                       ),
 //                     ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      child: TextField(
-                        controller: descController,
-                        maxLines: 4,
-                        decoration: InputDecoration(
-                          hintText: "Description",
-                          border: OutlineInputBorder(),
+                        Container(
+                          margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                          child: TextField(
+                            controller: descController,
+                            maxLines: 4,
+                            decoration: InputDecoration(
+                              hintText: "Description",
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                      child: FlatButton(
-                        padding: EdgeInsets.all(0),
-                        onPressed: () {
-                          if (descController.value.text.isNotEmpty && imageTaken == true)
-                          {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            uploadFile().whenComplete(() => setState((){
-                              isLoading = false;
-                            }));
-                          } else {
-                            print('something is left!');
-                          }
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          height: 40,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Text('POST',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 25,
-                                        color: Colors.white))
-                              ]),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: FlatButton(
+                            padding: EdgeInsets.all(0),
+                            onPressed: () {
+                              if (descController.value.text.isNotEmpty &&
+                                  imageTaken == true) {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                uploadFile().whenComplete(() => setState(() {
+                                      isLoading = false;
+                                    }));
+                              } else {
+                                print('something is left!');
+                              }
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+                              height: 40,
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text('POST',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 25,
+                                            color: Colors.white))
+                                  ]),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ])),
+                      ])),
         ));
   }
 }

@@ -6,7 +6,11 @@ import 'package:flutter/material.dart';
 
 class ChatBox extends StatefulWidget {
   ChatBox(
-      {this.myImage, this.email, this.myName, this.academyImage, this.academyName});
+      {this.myImage,
+      this.email,
+      this.myName,
+      this.academyImage,
+      this.academyName});
 
   final String academyName, academyImage;
   final String email, myName, myImage;
@@ -129,81 +133,80 @@ class _ChatBoxState extends State<ChatBox> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-          elevation:0,
-          iconTheme: IconThemeData(color: Colors.white),
-          backgroundColor: Colors.white,
-           bottom: PreferredSize(
-      child: Container(
-         color: Colors.deepPurple,
-         height: 4.0,
-      ),
-      preferredSize: Size.fromHeight(4.0)),         
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: Colors.white,
+        bottom: PreferredSize(
+            child: Container(
+              color: Colors.deepPurple,
+              height: 4.0,
+            ),
+            preferredSize: Size.fromHeight(4.0)),
 //           centerTitle: true,
-          title: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(height: 20),
-              Container(
-                child: ListTile(
-                  leading: Padding(
-                    padding: EdgeInsets.only(bottom:5),
-                    child: CircleAvatar(
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(height: 20),
+            Container(
+              child: ListTile(
+                leading: Padding(
+                  padding: EdgeInsets.only(bottom: 5),
+                  child: CircleAvatar(
                     radius: 25,
 //                     backgroundImage: new NetworkImage(widget.academyImage ?? Strings.defaultImageIcon),
-                  ),),
-                  title: Text(
-                    'widget.academyName',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      fontStyle: FontStyle.normal,
-                      letterSpacing: -0.3,
-                      fontFamily: 'Inter',
-                    ),
                   ),
-                  subtitle: Text(
-                    'Admin Office',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal,
-                      fontStyle: FontStyle.normal,
-                      fontSize: 13,
-                      letterSpacing: -0.3,
-                      fontFamily: 'Inter',
-                    ),
+                ),
+                title: Text(
+                  'widget.academyName',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                    fontStyle: FontStyle.normal,
+                    letterSpacing: -0.3,
+                    fontFamily: 'Inter',
+                  ),
+                ),
+                subtitle: Text(
+                  'Admin Office',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                    fontStyle: FontStyle.normal,
+                    fontSize: 13,
+                    letterSpacing: -0.3,
+                    fontFamily: 'Inter',
                   ),
                 ),
               ),
-              SizedBox(height:20)
-            ],
-          ),
+            ),
+            SizedBox(height: 20)
+          ],
         ),
+      ),
       body: Stack(
         children: <Widget>[
-           Container(
+          Container(
             color: Colors.white,
             height: MediaQuery.of(context).size.height,
           ),
           Container(
-            height: MediaQuery.of(context).size.height -160,
+            height: MediaQuery.of(context).size.height - 160,
             padding: EdgeInsets.symmetric(horizontal: 10),
-            color: Colors.transparent, 
+            color: Colors.transparent,
             child: FutureBuilder<DocumentSnapshot>(
-                future: Firestore.instance
-                        .collection('users')
-                        .document(
-                            '${widget.email}/chatBox')
-                        .get(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData)
-                    return Center(child: CircularProgressIndicator());
-                  else if (recordPresent == true)
-                    return _buildChats(context,
-                        snapshot.data['messages']);
-                  return Container();
-                },
-              ),
+              future: Firestore.instance
+                  .collection('users')
+                  .document('${widget.email}/chatBox')
+                  .get(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData)
+                  return Center(child: CircularProgressIndicator());
+                else if (recordPresent == true)
+                  return _buildChats(context, snapshot.data['messages']);
+                return Container();
+              },
+            ),
           ),
           Positioned(
             bottom: 0,
@@ -220,7 +223,8 @@ class _ChatBoxState extends State<ChatBox> {
                     decoration: BoxDecoration(
                       color: Color(0xFFF0EDFF),
                       borderRadius: BorderRadius.only(
-                        topLeft:Radius.circular(30),bottomLeft:Radius.circular(30),
+                        topLeft: Radius.circular(30),
+                        bottomLeft: Radius.circular(30),
                       ),
                     ),
                     child: TextField(
@@ -275,11 +279,11 @@ class _ChatBoxState extends State<ChatBox> {
         reverse: true,
         itemBuilder: (context, i) {
           int item = dataList.length - i - 1;
-            if (dataList[item]['type'] ==
-                true) // teacher message is true and student message type is false
-              return otherMsg(context, dataList[item]);
-            else
-              return myMsg(context, dataList[item]);
-          });
+          if (dataList[item]['type'] ==
+              true) // teacher message is true and student message type is false
+            return otherMsg(context, dataList[item]);
+          else
+            return myMsg(context, dataList[item]);
+        });
   }
 }
