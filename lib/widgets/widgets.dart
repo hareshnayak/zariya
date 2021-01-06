@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zariya/resources/strings.dart';
 import 'package:zariya/widgets/functions.dart';
 import 'package:zariya/resources/colors.dart';
 
@@ -87,5 +88,14 @@ Widget myMsg(BuildContext context, dynamic data) {
         ),
       ],
     ),
+  );
+}
+
+Widget emptyListWidget() {
+  return Column(
+    children: [
+      Image.network(defaultImageIcon),
+      Text('Empty List'),
+    ],
   );
 }

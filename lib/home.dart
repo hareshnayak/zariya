@@ -16,6 +16,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _current = 0;
   List<String> imgList = [];
+  Map<String, String> images = {};
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +29,13 @@ class _HomePageState extends State<HomePage> {
           if (!snapshot.hasData)
             return Center(child: CircularProgressIndicator());
           if (imgList.isEmpty)
-            for (int i = 0; i < snapshot.data['images'].length; i++) {
-              imgList.add(snapshot.data['images'][i].toString());
-            }
+            snapshot.data['images'].forEach((key, value) {
+              imgList.add(value.toString());
+              images.addAll({key: value});
+            });
+          // for (int i = 0; i < snapshot.data['images'].length; i++) {
+          //   imgList.add(snapshot.data['images'][i].toString());
+          // }
           return Column(
             children: <Widget>[
               Center(
@@ -147,7 +152,11 @@ class _HomePageState extends State<HomePage> {
                                                 builder:
                                                     (BuildContext context) =>
                                                         Academies(
-                                                          image: imgList[item],
+                                                          image: images[snapshot
+                                                                          .data[
+                                                                      'genres'][item]
+                                                                  ['categories']
+                                                              [index]['name']],
                                                           category: snapshot.data[
                                                                           'genres']
                                                                       [item]

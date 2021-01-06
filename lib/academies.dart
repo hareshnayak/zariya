@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/academy.dart';
 import 'package:zariya/resources/strings.dart';
+import 'package:zariya/widgets/widgets.dart';
 
 final Color grey1 = Colors.grey.shade300;
 
@@ -107,8 +108,8 @@ class _AcademiesPageState extends State<AcademiesPage> {
                       .snapshots()
                   : Firestore.instance
                       .collection('academies')
-                      .where('keywords', arrayContainsAny: [widget.category])
-                      .orderBy('rating', descending: true)
+                      .where('keywords', arrayContains: widget.category)
+                      // .orderBy('rating', descending: true)
                       .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData)
@@ -123,6 +124,12 @@ class _AcademiesPageState extends State<AcademiesPage> {
   }
 
   Widget _buildAcademyList(BuildContext context, List<dynamic> dataList) {
+    if (dataList.isEmpty)
+      return Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.25,
+              vertical: 20),
+          child: emptyListWidget());
     return ListView.builder(
         itemCount: dataList.length,
         physics: ScrollPhysics(),
