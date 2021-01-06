@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:zariya/resources/strings.dart' as Strings;
+import 'package:zariya/resources/strings.dart';
 import 'package:zariya/widgets/functions.dart';
 
 class Book extends StatefulWidget {
@@ -75,7 +75,7 @@ class _BookState extends State<Book> {
                               width: MediaQuery.of(context).size.width,
                               child: Image.network(
                                   widget.course['images'][i]['url'] ??
-                                      Strings.defaultImageIcon,
+                                      defaultImageIcon,
                                   fit: BoxFit.cover),
                             ),
                         ],
@@ -132,8 +132,8 @@ class _BookState extends State<Book> {
                                   Radius.circular(10),
                                 ),
                               ),
-                              child: Image.network(widget.academyLogo ??
-                                  Strings.defaultImageIcon)),
+                              child: Image.network(
+                                  widget.academyLogo ?? defaultImageIcon)),
                         ],
                       ),
                       Container(

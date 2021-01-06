@@ -1,5 +1,3 @@
-import 'package:zariya/resources/strings.dart' as Strings;
-import 'package:zariya/widgets/functions.dart';
 import 'package:zariya/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

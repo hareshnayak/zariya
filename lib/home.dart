@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/academies.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:zariya/resources/strings.dart' as Strings;
+import 'package:zariya/resources/strings.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({this.email});
@@ -139,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                                 String imageUrl = snapshot.data['genres'][item]
                                     ['categories'][index]['image'];
                                 if (imageUrl.isEmpty)
-                                  imageUrl = Strings.defaultImageIcon;
+                                  imageUrl = defaultImageIcon;
                                 return Padding(
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 10),
@@ -174,8 +174,9 @@ class _HomePageState extends State<HomePage> {
 //                             fit: BoxFit.cover),
                                             decoration: BoxDecoration(
                                               image: new DecorationImage(
-                                                  image: NetworkImage(imageUrl ??
-                                                      Strings.defaultImageIcon),
+                                                  image: NetworkImage(
+                                                      imageUrl ??
+                                                          defaultImageIcon),
                                                   fit: BoxFit.cover),
                                               borderRadius: BorderRadius.only(
                                                 topLeft: Radius.circular(20),

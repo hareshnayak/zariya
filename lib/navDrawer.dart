@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:zariya/login.dart';
-import 'package:zariya/academies.dart';
-import 'package:zariya/resources/strings.dart' as Strings;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:zariya/profile.dart';
+import 'package:zariya/settings.dart';
 
 class NavDrawer extends StatelessWidget {
   NavDrawer({@required this.signOut, this.openProfile, this.currentUser});
@@ -76,7 +73,7 @@ class NavDrawer extends StatelessWidget {
                 onTap: () => {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => ProfilePage(),
+                      builder: (context) => SettingsPage(),
                     ),
                   ),
                 },

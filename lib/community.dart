@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:zariya/dance.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:zariya/post.dart';
-import 'package:zariya/resources/strings.dart' as Strings;
-
-final Color grey1 = Colors.grey.shade300;
+import 'package:zariya/resources/strings.dart';
+import 'package:zariya/resources/colors.dart';
 
 class Community extends StatefulWidget {
   Community({this.email, this.name, this.photoUrl, this.followId});
@@ -75,7 +74,7 @@ class _CommunityState extends State<Community> {
                                   .map(
                                     (item) => Container(
 //                                      margin: EdgeInsets.all(5.0),
-                                      color: grey1,
+                                      color: grey300,
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0)),
@@ -267,13 +266,12 @@ class _CommunityState extends State<Community> {
                                                                     'allPosts']
                                                                 [imageIndex]
                                                             ['image'] ??
-                                                        Strings
-                                                            .defaultImageIcon),
+                                                        defaultImageIcon),
                                                     fit: BoxFit.cover),
                                                 borderRadius: BorderRadius.all(
                                                   Radius.circular(15),
                                                 ),
-                                                color: grey1,
+                                                color: grey300,
                                               ),
                                             ),
                                           ],

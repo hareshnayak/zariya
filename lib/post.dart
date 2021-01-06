@@ -5,8 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as Path;
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-final Color grey1 = Colors.grey.shade400;
+import 'package:zariya/resources/colors.dart';
 
 class Post extends StatefulWidget {
   Post({this.name, this.email, this.photoUrl, this.followId});
@@ -31,11 +30,11 @@ class _PostState extends State<Post> {
   TextEditingController descController = new TextEditingController();
 
   Future getImage() async {
-    var image = await ImagePicker.pickImage(
-        source: ImageSource.gallery, imageQuality: 50);
+    var image =
+        await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
     if (image != null) {
       setState(() {
-        _image = image;
+        _image = image as File;
         imageTaken = true;
       });
       print(_image.path);
@@ -218,7 +217,7 @@ class _PostState extends State<Post> {
                                   )
                                 : Container(
                                     decoration: BoxDecoration(
-                                        color: grey1,
+                                        color: grey400,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(15))),
                                     height: 200,

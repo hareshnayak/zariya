@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MaterialApp(debugShowCheckedModeBanner: false, home: SettingsPage()));
-}
-
 class SettingsPage extends StatefulWidget {
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -29,15 +25,15 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           elevation: 0,
-          actions: <Widget>[
-            SizedBox(
-                width: 60,
-                height: 30,
-                child: FlatButton(
-                    padding: EdgeInsets.all(0),
-                    onPressed: () {},
-                    child: Icon(Icons.home, color: Colors.black)))
-          ],
+          // actions: <Widget>[
+          //   SizedBox(
+          //       width: 60,
+          //       height: 30,
+          //       child: FlatButton(
+          //           padding: EdgeInsets.all(0),
+          //           onPressed: () {},
+          //           child: Icon(Icons.home, color: Colors.black)))
+          // ],
         ),
       ),
       body: Container(

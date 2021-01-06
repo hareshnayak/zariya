@@ -3,9 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/chatbox.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:zariya/resources/strings.dart' as Strings;
-
-final Color grey1 = Colors.grey.shade300;
+import 'package:zariya/resources/strings.dart';
+import 'package:zariya/resources/colors.dart';
 
 class ChatPage extends StatefulWidget {
   ChatPage({this.currentUser});
@@ -37,7 +36,7 @@ class _ChatPageState extends State<ChatPage> {
                 margin: EdgeInsets.fromLTRB(10, 5, 10, 10),
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
-                    color: grey1,
+                    color: grey300,
                     borderRadius: BorderRadius.all(Radius.circular(15))),
                 child: TextField(
                     decoration: InputDecoration(
@@ -114,7 +113,7 @@ class _ChatPageState extends State<ChatPage> {
               child: CircleAvatar(
                   radius: 25,
                   backgroundImage: NetworkImage(
-                    data['logo']['url'] ?? Strings.defaultImageIcon,
+                    data['logo']['url'] ?? defaultImageIcon,
                   )),
             ),
             Column(

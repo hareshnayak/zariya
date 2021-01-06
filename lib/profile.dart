@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/book.dart';
-import 'package:zariya/resources/strings.dart' as Strings;
-
-final Color grey1 = Colors.grey.shade300;
+import 'package:zariya/resources/strings.dart';
+import 'package:zariya/resources/colors.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({this.email});
@@ -45,7 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               textAlign: TextAlign.left,
             )),
-        Container(height: 1, color: grey1),
+        Container(height: 1, color: grey300),
         Row(
           children: <Widget>[
             Padding(
@@ -53,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: CircleAvatar(
                   radius: 30,
                   backgroundImage: NetworkImage(
-                    data['photoUrl'] ?? Strings.defaultImageIcon,
+                    data['photoUrl'] ?? defaultImageIcon,
                   )),
             ),
             SizedBox(width: 5),

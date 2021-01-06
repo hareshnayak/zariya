@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-final Color grey1 = Colors.grey.shade300;
+import 'package:zariya/resources/colors.dart';
 
 class ChatPage extends StatefulWidget {
   @override
@@ -56,7 +55,7 @@ class _ChatPageState extends State<ChatPage> {
                     margin: EdgeInsets.fromLTRB(10, 5, 10, 10),
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
-                        color: grey1,
+                        color: grey300,
                         borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: TextField(
                         decoration: InputDecoration(

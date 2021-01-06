@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:zariya/academy.dart';
 import 'package:zariya/resources/strings.dart';
 import 'package:zariya/widgets/widgets.dart';
-
-final Color grey1 = Colors.grey.shade300;
+import 'package:zariya/resources/colors.dart';
 
 class Academies extends StatelessWidget {
   Academies({this.category, this.email, this.image});
@@ -90,7 +89,7 @@ class _AcademiesPageState extends State<AcademiesPage> {
           Container(
             margin: EdgeInsets.symmetric(vertical: 10),
             height: 40,
-            color: grey1,
+            color: grey300,
             child: Center(
               child: Text(
                   (widget.category != null)

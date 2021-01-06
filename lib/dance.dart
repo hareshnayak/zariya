@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:zariya/navDrawer.dart';
-import 'package:zariya/resources/strings.dart' as Strings;
-
-final Color grey1 = Colors.grey.shade300;
+import 'package:zariya/resources/strings.dart';
+import 'package:zariya/resources/colors.dart';
 
 class Dance extends StatelessWidget {
   Dance({this.category});
@@ -15,7 +13,6 @@ class Dance extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: NavDrawer(),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(45.0),
         child: AppBar(
@@ -69,7 +66,7 @@ class _DancePageState extends State<DancePage> {
 //                 width: 70,
               height: 50,
               decoration: BoxDecoration(
-                color: grey1,
+                color: grey300,
                 borderRadius: BorderRadius.all(Radius.circular(15)),
               ),
               padding: EdgeInsets.symmetric(horizontal: 5),
@@ -114,8 +111,8 @@ class _DancePageState extends State<DancePage> {
             width: MediaQuery.of(context).size.width - 20,
             child: Row(children: <Widget>[
               CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      data['photoUrl'] ?? Strings.defaultImageIcon)),
+                  backgroundImage:
+                      NetworkImage(data['photoUrl'] ?? defaultImageIcon)),
               Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: Column(
@@ -163,7 +160,7 @@ class _DancePageState extends State<DancePage> {
               height: 250,
               margin: EdgeInsets.all(10),
               decoration: BoxDecoration(
-                  color: grey1,
+                  color: grey300,
                   borderRadius: BorderRadius.all(Radius.circular(15)),
                   image: new DecorationImage(
                       image: NetworkImage(data['image'] ??

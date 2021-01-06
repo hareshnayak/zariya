@@ -2,11 +2,9 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/book.dart';
-import 'package:zariya/navDrawer.dart';
 import 'package:zariya/widgets/functions.dart';
-import 'package:zariya/resources/strings.dart' as Strings;
-
-final Color grey1 = Colors.grey.shade300;
+import 'package:zariya/resources/strings.dart';
+import 'package:zariya/resources/colors.dart';
 
 class Academy extends StatelessWidget {
   Academy({this.data, this.email});
@@ -18,7 +16,6 @@ class Academy extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      drawer: NavDrawer(),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(45.0),
         child: AppBar(
@@ -111,7 +108,7 @@ class _AcademyPageState extends State<AcademyPage> {
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
                 height: 40,
-                color: grey1,
+                color: grey300,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -155,7 +152,7 @@ class _AcademyPageState extends State<AcademyPage> {
                     indicatorBgPadding: 7.0,
                     images: [
                       for (var image in widget.data['images'])
-                        NetworkImage(image['url'] ?? Strings.defaultImageIcon),
+                        NetworkImage(image['url'] ?? defaultImageIcon),
                     ],
                   ),
                 ),
@@ -230,7 +227,7 @@ class _AcademyPageState extends State<AcademyPage> {
               Container(
                 margin: EdgeInsets.symmetric(vertical: 5),
                 height: 40,
-                color: grey1,
+                color: grey300,
                 child: Center(
                   child: Text('UPCOMING CLASSES',
                       style:
@@ -268,10 +265,10 @@ class _AcademyPageState extends State<AcademyPage> {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 5),
       child: Card(
-        color: grey1,
+        color: grey300,
         child: Column(
           children: <Widget>[
-            Container(color: grey1, height: 5),
+            Container(color: grey300, height: 5),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
@@ -306,7 +303,7 @@ class _AcademyPageState extends State<AcademyPage> {
                 ),
               ],
             ),
-            Container(color: grey1, height: 3),
+            Container(color: grey300, height: 3),
             Row(
               children: <Widget>[
                 Column(
@@ -384,7 +381,7 @@ class _AcademyPageState extends State<AcademyPage> {
               Container(
                 margin: EdgeInsets.symmetric(vertical: 5),
                 height: 40,
-                color: grey1,
+                color: grey300,
                 child: Center(
                   child: Text('ADDRESS',
                       style:
@@ -419,7 +416,7 @@ class _AcademyPageState extends State<AcademyPage> {
               Container(
                 margin: EdgeInsets.symmetric(vertical: 5),
                 height: 40,
-                color: grey1,
+                color: grey300,
                 child: Center(
                   child: Text('ABOUT',
                       style:
@@ -454,7 +451,7 @@ class _AcademyPageState extends State<AcademyPage> {
               Container(
                 margin: EdgeInsets.symmetric(vertical: 5),
                 height: 40,
-                color: grey1,
+                color: grey300,
                 child: Center(
                   child: Text('RATING AND REVIEWS',
                       style:

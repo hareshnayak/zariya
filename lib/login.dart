@@ -1,13 +1,10 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:zariya/resources/colors.dart';
 import 'package:zariya/index.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:zariya/resources/strings.dart' as Strings;
-//import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zariya/resources/strings.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key, this.title}) : super(key: key);
@@ -148,8 +145,7 @@ class LoginScreenState extends State<LoginScreen> {
           : Container(
               decoration: BoxDecoration(
                   image: new DecorationImage(
-                      image: new AssetImage(Strings.loginBgImage),
-                      fit: BoxFit.cover)),
+                      image: new AssetImage(loginBgImage), fit: BoxFit.cover)),
               padding: EdgeInsets.all(30),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
