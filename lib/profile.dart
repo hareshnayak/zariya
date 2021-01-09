@@ -38,22 +38,24 @@ class _ProfilePageState extends State<ProfilePage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-            padding: EdgeInsets.all(10),
-            child: Text(
-              'MY ACCOUNT',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              textAlign: TextAlign.left,
-            )),
+          padding: EdgeInsets.all(10),
+          child: Text(
+            'MY ACCOUNT',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            textAlign: TextAlign.left,
+          ),
+        ),
         Container(height: 1, color: grey300),
         Row(
           children: <Widget>[
             Padding(
               padding: EdgeInsets.all(10),
               child: CircleAvatar(
-                  radius: 30,
-                  backgroundImage: NetworkImage(
-                    data['photoUrl'] ?? defaultImageIcon,
-                  )),
+                radius: 30,
+                backgroundImage: NetworkImage(
+                  data['photoUrl'] ?? defaultImageIcon,
+                ),
+              ),
             ),
             SizedBox(width: 5),
             Column(
@@ -83,71 +85,72 @@ class _ProfilePageState extends State<ProfilePage> {
 //          height: 90,
           width: MediaQuery.of(context).size.width,
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'OTHER PROFILES',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-                  textAlign: TextAlign.left,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20),
-                        height: 30,
-                        width: 30,
-                        child: Image.asset('assets/images/instagram.jpg',
-                            fit: BoxFit.cover),
-                      ),
-                      (data['insta'] != null)
-                          ? Text(
-                              data['insta'] ?? instaId,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'OTHER PROFILES',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                textAlign: TextAlign.left,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20),
+                      height: 30,
+                      width: 30,
+                      child: Image.asset('assets/images/instagram.jpg',
+                          fit: BoxFit.cover),
+                    ),
+                    (data['insta'] != null)
+                        ? Text(
+                            data['insta'] ?? instaId,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                color: Colors.black87),
+                            textAlign: TextAlign.left,
+                          )
+                        : Container(
+                            width: MediaQuery.of(context).size.width - 130,
+                            child: TextField(
+                              controller: instaController,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15,
                                   color: Colors.black87),
-                              textAlign: TextAlign.left,
-                            )
-                          : Container(
-                              width: MediaQuery.of(context).size.width - 130,
-                              child: TextField(
-                                controller: instaController,
-                                style: TextStyle(
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(0),
+                                hintText: 'ENTER INSTAGRAM ID',
+                                hintStyle: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15,
                                     color: Colors.black87),
-                                decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(0),
-                                    hintText: 'ENTER INSTAGRAM ID',
-                                    hintStyle: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                        color: Colors.black87),
-                                    suffix: IconButton(
-                                      icon: Icon(Icons.done),
-                                      onPressed: () {
-                                        setState(
-                                          () {
-                                            instaId =
-                                                instaController.value.text;
-                                          },
-                                        );
-                                        Firestore.instance
-                                            .collection('users')
-                                            .document(widget.email)
-                                            .updateData({'insta': instaId});
+                                suffix: IconButton(
+                                  icon: Icon(Icons.done),
+                                  onPressed: () {
+                                    setState(
+                                      () {
+                                        instaId = instaController.value.text;
                                       },
-                                    )),
+                                    );
+                                    Firestore.instance
+                                        .collection('users')
+                                        .document(widget.email)
+                                        .updateData({'insta': instaId});
+                                  },
+                                ),
                               ),
                             ),
-                    ],
-                  ),
+                          ),
+                  ],
                 ),
-              ]),
+              ),
+            ],
+          ),
         ),
         DefaultTabController(
           length: 2,
@@ -181,16 +184,18 @@ class _ProfilePageState extends State<ProfilePage> {
 //                          child: Text('Reservation Details',
 //                            style: TextStyle(fontWeight:FontWeight.bold, fontSize: 20))),
                         Expanded(
-                            child: ListView.builder(
-                                physics: ScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: data['reservations'].length,
-                                itemBuilder: (BuildContext context, int i) {
-                                  if (data['reservations'].length == 0)
-                                    return Text('No reservations till now!!!');
-                                  return reservationCard(
-                                      context, data['reservations'][i]);
-                                })),
+                          child: ListView.builder(
+                            physics: ScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: data['reservations'].length,
+                            itemBuilder: (BuildContext context, int i) {
+                              if (data['reservations'].length == 0)
+                                return Text('No reservations till now!!!');
+                              return reservationCard(
+                                  context, data['reservations'][i]);
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -200,17 +205,22 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: <Widget>[
 //                                   Container(height:50,
 //                                             padding: EdgeInsets.all(10),                                            child: Text('Reservation Details', style:TextStyle(fontWeight:FontWeight.bold, fontSize: 20))),
+                        Container(
+                          child: Image.asset('assets/images/coupon.png'),
+                          margin: EdgeInsets.all(10),
+                        ),
                         Expanded(
-                            child: ListView.builder(
-                                physics: ScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: data['coupons'].length,
-                                itemBuilder: (BuildContext context, int i) {
-                                  if (data['coupons'].length == 0)
-                                    return Text('No coupons till now!!!');
-                                  return couponCard(
-                                      context, data['coupons'][i]);
-                                })),
+                          child: ListView.builder(
+                            physics: ScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: data['coupons'].length,
+                            itemBuilder: (BuildContext context, int i) {
+                              if (data['coupons'].length == 0)
+                                return Text('No coupons till now!!!');
+                              return couponCard(context, data['coupons'][i]);
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   ),
