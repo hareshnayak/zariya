@@ -2,6 +2,7 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/book.dart';
+import 'package:zariya/chatbox.dart';
 import 'package:zariya/widgets/functions.dart';
 import 'package:zariya/resources/strings.dart';
 import 'package:zariya/resources/colors.dart';
@@ -189,7 +190,19 @@ class _AcademyPageState extends State<AcademyPage> {
                         width: 90,
                         child: FlatButton(
                           padding: EdgeInsets.only(right: 40),
-                          onPressed: () {},
+                          onPressed: () {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => ChatBox(
+                            //       email: widget.currentUser.email,
+                            //       myName: widget.currentUser.displayName,
+                            //       myImage: widget.currentUser.photoUrl,
+                            //       academyName: data['name'],
+                            //       academyImage: data['logo']['url'] ??
+                            //           'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBUXESNi9dDwsxnZoDpAktF-piO2mU778bEQ&usqp=CAU',
+                            //     ),),);
+                          },
                           child: Icon(Icons.chat_bubble,
                               color: Colors.black, size: 50),
                         ),

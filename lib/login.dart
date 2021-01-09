@@ -158,7 +158,7 @@ class LoginScreenState extends State<LoginScreen> {
                     child: new Image.asset('assets/images/signinGoogle.png'),
                   ),
                   SizedBox(
-                    height: 200,
+                    height: 50,
                   ),
                 ],
               ),

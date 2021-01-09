@@ -1,16 +1,22 @@
 import 'package:zariya/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:zariya/resources/strings.dart';
 
 class ChatBox extends StatefulWidget {
   ChatBox(
       {this.myImage,
       this.email,
       this.myName,
+      this.academyEmail,
       this.academyImage,
-      this.academyName});
+      this.academyName,
+      this.teacherEmail,
+      this.teacherImage,
+      this.teacherName});
 
-  final String academyName, academyImage;
+  final String academyEmail, academyName, academyImage;
+  final String teacherEmail, teacherName, teacherImage;
   final String email, myName, myImage;
 
   @override
@@ -20,7 +26,7 @@ class ChatBox extends StatefulWidget {
 class _ChatBoxState extends State<ChatBox> {
   TextEditingController messageController = new TextEditingController();
 
-  bool recordPresent = false;
+  bool showMessages = false, recordPresent = false, isAcademyChat = false;
 
 //  void checkRecord() async {
 //    var doc;
@@ -151,11 +157,12 @@ class _ChatBoxState extends State<ChatBox> {
                   padding: EdgeInsets.only(bottom: 5),
                   child: CircleAvatar(
                     radius: 25,
-//                     backgroundImage: new NetworkImage(widget.academyImage ?? Strings.defaultImageIcon),
+                    backgroundImage: new NetworkImage(
+                        widget.academyImage ?? defaultImageIcon),
                   ),
                 ),
                 title: Text(
-                  'widget.academyName',
+                  widget.academyName,
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
@@ -182,94 +189,119 @@ class _ChatBoxState extends State<ChatBox> {
           ],
         ),
       ),
-      body: Stack(
-        children: <Widget>[
-          Container(
-            color: Colors.white,
-            height: MediaQuery.of(context).size.height,
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height - 160,
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            color: Colors.transparent,
-            child: FutureBuilder<DocumentSnapshot>(
-              future: Firestore.instance
-                  .collection('users')
-                  .document('${widget.email}/chatBox')
-                  .get(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData)
-                  return Center(child: CircularProgressIndicator());
-                else if (recordPresent == true)
-                  return _buildChats(context, snapshot.data['messages']);
-                return Container();
-              },
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            child: Container(
+      body: SafeArea(
+        child: Stack(
+          children: <Widget>[
+            Container(
               color: Colors.white,
-              height: 55,
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    height: 45,
-                    margin: EdgeInsets.fromLTRB(10, 5, 10, 8),
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    width: MediaQuery.of(context).size.width - 60,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFF0EDFF),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        bottomLeft: Radius.circular(30),
+              height: MediaQuery.of(context).size.height,
+            ),
+            Container(
+                height: MediaQuery.of(context).size.height - 160,
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                color: Colors.transparent,
+                child: (!showMessages)
+                    ? Center(child: CircularProgressIndicator())
+                    : (recordPresent)
+                        ? FutureBuilder<DocumentSnapshot>(
+                            future: (isAcademyChat)
+                                ? Firestore.instance
+                                    .collection('academies')
+                                    .document(
+                                        '${widget.academyEmail}/chatBox/${widget.email}')
+                                    .get()
+                                : Firestore.instance
+                                    .collection('users')
+                                    .document(
+                                        '${widget.teacherEmail}/chatBox/${widget.email}')
+                                    .get(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData)
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              return _buildChats(
+                                  context, snapshot.data['messages']);
+                            },
+                          )
+                        : emptyListWidget()),
+            Positioned(
+              bottom: 0,
+              child: Container(
+                color: Colors.white,
+                height: 55,
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      height: 45,
+                      margin: EdgeInsets.fromLTRB(10, 5, 5, 8),
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      width: MediaQuery.of(context).size.width - 80,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFF0EDFF),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          bottomLeft: Radius.circular(30),
+                        ),
                       ),
-                    ),
-                    child: TextField(
-                      controller: messageController,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
+                      child: TextField(
+                        controller: messageController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
 //                 contentPadding: EdgeInsets.symmetric(horizontal: 5,vertical: -10),
-                        hintText: 'Enter Message',
-                        hintStyle: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                          fontStyle: FontStyle.normal,
-                          letterSpacing: -0.3,
+                          hintText: 'Enter Message',
+                          hintStyle: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                            fontStyle: FontStyle.normal,
+                            letterSpacing: -0.3,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 40,
-                    child: Builder(builder: (context) {
-                      return FlatButton(
-                        padding: EdgeInsets.all(0),
-                        onPressed: () {
-                          if (messageController.value.text.isEmpty) {
-                            final snackBar =
-                                SnackBar(content: Text('Please Enter Text!!!'));
-                            Scaffold.of(context).showSnackBar(snackBar);
-                          }
+                    SizedBox(
+                      width: 65,
+                      child: Builder(builder: (context) {
+                        return FlatButton(
+                          padding: EdgeInsets.all(0),
+                          onPressed: () {
+                            if (messageController.value.text.isEmpty) {
+                              final snackBar = SnackBar(
+                                  content: Text('Please Enter Text!!!'));
+                              Scaffold.of(context).showSnackBar(snackBar);
+                            }
 //                          else
 //                            setState(() {
 //                              sendMessage();
 //                            });
-                        },
-                        child: Image.asset('assets/images/send.png', width: 20),
-                      );
-                    }),
-                  ),
-                ],
+                          },
+                          child: Container(
+                            height: 45,
+                            margin: EdgeInsets.fromLTRB(0, 5, 10, 8),
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            // width: 60,
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(30),
+                                bottomRight: Radius.circular(30),
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildChats(BuildContext context, List<dynamic> dataList) {
+    if (dataList.isEmpty) return Container();
     return ListView.builder(
         itemCount: dataList.length,
         physics: ScrollPhysics(),

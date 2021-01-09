@@ -33,14 +33,19 @@ class _ChatPageState extends State<ChatPage> {
 //           Container(height: 1, color: grey1),
           Stack(children: <Widget>[
             Container(
-                margin: EdgeInsets.fromLTRB(10, 5, 10, 10),
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                    color: grey300,
-                    borderRadius: BorderRadius.all(Radius.circular(15))),
-                child: TextField(
-                    decoration: InputDecoration(
-                        hintText: 'Search', border: InputBorder.none))),
+              margin: EdgeInsets.fromLTRB(10, 5, 10, 10),
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                color: grey300,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(15),
+                ),
+              ),
+              child: TextField(
+                decoration: InputDecoration(
+                    hintText: 'Search', border: InputBorder.none),
+              ),
+            ),
             Positioned(
               right: 10,
               top: -5,
@@ -96,16 +101,18 @@ class _ChatPageState extends State<ChatPage> {
         child: FlatButton(
           onPressed: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ChatBox(
-                          email: widget.currentUser.email,
-                          myName: widget.currentUser.displayName,
-                          myImage: widget.currentUser.photoUrl,
-                          academyName: data['name'],
-                          academyImage: data['logo']['url'] ??
-                              'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBUXESNi9dDwsxnZoDpAktF-piO2mU778bEQ&usqp=CAU',
-                        )));
+              context,
+              MaterialPageRoute(
+                builder: (context) => ChatBox(
+                  email: widget.currentUser.email,
+                  myName: widget.currentUser.displayName,
+                  myImage: widget.currentUser.photoUrl,
+                  academyName: data['name'],
+                  academyImage: data['logo']['url'] ??
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBUXESNi9dDwsxnZoDpAktF-piO2mU778bEQ&usqp=CAU',
+                ),
+              ),
+            );
           },
           child: Row(children: <Widget>[
             Padding(
@@ -119,9 +126,10 @@ class _ChatPageState extends State<ChatPage> {
             Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(data['name'],
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                  Text(
+                    data['name'],
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
 //              Container(
 //                  padding: EdgeInsets.only(top:5, right:5),
 //                  child:

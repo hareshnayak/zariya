@@ -94,6 +94,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 20),
@@ -112,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               textAlign: TextAlign.left,
                             )
                           : Container(
-                              width: MediaQuery.of(context).size.width - 100,
+                              width: MediaQuery.of(context).size.width - 130,
                               child: TextField(
                                 controller: instaController,
                                 style: TextStyle(
@@ -129,9 +130,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                     suffix: IconButton(
                                       icon: Icon(Icons.done),
                                       onPressed: () {
-                                        setState(() {
-                                          instaId = instaController.value.text;
-                                        });
+                                        setState(
+                                          () {
+                                            instaId =
+                                                instaController.value.text;
+                                          },
+                                        );
                                         Firestore.instance
                                             .collection('users')
                                             .document(widget.email)
@@ -148,7 +152,7 @@ class _ProfilePageState extends State<ProfilePage> {
         DefaultTabController(
           length: 2,
           child: Container(
-            height: MediaQuery.of(context).size.height - 352,
+            height: MediaQuery.of(context).size.height - 366,
             child: Column(
               children: <Widget>[
                 TabBar(
