@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/index.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:zariya/loginTeacher.dart';
 import 'package:zariya/resources/strings.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -158,73 +159,29 @@ class LoginScreenState extends State<LoginScreen> {
                     child: new Image.asset('assets/images/signinGoogle.png'),
                   ),
                   SizedBox(
-                    height: 50,
+                    height: 20,
                   ),
+                  Container(
+                      child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => LoginTeacher(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "Login as an Instructor",
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 17,
+                          fontFamily: 'Comfortaa'),
+                    ),
+                  )),
                 ],
               ),
-
-//         child: ListView(
-//           children: <Widget>[
-//             Text(
-//               'Zariya',
-//               style: TextStyle(
-//                   fontSize: 40,
-//                   fontWeight: FontWeight.bold,
-//                   fontFamily: 'Inter',
-//                   color: Colors.black),
-//             ),
-//             Text(
-//               'Login',
-//               style: TextStyle(
-//                   fontSize: 20, fontFamily: 'Inter', color: Colors.black),
-//             ),
-//             SizedBox(height: 400),
-//             Container(
-// //                 width: MediaQuery.of(context).size.width,
-//               margin: EdgeInsets.symmetric(vertical: 20),
-//               child: FlatButton(
-//                 padding: EdgeInsets.all(10),
-//                 shape: RoundedRectangleBorder(
-//                     borderRadius: new BorderRadius.circular(15)),
-//                 color: grey1,
-//                 onPressed: () {
-//                   handleSignIn();
-//                 },
-//                 child: Text(
-//                   'Sign in with Google',
-//                   style: TextStyle(
-//                       color: Colors.black,
-//                       fontWeight: FontWeight.bold,
-//                       fontSize: 20,
-//                       fontFamily: 'Inter'),
-//                 ),
-//               ),
-//             ),
-// //                   Container(height: 1, color: Colors.black),
-// //                   Padding(
-// //                     padding:  EdgeInsets.symmetric(vertical:10),
-// //                     child:Text('Do not have an account?'),),
-// //                   Container(
-// // //                 width: MediaQuery.of(context).size.width,
-// //                     margin: EdgeInsets.symmetric(vertical:10),
-// //                     child: FlatButton(
-// //                       padding: EdgeInsets.all(10),
-// //                       shape: RoundedRectangleBorder(
-// //                           borderRadius: new BorderRadius.circular(15)),
-// //                       color: Colors.black,
-// //                       onPressed: () {},
-// //                       child: Text(
-// //                         'Sign Up',
-// //                         style: TextStyle(
-// //                             color: Colors.white,
-// //                             fontWeight: FontWeight.bold,
-// //                             fontSize: 20),
-// //                       ),
-// //                     ),
-// //                   ),
-// //                  ),
-//           ],
-//         ),
             ),
     );
   }

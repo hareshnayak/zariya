@@ -30,11 +30,11 @@ class _PostState extends State<Post> {
   TextEditingController descController = new TextEditingController();
 
   Future getImage() async {
-    var image =
-        await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
+    var image = await ImagePicker.pickImage(
+        source: ImageSource.gallery, imageQuality: 50);
     if (image != null) {
       setState(() {
-        _image = image as File;
+        _image = image;
         imageTaken = true;
       });
       print(_image.path);

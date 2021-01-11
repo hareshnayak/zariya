@@ -64,16 +64,20 @@ class _IndexPageState extends State<IndexPage> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(45.0),
           child: AppBar(
+            leading: Image.asset('assets/images/navl.png'),
             backgroundColor: Colors.transparent,
             iconTheme: new IconThemeData(color: Colors.black),
-            title: Center(
-              child: Text(
-                'zariya',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
-                    color: Colors.black),
-              ),
+            title: Row(
+              children: [
+                SizedBox(width: MediaQuery.of(context).size.width - 280),
+                Text(
+                  'zariya',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                      color: Colors.black),
+                ),
+              ],
             ),
             elevation: 0,
 //            actions: <Widget>[
