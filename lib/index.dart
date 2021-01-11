@@ -64,8 +64,15 @@ class _IndexPageState extends State<IndexPage> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(45.0),
           child: AppBar(
-            leading: Image.asset('assets/images/navl.png'),
-            backgroundColor: Colors.transparent,
+            leading: IconButton(
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              icon:
+                  Image.asset('assets/images/navl.png', fit: BoxFit.fitHeight),
+              iconSize: 10,
+            ),
+            backgroundColor: Colors.white,
             iconTheme: new IconThemeData(color: Colors.black),
             title: Row(
               children: [

@@ -16,6 +16,7 @@ class Academies extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(45.0),
         child: AppBar(
+          iconTheme: new IconThemeData(color: Colors.black),
           backgroundColor: Colors.transparent,
 //          leading: SizedBox(
 //              width: 60,
@@ -30,25 +31,28 @@ class Academies extends StatelessWidget {
 //                   child: FlatButton(
 //                 padding: EdgeInsets.all(0),
 //                       onPressed: () {},: Colors.black))),
-          title: Center(
-            child: Text(
-              'zariya',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
-                  color: Colors.black),
-            ),
+          title: Row(
+            children: [
+              SizedBox(width: MediaQuery.of(context).size.width - 280),
+              Text(
+                'zariya',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                    color: Colors.black),
+              ),
+            ],
           ),
           elevation: 0,
-          actions: <Widget>[
-            SizedBox(
-                width: 60,
-                height: 30,
-                child: FlatButton(
-                    padding: EdgeInsets.all(0),
-                    onPressed: () {},
-                    child: Icon(Icons.search, color: Colors.black)))
-          ],
+          // actions: <Widget>[
+          //   SizedBox(
+          //       width: 60,
+          //       height: 30,
+          //       child: FlatButton(
+          //           padding: EdgeInsets.all(0),
+          //           onPressed: () {},
+          //           child: Icon(Icons.search, color: Colors.black)))
+          // ],
         ),
       ),
       body: AcademiesPage(category: category, email: email, image: image),

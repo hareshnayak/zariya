@@ -64,39 +64,42 @@ class _DancePageState extends State<DancePage> {
         children: <Widget>[
           Container(
 //                 width: 70,
-              height: 50,
-              decoration: BoxDecoration(
-                color: grey300,
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 5),
-              margin: EdgeInsets.symmetric(horizontal: 10),
-              child: Center(
-                child: Text('#${widget.category}',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                        color: Colors.black)),
-              )),
+            height: 50,
+            decoration: BoxDecoration(
+              color: grey300,
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 5),
+            margin: EdgeInsets.symmetric(horizontal: 10),
+            child: Center(
+              child: Text('#${widget.category}',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: Colors.black)),
+            ),
+          ),
           FutureBuilder(
-              future: Firestore.instance
-                  .collection('community')
-                  .document(widget.category)
-                  .get(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData)
-                  return Center(child: CircularProgressIndicator());
-                return Container(
-                  height: MediaQuery.of(context).size.height - 125,
-                  child: ListView.builder(
-                      itemCount: snapshot.data['posts'].length,
-                      physics: ScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, i) {
-                        return postCard(context, snapshot.data['posts'][i]);
-                      }),
-                );
-              }),
+            future: Firestore.instance
+                .collection('community')
+                .document(widget.category)
+                .get(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData)
+                return Center(child: CircularProgressIndicator());
+              return Container(
+                height: MediaQuery.of(context).size.height - 127,
+                child: ListView.builder(
+                  itemCount: snapshot.data['posts'].length,
+                  physics: ScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, i) {
+                    return postCard(context, snapshot.data['posts'][i]);
+                  },
+                ),
+              );
+            },
+          ),
         ],
       ),
     );

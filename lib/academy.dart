@@ -1,4 +1,5 @@
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/book.dart';
@@ -38,25 +39,28 @@ class Academy extends StatelessWidget {
 //                 padding: EdgeInsets.all(0),
 //                       onPressed: () {},: Colors.black),
 //           ),),
-          title: Center(
-            child: Text(
-              'zariya',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
-                  color: Colors.black),
-            ),
+          title: Row(
+            children: [
+              SizedBox(width: MediaQuery.of(context).size.width - 280),
+              Text(
+                'zariya',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                    color: Colors.black),
+              ),
+            ],
           ),
           elevation: 0,
-          actions: <Widget>[
-            SizedBox(
-                width: 60,
-                height: 30,
-                child: FlatButton(
-                    padding: EdgeInsets.all(0),
-                    onPressed: () {},
-                    child: Icon(Icons.search, color: Colors.black)))
-          ],
+          // actions: <Widget>[
+          //   SizedBox(
+          //       width: 60,
+          //       height: 30,
+          //       child: FlatButton(
+          //           padding: EdgeInsets.all(0),
+          //           onPressed: () {},
+          //           child: Icon(Icons.search, color: Colors.black)))
+          // ],
         ),
       ),
       body: Container(
@@ -70,6 +74,7 @@ class Academy extends StatelessWidget {
   }
 }
 
+int _current = 0;
 int noReviews = 0;
 
 class AcademyPage extends StatefulWidget {
@@ -129,6 +134,38 @@ class _AcademyPageState extends State<AcademyPage> {
                   ],
                 ),
               ),
+              //     Padding(
+              //       padding: const EdgeInsets.symmetric(vertical: 10.0),
+              //       child: CarouselSlider(
+              //         options: CarouselOptions(
+              //             aspectRatio: 2.0,
+              //             enlargeCenterPage: true,
+              //             enableInfiniteScroll: true,
+              //             initialPage: 0,
+              //             autoPlay: true,
+              //             onPageChanged: (index, reason) {
+              //               setState(() {
+              //                 _current = index;
+              //               });
+              //             },),
+              // items: [
+              //           // for (var image in widget.data['images'])
+              //           //   NetworkImage(image['url'] ?? defaultImageIcon),
+              //         ]
+              //             .map()
+              //               (item) => Container(
+              //                 margin: EdgeInsets.all(5.0),
+              //                 child: ClipRRect(
+              //                   borderRadius:
+              //                       BorderRadius.all(Radius.circular(5.0)),
+              //                   child: NetworkImage(item,
+              //                       ),
+              //                 ),
+              //               ),
+              //             )
+              //             .toList(),
+              //       ),
+              //     ),
               Center(
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 10),
