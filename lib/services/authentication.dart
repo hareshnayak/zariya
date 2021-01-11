@@ -1,38 +1,59 @@
-//import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:google_sign_in/google_sign_in.dart';
-//
-//final FirebaseAuth _auth = FirebaseAuth.instance;
-//final GoogleSignIn googleSignIn = GoogleSignIn();
-//
-//Future<String> signInWithGoogle() async {
-//  final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-//  final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
-//
-//  final AuthCredential credential = GoogleAuthProvider.credential(
-//    accessToken: googleSignInAuthentication.accessToken,
-//    idToken: googleSignInAuthentication.idToken,
-//  );
-//
-//  final UserCredential authResult = await _auth.signInWithCredential(credential);
-//  final User user = authResult.user;
-//
-//  if (user != null) {
-//    assert(!user.isAnonymous);
-//    assert(await user.getIdToken() != null);
-//
-//    final User currentUser = _auth.currentUser;
-//    assert(user.uid == currentUser.uid);
-//
-//    print('signInWithGoogle succeeded: $user');
-//
-//    return '$user';
-//  }
-//
-//  return null;
-//}
-//
-//Future<void> signOutGoogle() async {
-//  await googleSignIn.signOut();
-//
-//  print("User Signed Out");
-//}
+import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
+
+abstract class BaseAuth {
+  Future<String> signIn(String email, String password);
+
+  Future<String> signUp(String email, String password);
+
+  Future<FirebaseUser> getCurrentUser();
+
+  Future<void> sendEmailVerification();
+
+  Future<void> signOut();
+
+  Future<bool> isEmailVerified();
+
+  Future<void> resetPassword(String email);
+}
+
+class Auth implements BaseAuth {
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  Future<String> signIn(String email, String password) async {
+    AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email, password: password);
+    FirebaseUser user = result.user;
+    return user.uid;
+  }
+
+  Future<String> signUp(String email, String password) async {
+    AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email, password: password);
+    FirebaseUser user = result.user;
+    return user.uid;
+  }
+
+  Future<FirebaseUser> getCurrentUser() async {
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    return user;
+  }
+
+  Future<void> signOut() async {
+    return _firebaseAuth.signOut();
+  }
+
+  Future<void> sendEmailVerification() async {
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    return user.sendEmailVerification();
+  }
+
+  Future<bool> isEmailVerified() async {
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    return user.isEmailVerified;
+  }
+
+  Future<void> resetPassword(String email) async {
+    await _firebaseAuth.sendPasswordResetEmail(email: email);
+  }
+}

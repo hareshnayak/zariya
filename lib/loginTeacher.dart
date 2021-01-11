@@ -1,14 +1,86 @@
 import 'package:flutter/material.dart';
+import 'package:zariya/services/authentication.dart';
+import 'package:zariya/teacher.dart';
 
 class LoginTeacher extends StatefulWidget {
+  final BaseAuth auth;
+
+  LoginTeacher({this.auth});
+
   @override
   _LoginTeacherState createState() => _LoginTeacherState();
 }
 
 class _LoginTeacherState extends State<LoginTeacher> {
+  static GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
+
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+
+  void signIn() async {
+    print('signIn start');
+    if (emailController.value.text.isNotEmpty &&
+        passwordController.value.text.isNotEmpty) {
+      print('not empty');
+      try {
+        widget.auth
+            .signIn(emailController.value.text, passwordController.value.text)
+            .then((value) async {
+          if (value != null) {
+            print('signedIn');
+            await widget.auth
+                .getCurrentUser()
+                .then((value) => Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TeacherIndexPage(
+                              signOut: signOut,
+                              currentUser: value,
+                            ))));
+          } else {
+            print('Not Logged In');
+          }
+        });
+      } catch (e) {
+        print(e);
+        var snackbar = SnackBar(
+          content: Text('Some Error Occurred! Please try again later.'),
+        );
+        _scaffoldKey.currentState.showSnackBar(snackbar);
+      }
+    }
+  }
+
+  void signOut() {
+    widget.auth.signOut();
+    Navigator.pushNamedAndRemoveUntil(context, '/root', (route) => false);
+  }
+
+  void isSignedIn() async {
+    await widget.auth.getCurrentUser().then((value) {
+      if (value != null) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => TeacherIndexPage(
+                      signOut: signOut,
+                      currentUser: value,
+                    )));
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isSignedIn();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -42,6 +114,7 @@ class _LoginTeacherState extends State<LoginTeacher> {
                 ),
               ),
               child: TextField(
+                controller: emailController,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Enter Email',
@@ -63,6 +136,7 @@ class _LoginTeacherState extends State<LoginTeacher> {
                 ),
               ),
               child: TextField(
+                controller: passwordController,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Enter Password',
@@ -85,8 +159,11 @@ class _LoginTeacherState extends State<LoginTeacher> {
                 ),
                 color: Colors.deepPurple,
               ),
-              child: GestureDetector(
-                onTap: () {},
+              child: FlatButton(
+                padding: EdgeInsets.all(0),
+                onPressed: () {
+                  signIn();
+                },
                 child: Text(
                   'Log me in',
                   style: TextStyle(

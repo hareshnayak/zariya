@@ -6,6 +6,7 @@ import 'package:zariya/index.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:zariya/loginTeacher.dart';
 import 'package:zariya/resources/strings.dart';
+import 'package:zariya/services/authentication.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key, this.title}) : super(key: key);
@@ -19,6 +20,7 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   final GoogleSignIn googleSignIn = GoogleSignIn();
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final BaseAuth auth = new Auth();
 
 //  SharedPreferences prefs;
 
@@ -37,6 +39,19 @@ class LoginScreenState extends State<LoginScreen> {
       isLoading = true;
     });
 
+    await auth.getCurrentUser().then((value) {
+      if (value != null) {
+        this.setState(() {
+          isLoading = false;
+        });
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => LoginTeacher(
+                      auth: auth,
+                    )));
+      }
+    });
 //    prefs = await SharedPreferences.getInstance();
 
     await googleSignIn.isSignedIn().then((value) async {
@@ -167,7 +182,8 @@ class LoginScreenState extends State<LoginScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (BuildContext context) => LoginTeacher(),
+                          builder: (BuildContext context) =>
+                              LoginTeacher(auth: new Auth()),
                         ),
                       );
                     },

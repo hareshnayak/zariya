@@ -19,6 +19,8 @@ class IndexPage extends StatefulWidget {
 }
 
 class _IndexPageState extends State<IndexPage> {
+  static GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
+
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   bool isLoading = false;
@@ -56,6 +58,7 @@ class _IndexPageState extends State<IndexPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _scaffoldKey,
         drawer: NavDrawer(
           signOut: handleSignOut,
           openProfile: openProfile,
@@ -66,7 +69,7 @@ class _IndexPageState extends State<IndexPage> {
           child: AppBar(
             leading: IconButton(
               onPressed: () {
-                Scaffold.of(context).openDrawer();
+                _scaffoldKey.currentState.openDrawer();
               },
               icon:
                   Image.asset('assets/images/navl.png', fit: BoxFit.fitHeight),
@@ -170,7 +173,10 @@ class _IndexPageState extends State<IndexPage> {
         body: (_selectedIndex == 0)
             ? HomePage(email: widget.currentUser.email)
             : (_selectedIndex == 1)
-                ? ProfilePage(email: widget.currentUser.email)
+                ? ProfilePage(
+                    email: widget.currentUser.email,
+                    type: 'users',
+                  )
                 : (_selectedIndex == 2)
                     ? Community(
                         email: widget.currentUser.email,

@@ -5,9 +5,10 @@ import 'package:zariya/resources/strings.dart';
 import 'package:zariya/resources/colors.dart';
 
 class ProfilePage extends StatefulWidget {
-  ProfilePage({this.email});
+  ProfilePage({this.email, this.type});
 
   final String email;
+  final String type;
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -22,8 +23,15 @@ class _ProfilePageState extends State<ProfilePage> {
     return Container(
 //       margin: EdgeInsets.all(5),
       child: FutureBuilder<DocumentSnapshot>(
-        future:
-            Firestore.instance.collection('users').document(widget.email).get(),
+        future: (widget.type == 'users')
+            ? Firestore.instance
+                .collection('users')
+                .document(widget.email)
+                .get()
+            : Firestore.instance
+                .collection('teachers')
+                .document(widget.email)
+                .get(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return Center(child: CircularProgressIndicator());
@@ -152,83 +160,87 @@ class _ProfilePageState extends State<ProfilePage> {
             ],
           ),
         ),
-        DefaultTabController(
-          length: 2,
-          child: Container(
-            height: MediaQuery.of(context).size.height - 366,
-            child: Column(
-              children: <Widget>[
-                TabBar(
-                  indicatorColor: Colors.black,
-                  tabs: <Widget>[
-                    Tab(
-                        child: Text('Reservations',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black))),
-                    Tab(
-                        child: Text('Coupons',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black)))
-                  ],
-                ),
-                Expanded(
-                    child: TabBarView(children: <Widget>[
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
+        (widget.type == 'teachers')
+            ? Container()
+            : DefaultTabController(
+                length: 2,
+                child: Container(
+                  height: MediaQuery.of(context).size.height - 366,
+                  child: Column(
+                    children: <Widget>[
+                      TabBar(
+                        indicatorColor: Colors.black,
+                        tabs: <Widget>[
+                          Tab(
+                              child: Text('Reservations',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black))),
+                          Tab(
+                              child: Text('Coupons',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black)))
+                        ],
+                      ),
+                      Expanded(
+                          child: TabBarView(children: <Widget>[
+                        Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
 //                        Container(height:50,
 //                          padding: EdgeInsets.all(10),
 //                          child: Text('Reservation Details',
 //                            style: TextStyle(fontWeight:FontWeight.bold, fontSize: 20))),
-                        Expanded(
-                          child: ListView.builder(
-                            physics: ScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: data['reservations'].length,
-                            itemBuilder: (BuildContext context, int i) {
-                              if (data['reservations'].length == 0)
-                                return Text('No reservations till now!!!');
-                              return reservationCard(
-                                  context, data['reservations'][i]);
-                            },
+                              Expanded(
+                                child: ListView.builder(
+                                  physics: ScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: data['reservations'].length,
+                                  itemBuilder: (BuildContext context, int i) {
+                                    if (data['reservations'].length == 0)
+                                      return Text(
+                                          'No reservations till now!!!');
+                                    return reservationCard(
+                                        context, data['reservations'][i]);
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
+                        Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
 //                                   Container(height:50,
 //                                             padding: EdgeInsets.all(10),                                            child: Text('Reservation Details', style:TextStyle(fontWeight:FontWeight.bold, fontSize: 20))),
-                        Container(
-                          child: Image.asset('assets/images/coupon.png'),
-                          margin: EdgeInsets.all(10),
-                        ),
-                        Expanded(
-                          child: ListView.builder(
-                            physics: ScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: data['coupons'].length,
-                            itemBuilder: (BuildContext context, int i) {
-                              if (data['coupons'].length == 0)
-                                return Text('No coupons till now!!!');
-                              return couponCard(context, data['coupons'][i]);
-                            },
+                              Container(
+                                child: Image.asset('assets/images/coupon.png'),
+                                margin: EdgeInsets.all(10),
+                              ),
+                              Expanded(
+                                child: ListView.builder(
+                                  physics: ScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: data['coupons'].length,
+                                  itemBuilder: (BuildContext context, int i) {
+                                    if (data['coupons'].length == 0)
+                                      return Text('No coupons till now!!!');
+                                    return couponCard(
+                                        context, data['coupons'][i]);
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
+                      ]))
+                    ],
                   ),
-                ]))
-              ],
-            ),
-          ),
-        ),
+                ),
+              ),
       ],
     );
   }
