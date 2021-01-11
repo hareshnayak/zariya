@@ -138,7 +138,7 @@ class _ChatBoxState extends State<ChatBox> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: IconThemeData(color: Colors.deepPurple),
         backgroundColor: Colors.white,
         bottom: PreferredSize(
             child: Container(
@@ -153,7 +153,7 @@ class _ChatBoxState extends State<ChatBox> {
             SizedBox(height: 20),
             Container(
               child: ListTile(
-                leading: Padding(
+                trailing: Padding(
                   padding: EdgeInsets.only(bottom: 5),
                   child: CircleAvatar(
                     radius: 25,

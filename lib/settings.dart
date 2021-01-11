@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:zariya/widgets/widgets.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -40,7 +43,9 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
       body: Container(
-        child: ListView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             Container(
               padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
@@ -57,7 +62,7 @@ class _SettingsPageState extends State<SettingsPage> {
               child: Text(
                 'OTHER PROFILES',
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 17,
                     fontWeight: FontWeight.bold,
                     color: Colors.black),
               ),
@@ -67,7 +72,7 @@ class _SettingsPageState extends State<SettingsPage> {
               child: Text(
                 'DELETE MY ACCOUNT',
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 17,
                     fontWeight: FontWeight.bold,
                     color: Colors.black),
               ),
@@ -77,7 +82,7 @@ class _SettingsPageState extends State<SettingsPage> {
               child: Text(
                 'VIEW ZARIYA WEBSITE',
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 17,
                     fontWeight: FontWeight.bold,
                     color: Colors.black),
               ),
@@ -148,6 +153,10 @@ class _SettingsPageState extends State<SettingsPage> {
             //         color: Colors.black),
             //   ),
             // ),
+            Container(
+              height: MediaQuery.of(context).size.height - 400,
+            ),
+            Center(child: zariyaTeam()),
           ],
         ),
       ),

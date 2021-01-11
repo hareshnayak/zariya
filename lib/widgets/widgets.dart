@@ -93,9 +93,45 @@ Widget myMsg(BuildContext context, dynamic data) {
 
 Widget emptyListWidget() {
   return Column(
+    mainAxisAlignment: MainAxisAlignment.end,
     children: [
-      Image.network(defaultImageIcon),
-      Text('Empty List'),
+      SizedBox(height: 50),
+      Text(
+        'We\'ll soon bring you more academies !',
+        style: TextStyle(
+          fontSize: 25,
+          fontWeight: FontWeight.w600,
+          color: Colors.grey,
+        ),
+        textAlign: TextAlign.center,
+      ),
+      SizedBox(height: 50),
+      zariyaTeam(),
+    ],
+  );
+}
+
+Widget zariyaTeam() {
+  return Column(
+    children: <Widget>[
+      Container(
+        width: 70,
+        height: 70,
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+                image: NetworkImage(defaultImageIcon), fit: BoxFit.contain)),
+      ),
+      SizedBox(height: 5),
+      Text(
+        'zariya Team',
+        style: TextStyle(
+          fontSize: 25,
+          fontWeight: FontWeight.w600,
+          color: Colors.black,
+        ),
+        textAlign: TextAlign.center,
+      ),
     ],
   );
 }

@@ -18,7 +18,7 @@ class NavDrawer extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: <Widget>[
             Container(
-              height: 200,
+              height: 250,
               padding: EdgeInsets.all(0),
               margin: EdgeInsets.all(0),
               child: DrawerHeader(
@@ -33,8 +33,8 @@ class NavDrawer extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     Text(
-                      'Kalakaar',
-                      style: TextStyle(color: Colors.white, fontSize: 25),
+                      'kalakaar apps',
+                      style: TextStyle(color: Colors.black, fontSize: 25),
                     ),
                   ],
                 ),

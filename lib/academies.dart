@@ -128,10 +128,8 @@ class _AcademiesPageState extends State<AcademiesPage> {
 
   Widget _buildAcademyList(BuildContext context, List<dynamic> dataList) {
     if (dataList.isEmpty)
-      return Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.25,
-              vertical: 20),
+      return Container(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: emptyListWidget());
     return ListView.builder(
         itemCount: dataList.length,
