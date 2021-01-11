@@ -157,14 +157,18 @@ class _PostState extends State<Post> {
               ? Container(child: Center(child: CircularProgressIndicator()))
               : Container(
                   margin: EdgeInsets.symmetric(horizontal: 10),
-                  child: ListView(
+                  child: Column(
 //                   crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
+                        SizedBox(height: 10),
                         Row(children: <Widget>[
                           Text(
-                            'Post',
+                            'POST',
                             style: TextStyle(
-                                fontSize: 20.0, fontWeight: FontWeight.bold),
+                                fontSize: 25.0,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Comfortaa'),
                           ),
                           Spacer(),
                           IconButton(
@@ -202,7 +206,8 @@ class _PostState extends State<Post> {
                             },
                           ),
                         ]),
-                        Padding(
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 50),
                           padding: EdgeInsets.all(10),
                           child: FlatButton(
                             padding: EdgeInsets.all(0),
@@ -264,18 +269,18 @@ class _PostState extends State<Post> {
 //                       ),
 //                     ),
                         Container(
-                          margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                          margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
                           child: TextField(
                             controller: descController,
-                            maxLines: 4,
+                            maxLines: 1,
                             decoration: InputDecoration(
-                              hintText: "Description",
+                              hintText: "Caption",
                               border: OutlineInputBorder(),
                             ),
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsets.symmetric(horizontal: 20),
                           child: FlatButton(
                             padding: EdgeInsets.all(0),
                             onPressed: () {
@@ -292,11 +297,12 @@ class _PostState extends State<Post> {
                               }
                             },
                             child: Container(
+                              margin: EdgeInsets.symmetric(vertical: 10),
                               decoration: BoxDecoration(
-                                  color: Colors.black,
+                                  color: Colors.deepPurple,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10))),
-                              height: 40,
+                              height: 50,
                               child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
