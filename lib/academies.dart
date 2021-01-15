@@ -167,10 +167,18 @@ class _AcademiesPageState extends State<AcademiesPage> {
               children: <Widget>[
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                    image: DecorationImage(
+                        image: NetworkImage(
+                          data['logo']['url'] ?? defaultImageIcon,
+                        ),
+                        fit: BoxFit.cover),
+                  ),
                   height: 70,
                   width: 70,
-                  child: Image.network(data['logo']['url'] ?? defaultImageIcon,
-                      fit: BoxFit.cover),
                 ),
                 Container(
                   height: 70,
