@@ -407,7 +407,7 @@ class _AcademyPageState extends State<AcademyPage> {
                               isReserved: false)));
                 },
                 child: Text(
-                  'BOOK',
+                  'BOOK NOW',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
