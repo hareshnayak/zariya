@@ -90,6 +90,7 @@ class AcademyPage extends StatefulWidget {
 class _AcademyPageState extends State<AcademyPage> {
   List<String> subCategories = [];
   List<dynamic> course = [];
+  List<String> imgList = [];
 
   @override
   void initState() {
@@ -100,6 +101,10 @@ class _AcademyPageState extends State<AcademyPage> {
         course.add(value[i]);
       }
     });
+
+    for (var image in widget.data['images'])
+      imgList.add(image['url'] ?? defaultImageIcon);
+
     super.initState();
   }
 
@@ -134,65 +139,33 @@ class _AcademyPageState extends State<AcademyPage> {
                   ],
                 ),
               ),
-              //     Padding(
-              //       padding: const EdgeInsets.symmetric(vertical: 10.0),
-              //       child: CarouselSlider(
-              //         options: CarouselOptions(
-              //             aspectRatio: 2.0,
-              //             enlargeCenterPage: true,
-              //             enableInfiniteScroll: true,
-              //             initialPage: 0,
-              //             autoPlay: true,
-              //             onPageChanged: (index, reason) {
-              //               setState(() {
-              //                 _current = index;
-              //               });
-              //             },),
-              // items: [
-              //           // for (var image in widget.data['images'])
-              //           //   NetworkImage(image['url'] ?? defaultImageIcon),
-              //         ]
-              //             .map()
-              //               (item) => Container(
-              //                 margin: EdgeInsets.all(5.0),
-              //                 child: ClipRRect(
-              //                   borderRadius:
-              //                       BorderRadius.all(Radius.circular(5.0)),
-              //                   child: NetworkImage(item,
-              //                       ),
-              //                 ),
-              //               ),
-              //             )
-              //             .toList(),
-              //       ),
-              //     ),
-              Center(
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                  ),
-                  height: 250.0,
-                  width: MediaQuery.of(context).size.width - 20,
-                  child: Carousel(
-                    boxFit: BoxFit.cover,
-                    autoplay: true,
-                    animationCurve: Curves.fastOutSlowIn,
-                    animationDuration: Duration(milliseconds: 1000),
-                    dotSize: 6.0,
-                    dotIncreasedColor: Colors.black,
-                    dotBgColor: Colors.transparent,
-                    dotPosition: DotPosition.bottomCenter,
-                    dotVerticalPadding: 10.0,
-                    borderRadius: true,
-                    radius: Radius.circular(20),
-                    showIndicator: true,
-                    indicatorBgPadding: 7.0,
-                    images: [
-                      for (var image in widget.data['images'])
-                        NetworkImage(image['url'] ?? defaultImageIcon),
-                    ],
-                  ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: CarouselSlider(
+                  options: CarouselOptions(
+                      aspectRatio: 2.0,
+                      enlargeCenterPage: true,
+                      enableInfiniteScroll: true,
+                      initialPage: 0,
+                      autoPlay: true,
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          _current = index;
+                        });
+                      }),
+                  items: imgList
+                      .map(
+                        (item) => Container(
+                          margin: EdgeInsets.all(5.0),
+                          child: ClipRRect(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
+                            child: Image.network(item,
+                                fit: BoxFit.cover, width: 1000.0),
+                          ),
+                        ),
+                      )
+                      .toList(),
                 ),
               ),
               Container(
