@@ -1,5 +1,5 @@
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zariya/book.dart';
@@ -9,10 +9,11 @@ import 'package:zariya/resources/strings.dart';
 import 'package:zariya/resources/colors.dart';
 
 class Academy extends StatelessWidget {
-  Academy({this.data, this.email});
+  Academy({this.data, this.email, this.currentUser});
 
   final dynamic data;
   final String email;
+  final FirebaseUser currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +67,8 @@ class Academy extends StatelessWidget {
       body: Container(
         child: new Builder(
           builder: (context) {
-            return AcademyPage(data: data, email: email);
+            return AcademyPage(
+                data: data, email: email, currentUser: currentUser);
           },
         ),
       ),
@@ -78,10 +80,11 @@ int _current = 0;
 int noReviews = 0;
 
 class AcademyPage extends StatefulWidget {
-  AcademyPage({this.data, this.email});
+  AcademyPage({this.data, this.email, this.currentUser});
 
   final dynamic data;
   final String email;
+  final FirebaseUser currentUser;
 
   @override
   _AcademyPageState createState() => _AcademyPageState();
@@ -201,17 +204,19 @@ class _AcademyPageState extends State<AcademyPage> {
                         child: FlatButton(
                           padding: EdgeInsets.only(right: 40),
                           onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => ChatBox(
-                            //       email: widget.currentUser.email,
-                            //       myName: widget.currentUser.displayName,
-                            //       myImage: widget.currentUser.photoUrl,
-                            //       academyName: data['name'],
-                            //       academyImage: data['logo']['url'] ??
-                            //           'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBUXESNi9dDwsxnZoDpAktF-piO2mU778bEQ&usqp=CAU',
-                            //     ),),);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChatBox(
+                                  email: widget.currentUser.email,
+                                  myName: widget.currentUser.displayName,
+                                  myImage: widget.currentUser.photoUrl,
+                                  academyName: widget.data['name'],
+                                  academyImage: widget.data['logo']['url'] ??
+                                      'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBUXESNi9dDwsxnZoDpAktF-piO2mU778bEQ&usqp=CAU',
+                                ),
+                              ),
+                            );
                           },
                           child: Icon(Icons.chat_bubble,
                               color: Colors.black, size: 50),

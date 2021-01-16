@@ -16,7 +16,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,7 +27,7 @@ class _MyAppState extends State<MyApp> {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       routes: {
-        '/root' : (context) => LoginScreen(title: 'Zariya'),
+        '/root': (context) => LoginScreen(title: 'Zariya'),
       },
       debugShowCheckedModeBanner: false,
       home: LoginScreen(title: 'Zariya'),
