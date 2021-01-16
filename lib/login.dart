@@ -44,7 +44,7 @@ class LoginScreenState extends State<LoginScreen> {
         this.setState(() {
           isLoading = false;
         });
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             MaterialPageRoute(
                 builder: (context) => LoginTeacher(
@@ -179,7 +179,7 @@ class LoginScreenState extends State<LoginScreen> {
                   Container(
                       child: GestureDetector(
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (BuildContext context) =>
