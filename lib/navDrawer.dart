@@ -93,6 +93,7 @@ class NavDrawer extends StatelessWidget {
                 leading: Icon(Icons.exit_to_app, color: Colors.deepPurple),
                 title: Text('Logout'),
                 onTap: () {
+                  Navigator.of(context).pop();
                   signOut();
                 },
               ),

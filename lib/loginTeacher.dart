@@ -76,14 +76,13 @@ class _LoginTeacherState extends State<LoginTeacher> {
   }
 
   void signOut() {
-    setState(() {
-      widget.auth.signOut();
-    });
+    widget.auth.signOut();
     Navigator.pushNamedAndRemoveUntil(context, '/root', (route) => false);
   }
 
   void isSignedIn() async {
     await widget.auth.getCurrentUser().then((value) {
+      print('he is logged in $value');
       if (value != null) {
         Navigator.push(
             context,

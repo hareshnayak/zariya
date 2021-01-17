@@ -41,15 +41,17 @@ class LoginScreenState extends State<LoginScreen> {
 
     await auth.getCurrentUser().then((value) {
       if (value != null) {
-        this.setState(() {
-          isLoading = false;
-        });
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => LoginTeacher(
-                      auth: auth,
-                    )));
+        if (value.displayName == null) {
+          this.setState(() {
+            isLoading = false;
+          });
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => LoginTeacher(
+                        auth: auth,
+                      )));
+        }
       }
     });
 //    prefs = await SharedPreferences.getInstance();
