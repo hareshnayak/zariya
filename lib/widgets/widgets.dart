@@ -19,7 +19,7 @@ class Loading extends StatelessWidget {
   }
 }
 
-Widget otherMsg(BuildContext context, dynamic data) {
+Widget userMsg(BuildContext context, dynamic data) {
   return Align(
     alignment: Alignment.bottomRight,
     child: Column(
@@ -33,7 +33,7 @@ Widget otherMsg(BuildContext context, dynamic data) {
             borderRadius: BorderRadius.all(Radius.circular(5)),
             color: Color(0x40FF808C),
           ),
-          child: Text(data['text'],
+          child: Text(data['message'],
               style: TextStyle(
                 fontStyle: FontStyle.normal,
                 fontSize: 15,
@@ -41,7 +41,7 @@ Widget otherMsg(BuildContext context, dynamic data) {
               )),
         ),
         Text(
-          getTimeString(data['dateAndTime']),
+          getTimeString(data['dateTime']),
           textAlign: TextAlign.end,
           style: TextStyle(
               color: Colors.grey,
@@ -54,7 +54,7 @@ Widget otherMsg(BuildContext context, dynamic data) {
   );
 }
 
-Widget myMsg(BuildContext context, dynamic data) {
+Widget otherMsg(BuildContext context, dynamic data) {
   return Align(
     alignment: Alignment.bottomLeft,
     child: Column(
@@ -70,7 +70,7 @@ Widget myMsg(BuildContext context, dynamic data) {
             ),
             color: Color(0x404E4CAC),
           ),
-          child: Text(data['text'],
+          child: Text(data['message'],
               style: TextStyle(
                 fontStyle: FontStyle.normal,
                 fontSize: 15,
@@ -78,7 +78,7 @@ Widget myMsg(BuildContext context, dynamic data) {
               )),
         ),
         Text(
-          getTimeString(data['dateAndTime']),
+          getTimeString(data['dateTime']),
           textAlign: TextAlign.left,
           style: TextStyle(
               color: Colors.grey,
@@ -91,13 +91,13 @@ Widget myMsg(BuildContext context, dynamic data) {
   );
 }
 
-Widget emptyListWidget() {
+Widget emptyListWidget(String string) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.end,
     children: [
       SizedBox(height: 50),
       Text(
-        'We\'ll soon bring you more academies !',
+        string,
         style: TextStyle(
           fontSize: 25,
           fontWeight: FontWeight.w600,

@@ -13,11 +13,13 @@ class ChatBox extends StatefulWidget {
       this.academyName,
       this.teacherEmail,
       this.teacherImage,
-      this.teacherName});
+      this.teacherName,
+      this.isAcademyChat});
 
   final String academyEmail, academyName, academyImage;
   final String teacherEmail, teacherName, teacherImage;
   final String email, myName, myImage;
+  final bool isAcademyChat;
 
   @override
   _ChatBoxState createState() => _ChatBoxState();
@@ -26,111 +28,66 @@ class ChatBox extends StatefulWidget {
 class _ChatBoxState extends State<ChatBox> {
   TextEditingController messageController = new TextEditingController();
 
-  bool showMessages = false, recordPresent = false, isAcademyChat = false;
+  bool recordPresent = false;
 
-//  void checkRecord() async {
-//    var doc;
-//    if (widget.office == true) {
-//      doc = await Firestore.instance
-//          .collection('schools')
-//          .document(
-//              '${widget.school}/students/${widget.studentID}/otherDetails/messages')
-//          .get();
-//    } else {
-//      doc = await Firestore.instance
-//          .collection('schools')
-//          .document(
-//              '${widget.school}/teachers/${widget.teacherID}/chatBox/${widget.studentID}')
-//          .get();
-//    }
-//    setState(() {
-//      if (doc.exists)
-//        recordPresent = true;
-//      else
-//        recordPresent = false;
-//    });
-//  }
+  Future<bool> checkRecord() async {
+    if (widget.isAcademyChat == true) {
+      try {
+        await Firestore.instance
+            .collection('academies/${widget.academyEmail}/chats')
+            .document(widget.email)
+            .get()
+            .then((value) {
+          if (value.exists == true)
+            recordPresent = true;
+          else
+            recordPresent = false;
+        });
+      } catch (e) {
+        print('Cannot access firestore!!!');
+      }
+    } else {
+      try {
+        await Firestore.instance
+            .collection('teachers/${widget.teacherEmail}/chats')
+            .document(widget.email)
+            .get()
+            .then((value) {
+          if (value.exists == true)
+            recordPresent = true;
+          else
+            recordPresent = false;
+        });
+      } catch (e) {
+        print('Cannot access firestore!!!');
+      }
+    }
+    return recordPresent;
+  }
 
-//  void sendMessage() {
-//    var data;
-//    if (recordPresent == false) {
-//      if (widget.office == true) {
-//        Firestore.instance
-//            .collection('schools')
-//            .document(
-//                '${widget.school}/students/${widget.studentID}/otherDetails/messages')
-//            .setData({
-//          'messages': [
-//            {
-//              'dateAndTime': DateTime.now(),
-//              'text': messageController.value.text,
-//              'type': false,
-//            }
-//          ],
-//        }, merge: true).then((value) => setState(() {
-//                  recordPresent = true;
-//                }));
-//      } else {
-//        Firestore.instance
-//            .collection('schools')
-//            .document(
-//                '${widget.school}/teachers/${widget.teacherID}/chatBox/${widget.studentID}')
-//            .setData({
-//          'name': (widget.type) ? widget.chatHead : widget.stdName,
-//          'classSec': (widget.type) ? widget.chatSub : widget.stdClass,
-//          'image': (widget.type) ? widget.image : widget.stdImage,
-//          'email': widget.studentID,
-//        }, merge: true).then((value) => setState(() {
-//                  recordPresent = true;
-//                }));
-//      }
-//    }
-//    data = {
-//      'dateAndTime': DateTime.now(),
-//      'text': messageController.value.text,
-//      'type': widget.type,
-//    };
-//    if (widget.office == true) {
-//      Firestore.instance
-//          .collection('schools')
-//          .document(
-//              '${widget.school}/students/${widget.studentID}/otherDetails/messages')
-//          .updateData({
-//        'messages': FieldValue.arrayUnion([data]),
-//      });
-//      Firestore.instance
-//          .collection('schools')
-//          .document('${widget.school}/others/messageToOfficeDoc')
-//          .updateData({
-//        'messages': FieldValue.arrayUnion([
-//          {
-//            'dateAndTime': DateTime.now(),
-//            'text': messageController.value.text,
-//            'sender': '${widget.stdName} - ${widget.stdClass}',
-//            'email' : widget.studentID,
-//          }
-//        ]),
-//      });
-//    } else {
-//      Firestore.instance
-//          .collection('schools')
-//          .document(
-//              '${widget.school}/teachers/${widget.teacherID}/chatBox/${widget.studentID}')
-//          .setData({
-//        'chats': FieldValue.arrayUnion([data])
-//      }, merge: true);
-//    }
-//    setState(() {
-//      messageController.clear();
-//    });
-//  }
-
-//  @override
-//  void initState() {
-//    // TODO: implement initState
-//    checkRecord();
-//    super.initState();
-//  }
+  void sendMessage() {
+    List<Map<String, dynamic>> message = [
+      {
+        'message': messageController.value.text,
+        'dateTime': DateTime.now(),
+        'sender': 'user',
+      }
+    ];
+    if (widget.isAcademyChat) {
+      Firestore.instance
+          .collection('academies/${widget.academyEmail}/chats')
+          .document(widget.email)
+          .setData({'messages': FieldValue.arrayUnion(message)}, merge: true);
+    } else {
+      Firestore.instance
+          .collection('teachers/${widget.teacherEmail}/chats')
+          .document(widget.email)
+          .setData({'messages': FieldValue.arrayUnion(message)}, merge: true);
+    }
+    setState(() {
+      messageController.clear();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -162,7 +119,9 @@ class _ChatBoxState extends State<ChatBox> {
                   ),
                 ),
                 title: Text(
-                  widget.academyName,
+                  (widget.isAcademyChat)
+                      ? widget.academyName
+                      : widget.teacherName,
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
@@ -197,33 +156,37 @@ class _ChatBoxState extends State<ChatBox> {
               height: MediaQuery.of(context).size.height,
             ),
             Container(
-                height: MediaQuery.of(context).size.height - 160,
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                color: Colors.transparent,
-                child: (!showMessages)
-                    ? Center(child: CircularProgressIndicator())
-                    : (recordPresent)
-                        ? FutureBuilder<DocumentSnapshot>(
-                            future: (isAcademyChat)
-                                ? Firestore.instance
-                                    .collection('academies')
-                                    .document(
-                                        '${widget.academyEmail}/chatBox/${widget.email}')
-                                    .get()
-                                : Firestore.instance
-                                    .collection('users')
-                                    .document(
-                                        '${widget.teacherEmail}/chatBox/${widget.email}')
-                                    .get(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData)
-                                return Center(
-                                    child: CircularProgressIndicator());
-                              return _buildChats(
-                                  context, snapshot.data['messages']);
-                            },
-                          )
-                        : emptyListWidget()),
+              height: MediaQuery.of(context).size.height - 160,
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              color: Colors.transparent,
+              child: FutureBuilder<bool>(
+                future: checkRecord(),
+                builder: (context, bool) {
+                  print('record present : $recordPresent');
+                  if (recordPresent)
+                    return FutureBuilder<DocumentSnapshot>(
+                      future: (widget.isAcademyChat)
+                          ? Firestore.instance
+                              .collection('academies')
+                              .document(
+                                  '${widget.academyEmail}/chats/${widget.email}')
+                              .get()
+                          : Firestore.instance
+                              .collection('teachers')
+                              .document(
+                                  '${widget.teacherEmail}/chats/${widget.email}')
+                              .get(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData)
+                          return Center(child: CircularProgressIndicator());
+                        return _buildChats(context, snapshot.data['messages']);
+                      },
+                    );
+                  return Center(
+                      child: emptyListWidget('There are no messages.'));
+                },
+              ),
+            ),
             Positioned(
               bottom: 0,
               child: Container(
@@ -268,11 +231,10 @@ class _ChatBoxState extends State<ChatBox> {
                               final snackBar = SnackBar(
                                   content: Text('Please Enter Text!!!'));
                               Scaffold.of(context).showSnackBar(snackBar);
-                            }
-//                          else
-//                            setState(() {
-//                              sendMessage();
-//                            });
+                            } else
+                              setState(() {
+                                sendMessage();
+                              });
                           },
                           child: Container(
                             height: 45,
@@ -301,19 +263,20 @@ class _ChatBoxState extends State<ChatBox> {
   }
 
   Widget _buildChats(BuildContext context, List<dynamic> dataList) {
-    if (dataList.isEmpty) return Container();
-    return ListView.builder(
-        itemCount: dataList.length,
-        physics: ScrollPhysics(),
-        shrinkWrap: true,
-        reverse: true,
-        itemBuilder: (context, i) {
-          int item = dataList.length - i - 1;
-          if (dataList[item]['type'] ==
-              true) // teacher message is true and student message type is false
-            return otherMsg(context, dataList[item]);
-          else
-            return myMsg(context, dataList[item]);
-        });
+    if (dataList.isEmpty)
+      return emptyListWidget('There are no messages till now.');
+    else
+      return ListView.builder(
+          itemCount: dataList.length,
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          reverse: true,
+          itemBuilder: (context, i) {
+            int item = dataList.length - i - 1;
+            if (dataList[item]['sender'] == 'user')
+              return userMsg(context, dataList[item]);
+            else
+              return otherMsg(context, dataList[item]);
+          });
   }
 }

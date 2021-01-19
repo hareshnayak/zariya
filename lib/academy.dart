@@ -211,9 +211,11 @@ class _AcademyPageState extends State<AcademyPage> {
                                   email: widget.currentUser.email,
                                   myName: widget.currentUser.displayName,
                                   myImage: widget.currentUser.photoUrl,
+                                  isAcademyChat: true,
+                                  academyEmail: widget.data['email'],
                                   academyName: widget.data['name'],
                                   academyImage: widget.data['logo']['url'] ??
-                                      'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBUXESNi9dDwsxnZoDpAktF-piO2mU778bEQ&usqp=CAU',
+                                      defaultImageIcon,
                                 ),
                               ),
                             );

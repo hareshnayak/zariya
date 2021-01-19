@@ -130,7 +130,7 @@ class _AcademiesPageState extends State<AcademiesPage> {
     if (dataList.isEmpty)
       return Container(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: emptyListWidget());
+          child: emptyListWidget('We\'ll soon bring you more academies !'));
     return ListView.builder(
         itemCount: dataList.length,
         physics: ScrollPhysics(),

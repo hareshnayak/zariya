@@ -5,6 +5,7 @@ import 'package:zariya/chatbox.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zariya/resources/strings.dart';
 import 'package:zariya/resources/colors.dart';
+import 'package:zariya/widgets/widgets.dart';
 
 class ChatPage extends StatefulWidget {
   ChatPage({this.currentUser});
@@ -64,7 +65,7 @@ class _ChatPageState extends State<ChatPage> {
           ]),
           Container(
               padding: EdgeInsets.fromLTRB(10, 5, 10, 10),
-              child: Text('Chats',
+              child: Text('Academies',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15))),
           StreamBuilder<QuerySnapshot>(
             stream: Firestore.instance.collection('academies').snapshots(),
@@ -73,8 +74,25 @@ class _ChatPageState extends State<ChatPage> {
                 return Center(child: CircularProgressIndicator());
               else if (snapshot.data.documents == null ||
                   snapshot.data.documents.length == 0)
-                return Center(child: Text('Nothing here!!!'));
-              return chatItemsList(context, snapshot.data.documents);
+                return Center(
+                    child: emptyListWidget('There are no academies.'));
+              return chatItemsList(context, snapshot.data.documents, true);
+            },
+          ),
+          Container(
+              padding: EdgeInsets.fromLTRB(10, 5, 10, 10),
+              child: Text('Teachers',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15))),
+          StreamBuilder<QuerySnapshot>(
+            stream: Firestore.instance.collection('teachers').snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData)
+                return Center(child: CircularProgressIndicator());
+              else if (snapshot.data.documents == null ||
+                  snapshot.data.documents.length == 0)
+                return Center(
+                    child: emptyListWidget('There are no teachers currently.'));
+              return chatItemsList(context, snapshot.data.documents, false);
             },
           ),
         ],
@@ -82,37 +100,48 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  Widget chatItemsList(BuildContext context, List<DocumentSnapshot> doc) {
+  Widget chatItemsList(
+      BuildContext context, List<DocumentSnapshot> doc, bool isAcademy) {
     return Expanded(
       child: ListView.builder(
           itemCount: doc.length,
           shrinkWrap: true,
           physics: ScrollPhysics(),
           itemBuilder: (BuildContext context, int i) {
-            return chatItem(context, doc[i].data);
+            return chatItem(context, doc[i].data, isAcademy);
           }),
     );
   }
 
-  Widget chatItem(BuildContext context, dynamic data) {
+  Widget chatItem(BuildContext context, dynamic data, bool isAcademy) {
     return Container(
         height: 70,
         padding: EdgeInsets.all(10),
         child: FlatButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ChatBox(
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              if (isAcademy) {
+                return ChatBox(
                   email: widget.currentUser.email,
                   myName: widget.currentUser.displayName,
                   myImage: widget.currentUser.photoUrl,
+                  isAcademyChat: true,
+                  academyEmail: data['email'],
                   academyName: data['name'],
-                  academyImage: data['logo']['url'] ??
-                      'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBUXESNi9dDwsxnZoDpAktF-piO2mU778bEQ&usqp=CAU',
-                ),
-              ),
-            );
+                  academyImage: data['logo']['url'] ?? defaultImageIcon,
+                );
+              } else {
+                return ChatBox(
+                  email: widget.currentUser.email,
+                  myName: widget.currentUser.displayName,
+                  myImage: widget.currentUser.photoUrl,
+                  isAcademyChat: false,
+                  teacherEmail: data['email'],
+                  teacherName: data['name'],
+                  teacherImage: data['photoUrl'] ?? defaultImageIcon,
+                );
+              }
+            }));
           },
           child: Row(children: <Widget>[
             Padding(
@@ -120,7 +149,9 @@ class _ChatPageState extends State<ChatPage> {
               child: CircleAvatar(
                   radius: 25,
                   backgroundImage: NetworkImage(
-                    data['logo']['url'] ?? defaultImageIcon,
+                    (isAcademy)
+                        ? data['logo']['url'] ?? defaultImageIcon
+                        : data['photoUrl'] ?? defaultImageIcon,
                   )),
             ),
             Column(
