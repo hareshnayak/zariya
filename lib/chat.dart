@@ -126,6 +126,7 @@ class _ChatPageState extends State<ChatPage> {
                   myName: widget.currentUser.displayName,
                   myImage: widget.currentUser.photoUrl,
                   isAcademyChat: true,
+                  isTeacher: false,
                   academyEmail: data['email'],
                   academyName: data['name'],
                   academyImage: data['logo']['url'] ?? defaultImageIcon,
@@ -136,9 +137,10 @@ class _ChatPageState extends State<ChatPage> {
                   myName: widget.currentUser.displayName,
                   myImage: widget.currentUser.photoUrl,
                   isAcademyChat: false,
-                  teacherEmail: data['email'],
-                  teacherName: data['name'],
-                  teacherImage: data['photoUrl'] ?? defaultImageIcon,
+                  isTeacher: false,
+                  otherEmail: data['email'],
+                  otherName: data['name'],
+                  otherImage: data['photoUrl'] ?? defaultImageIcon,
                 );
               }
             }));
