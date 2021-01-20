@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zariya/chat.dart';
+import 'package:zariya/teacherChat.dart';
 import 'package:zariya/community.dart';
 import 'package:zariya/navDrawer.dart';
 import 'package:zariya/profile.dart';
@@ -145,6 +145,6 @@ class _TeacherIndexPageState extends State<TeacherIndexPage> {
                     name: widget.currentUser.displayName,
                     photoUrl: widget.currentUser.photoUrl,
                   )
-                : ChatPage(currentUser: widget.currentUser));
+                : TeacherChatPage(currentUser: widget.currentUser));
   }
 }
