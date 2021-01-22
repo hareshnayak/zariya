@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:zariya/login.dart';
 import 'package:flutter/services.dart';
+import 'package:zariya/services/authentication.dart';
+import 'package:zariya/services/root.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,10 +28,10 @@ class _MyAppState extends State<MyApp> {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       routes: {
-        '/root': (context) => LoginScreen(title: 'Zariya'),
+        '/root': (context) => RootPage(auth: new Auth()),
       },
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(title: 'Zariya'),
+      home: RootPage(auth: new Auth()),
     );
   }
 }
