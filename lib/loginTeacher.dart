@@ -4,8 +4,9 @@ import 'package:zariya/teacher.dart';
 
 class LoginTeacher extends StatefulWidget {
   final BaseAuth auth;
+  final VoidCallback signOut;
 
-  LoginTeacher({this.auth});
+  LoginTeacher({this.auth, this.signOut});
 
   @override
   _LoginTeacherState createState() => _LoginTeacherState();
@@ -47,7 +48,7 @@ class _LoginTeacherState extends State<LoginTeacher> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => TeacherIndexPage(
-                              signOut: signOut,
+                              signOut: widget.signOut,
                               currentUser: value,
                             ))));
           } else {
@@ -72,35 +73,38 @@ class _LoginTeacherState extends State<LoginTeacher> {
         );
         _scaffoldKey.currentState.showSnackBar(snackbar);
       }
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      var snackbar = SnackBar(
+        content: Text('Please enter email / password correctly.'),
+      );
+      _scaffoldKey.currentState.showSnackBar(snackbar);
     }
   }
 
-  void signOut() {
-    widget.auth.signOut();
-    Navigator.pushNamedAndRemoveUntil(context, '/root', (route) => false);
-  }
+  // void isSignedIn() async {
+  //   await widget.auth.getCurrentUser().then((value) {
+  //     print('he is logged in $value');
+  //     if (value != null) {
+  //       Navigator.push(
+  //           context,
+  //           MaterialPageRoute(
+  //               builder: (context) => TeacherIndexPage(
+  //                     signOut: signOut,
+  //                     currentUser: value,
+  //                   )));
+  //     }
+  //   });
+  // }
 
-  void isSignedIn() async {
-    await widget.auth.getCurrentUser().then((value) {
-      print('he is logged in $value');
-      if (value != null) {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => TeacherIndexPage(
-                      signOut: signOut,
-                      currentUser: value,
-                    )));
-      }
-    });
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    isSignedIn();
-  }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   isSignedIn();
+  // }
 
   @override
   Widget build(BuildContext context) {
