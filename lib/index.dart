@@ -4,15 +4,14 @@ import 'package:zariya/community.dart';
 import 'package:zariya/home.dart';
 import 'package:zariya/navDrawer.dart';
 import 'package:zariya/profile.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:zariya/main.dart';
 
 class IndexPage extends StatefulWidget {
-  IndexPage({this.currentUser, this.followId});
+  IndexPage({this.currentUser, this.followId, @required this.handleSignOut});
 
   final FirebaseUser currentUser;
   final String followId;
+  final VoidCallback handleSignOut;
 
   @override
   _IndexPageState createState() => _IndexPageState();
@@ -21,28 +20,10 @@ class IndexPage extends StatefulWidget {
 class _IndexPageState extends State<IndexPage> {
   static GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
 
-  final GoogleSignIn googleSignIn = GoogleSignIn();
+  // final GoogleSignIn googleSignIn = GoogleSignIn();
 
   bool isLoading = false;
   int _selectedIndex = 0;
-
-  Future<Null> handleSignOut() async {
-    this.setState(() {
-      isLoading = true;
-    });
-
-    await FirebaseAuth.instance.signOut();
-    await googleSignIn.disconnect();
-    await googleSignIn.signOut();
-
-    this.setState(() {
-      isLoading = false;
-    });
-
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => MyApp()),
-        (Route<dynamic> route) => false);
-  }
 
   void openProfile() {
     setState(() {
@@ -60,7 +41,7 @@ class _IndexPageState extends State<IndexPage> {
     return Scaffold(
         key: _scaffoldKey,
         drawer: NavDrawer(
-          signOut: handleSignOut,
+          signOut: widget.handleSignOut,
           openProfile: openProfile,
         ),
         drawerScrimColor: Colors.black54,
