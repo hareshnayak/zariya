@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:zariya/loginTeacher.dart';
 import 'package:zariya/resources/strings.dart';
 import 'package:zariya/services/authentication.dart';
+import 'package:zariya/main.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key, @required this.auth, @required this.handleSignIn})
       : super(key: key);
 
   final BaseAuth auth;
-  final VoidCallback handleSignIn;
+  final Function handleSignIn;
 
   @override
   LoginScreenState createState() => LoginScreenState();
@@ -29,7 +30,9 @@ class LoginScreenState extends State<LoginScreen> {
             FlatButton(
               padding: EdgeInsets.all(0),
               onPressed: () {
-                widget.handleSignIn();
+                print('signIn Tapped');
+                widget.handleSignIn(context);
+                print('after signIn');
               },
               child: new Image.asset('assets/images/signinGoogle.png'),
             ),
@@ -42,8 +45,9 @@ class LoginScreenState extends State<LoginScreen> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        LoginTeacher(auth: widget.auth),
+                    builder: (BuildContext context) => LoginTeacher(
+                      auth: widget.auth,
+                    ),
                   ),
                 );
               },

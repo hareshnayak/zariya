@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:zariya/services/authentication.dart';
 import 'package:zariya/teacher.dart';
+import 'package:zariya/main.dart';
 
 class LoginTeacher extends StatefulWidget {
   final BaseAuth auth;
-  final VoidCallback signOut;
 
-  LoginTeacher({this.auth, this.signOut});
+  LoginTeacher({this.auth});
 
   @override
   _LoginTeacherState createState() => _LoginTeacherState();
@@ -48,7 +48,7 @@ class _LoginTeacherState extends State<LoginTeacher> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => TeacherIndexPage(
-                              signOut: widget.signOut,
+                              signOut: widget.auth.signOut,
                               currentUser: value,
                             ))));
           } else {

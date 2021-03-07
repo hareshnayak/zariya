@@ -34,84 +34,105 @@ class _RootPageState extends State<RootPage> {
   }
 
   void isSignedIn() async {
+    print('running isSignedIn');
     this.setState(() {
       isLoading = true;
     });
 
     await widget.auth.getCurrentUser().then((value) async {
+      print('getting user!');
       if (value != null) {
+        print('value is not null!');
         if (value.displayName == null || value.displayName.isEmpty) {
           this.setState(() {
             isLoading = false;
           });
+          print('signed in as a teacher!');
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: (context) => TeacherIndexPage(
-                        signOut: signOut,
+                        signOut: widget.auth.signOut,
                         currentUser: value,
                       )));
-        }
-      } else {
-        await googleSignIn.isSignedIn().then((value) async {
-          setState(() {
-            isLoggedIn = value;
-          });
-          if (isLoggedIn == true) {
-            currentUser =
-                await firebaseAuth.currentUser().whenComplete(() async {
-              String followId = 'none';
-              (currentUser != null)
-                  ? await Firestore.instance
-                      .collection('users')
-                      .document(currentUser.email)
-                      .get()
-                      .then((data) {
-                      followId = data['followId'] ?? 'none';
-                    }).whenComplete(() {
-                      Navigator.pushReplacement(
+        } else {
+          print('not a teacher');
+          await googleSignIn.isSignedIn().then((value) async {
+            setState(() {
+              isLoggedIn = value;
+            });
+            if (isLoggedIn == true) {
+              print('signedin a user!');
+              currentUser =
+                  await firebaseAuth.currentUser().whenComplete(() async {
+                String followId = 'none';
+                (currentUser != null)
+                    ? await Firestore.instance
+                        .collection('users')
+                        .document(currentUser.email)
+                        .get()
+                        .then((data) {
+                        followId = data['followId'] ?? 'none';
+                      }).whenComplete(() {
+                        this.setState(() {
+                          isLoading = false;
+                        });
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => IndexPage(
+                                    currentUser: currentUser,
+                                    followId: followId,
+                                    handleSignOut: handleSignOut,
+                                  )),
+                        );
+                      })
+                    : Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => IndexPage(
                                   currentUser: currentUser,
-                                  followId: followId,
+                                  followId: 'none',
                                   handleSignOut: handleSignOut,
                                 )),
                       );
-                    })
-                  : Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => IndexPage(
-                                currentUser: currentUser,
-                                followId: 'none',
-                                handleSignOut: handleSignOut,
-                              )),
-                    );
-            });
-          } else {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => LoginScreen(
-                          auth: widget.auth,
-                          handleSignIn: handleSignIn,
-                        )));
-          }
-        });
+              });
+            } else {
+              print('no user signed in !!');
+              // Navigator.pushReplacement(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => LoginScreen(
+              //           auth: widget.auth,
+              //           handleSignIn: handleSignIn,
+              //         )));
+            }
+          });
+        }
+      } else {
+        print('no user is logged in!');
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => LoginScreen(
+                      auth: widget.auth,
+                      handleSignIn: handleSignIn,
+                    )));
       }
     });
 
     this.setState(() {
       isLoading = false;
+      print('isLoading if false!');
     });
   }
 
-  Future<Null> handleSignIn() async {
-    this.setState(() {
-      isLoading = true;
-    });
-
+  Future<Null> handleSignIn(BuildContext context) async {
+    print('signInProcessStart');
+    // this.setState(() {
+    //   isLoading = true;
+    // });
+    print('isLoading is set True');
     GoogleSignInAccount googleUser = await googleSignIn.signIn();
     GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
@@ -122,6 +143,7 @@ class _RootPageState extends State<RootPage> {
 
     FirebaseUser firebaseUser =
         (await firebaseAuth.signInWithCredential(credential)).user;
+    print('user is got');
 
     if (firebaseUser != null) {
       try {
@@ -148,13 +170,13 @@ class _RootPageState extends State<RootPage> {
           }
         }).whenComplete(() {
           print("Sign in success");
-          this.setState(() {
-            isLoading = false;
-          });
+          // this.setState(() {
+          //   isLoading = false;
+          // });
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) => IndexPage(
+                  builder: (BuildContext context) => IndexPage(
                         currentUser: firebaseUser,
                         handleSignOut: handleSignOut,
                       )));
@@ -164,34 +186,40 @@ class _RootPageState extends State<RootPage> {
       }
     } else {
       print("Sign in fail");
-      this.setState(() {
-        isLoading = false;
-      });
+      // this.setState(() {
+      //   isLoading = false;
+      // });
     }
   }
 
   Future<Null> handleSignOut() async {
-    this.setState(() {
-      isLoading = true;
-    });
+    // this.setState(() {
+    //   isLoading = true;
+    // });
+
+    print('started sign out!');
 
     await FirebaseAuth.instance.signOut();
-    await googleSignIn.disconnect();
+    print('firebase sign out!');
     await googleSignIn.signOut();
+    print('google sign out!');
+    try {
+      await googleSignIn.disconnect();
+      print('disconnect');
+    } catch (e) {
+      print(e);
+    }
+    print('signed Out! and going to my app');
 
-    this.setState(() {
-      isLoading = false;
-    });
-
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => MyApp()),
-        (Route<dynamic> route) => false);
+    // this.setState(() {
+    //   isLoading = false;
+    // });
   }
 
-  void signOut() {
-    widget.auth.signOut().whenComplete(() => Navigator.of(context)
-        .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()),
-            (Route<dynamic> route) => false));
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override

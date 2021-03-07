@@ -4,6 +4,7 @@ import 'package:zariya/community.dart';
 import 'package:zariya/navDrawer.dart';
 import 'package:zariya/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:zariya/main.dart';
 
 class TeacherIndexPage extends StatefulWidget {
   TeacherIndexPage({this.currentUser, this.signOut});
@@ -37,7 +38,12 @@ class _TeacherIndexPageState extends State<TeacherIndexPage> {
     return Scaffold(
         key: _scaffoldKey,
         drawer: NavDrawer(
-          signOut: widget.signOut,
+          signOut: () {
+            widget.signOut();
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => MyApp()),
+                (Route<dynamic> route) => false);
+          },
           openProfile: openProfile,
         ),
         drawerScrimColor: Colors.black54,
